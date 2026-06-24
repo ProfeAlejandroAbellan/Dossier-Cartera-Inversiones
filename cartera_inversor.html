@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Cartera — Dashboard de Inversión</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;
+  --text:#1a1a1a;--text2:#666;--text3:#999;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.08);
+  --blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;
+  --green:#3B6D11;--green-bg:#EAF3DE;--green-text:#27500A;
+  --red:#A32D2D;--red-bg:#FCEBEB;--red-text:#791F1F;
+  --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#633806;
+  --teal:#0F6E56;--teal-bg:#E1F5EE;--teal-text:#085041;
+  --radius:8px;--radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1a1a;--bg2:#242424;--bg3:#2c2c2c;
+    --text:#e8e8e8;--text2:#aaa;--text3:#666;
+    --border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.07);
+    --blue-bg:#0c2a4a;--blue-text:#85B7EB;
+    --green-bg:#152608;--green-text:#C0DD97;
+    --red-bg:#2d0f0f;--red-text:#F09595;
+    --amber-bg:#2a1800;--amber-text:#FAC775;
+    --teal-bg:#04201a;--teal-text:#5DCAA5;
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.5}
+.nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:16px;font-weight:500;padding:1rem 1rem 1rem 0;margin-right:1rem;border-right:0.5px solid var(--border);white-space:nowrap}
+.nav-tabs{display:flex;gap:0;overflow-x:auto}
+.nav-tab{padding:.9rem 1.1rem;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:color .15s}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.btn-refresh{padding:6px 14px;font-size:12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text2);cursor:pointer}
+.btn-refresh:hover{background:var(--bg2)}
+.update-time{font-size:11px;color:var(--text3);white-space:nowrap}
+.page{display:none;padding:1.5rem;max-width:1200px;margin:0 auto}
+.page.active{display:block}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem}
+.metric{background:var(--bg2);border-radius:var(--radius);padding:.85rem 1rem}
+.metric-label{font-size:11px;color:var(--text2);margin-bottom:3px}
+.metric-value{font-size:20px;font-weight:500}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.table-wrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius-lg)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-weight:500;font-size:11px;color:var(--text2);padding:8px 10px;border-bottom:0.5px solid var(--border);white-space:nowrap;background:var(--bg2)}
+td{padding:8px 10px;border-bottom:0.5px solid var(--border2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg2)}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--radius);white-space:nowrap}
+.b-buy{background:var(--green-bg);color:var(--green-text)}
+.b-hold{background:var(--blue-bg);color:var(--blue-text)}
+.b-warn{background:var(--amber-bg);color:var(--amber-text)}
+.b-stop{background:var(--red-bg);color:var(--red-text)}
+.b-strong{background:var(--teal-bg);color:var(--teal-text)}
+.b-info{background:var(--bg2);color:var(--text2);border:0.5px solid var(--border)}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+.section-label{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .6rem}
+.alert{border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;margin:.5rem 0;font-size:13px;line-height:1.5}
+.alert-warn{border-left:3px solid var(--amber);background:var(--amber-bg);color:var(--amber-text)}
+.alert-ok{border-left:3px solid var(--green);background:var(--green-bg);color:var(--green-text)}
+.alert-danger{border-left:3px solid var(--red);background:var(--red-bg);color:var(--red-text)}
+.alert-info{border-left:3px solid var(--blue);background:var(--blue-bg);color:var(--blue-text)}
+.thesis-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.thesis-tab{padding:5px 12px;font-size:12px;border:0.5px solid var(--border);border-radius:var(--radius);cursor:pointer;background:var(--bg2);color:var(--text2)}
+.thesis-tab.active{background:var(--blue-bg);color:var(--blue-text);border-color:transparent;font-weight:500}
+.thesis-panel{display:none}.thesis-panel.active{display:block}
+.t-name{font-size:18px;font-weight:500}
+.t-meta{font-size:12px;color:var(--text2);margin-top:2px}
+.t-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;margin-bottom:1rem}
+.t-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1rem}
+.t-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.t-box{background:var(--bg2);border-radius:var(--radius);padding:.75rem 1rem}
+.t-box h4{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.t-box p{font-size:13px;line-height:1.5}
+.cat-list{list-style:none;padding:0}
+.cat-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:6px 0;border-bottom:0.5px solid var(--border2);line-height:1.45}
+.cat-list li:last-child{border-bottom:none}
+.cat-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0}
+.verdict{background:var(--green-bg);border-left:3px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;font-size:13px;color:var(--green-text);margin-top:.75rem;line-height:1.5}
+.risk-box{background:var(--red-bg);border-radius:var(--radius);padding:.75rem 1rem;margin:.75rem 0}
+.risk-box h4{font-size:11px;font-weight:500;color:var(--red-text);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.risk-box p{font-size:13px;color:var(--red-text);line-height:1.5}
+.cash-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:1rem}
+.cash-val{font-size:24px;font-weight:500}
+.spin{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--text2);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ticker-name{font-weight:500;display:block}
+.ticker-sym{font-size:10px;color:var(--text3)}
+.settings-row{display:flex;align-items:center;gap:12px;padding:.75rem 0;border-bottom:0.5px solid var(--border2);flex-wrap:wrap}
+.settings-row:last-child{border-bottom:none}
+.settings-label{font-size:13px;min-width:140px;color:var(--text)}
+.settings-input{padding:6px 10px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:13px}
+.settings-input:focus{outline:none;border-color:var(--blue)}
+.btn-primary{padding:8px 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:500}
+.btn-primary:hover{opacity:.9}
+.btn-danger{padding:6px 14px;background:var(--red-bg);color:var(--red-text);border:0.5px solid var(--red);border-radius:var(--radius);cursor:pointer;font-size:12px}
+.status-bar{font-size:11px;padding:6px 12px;background:var(--amber-bg);color:var(--amber-text);border-radius:var(--radius);margin-bottom:1rem;display:none}
+.status-bar.visible{display:block}
+@media(max-width:600px){.t-2col{grid-template-columns:1fr}.nav-brand{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">📊 Mi Cartera</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('dashboard',this)">Dashboard</button>
+    <button class="nav-tab" onclick="showPage('tracker',this)">Tracker</button>
+    <button class="nav-tab" onclick="showPage('tesis',this)">Tesis</button>
+    <button class="nav-tab" onclick="showPage('alertas',this)">Alertas</button>
+    <button class="nav-tab" onclick="showPage('ajustes',this)">Ajustes</button>
+  </div>
+  <div class="nav-right">
+    <span class="update-time" id="update-time">—</span>
+    <button class="btn-refresh" onclick="loadAll()">↻ Actualizar</button>
+  </div>
+</nav>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div id="status-bar" class="status-bar"></div>
+  <div class="cash-card">
+    <div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Cash disponible</div>
+      <div class="cash-val" id="d-cash">—</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Nota</div>
+      <div style="font-size:13px;color:var(--text2)" id="d-cash-note">—</div>
+    </div>
+  </div>
+  <div class="metrics-grid">
+    <div class="metric"><div class="metric-label">Valor acciones</div><div class="metric-value" id="d-stocks">—</div><div class="metric-sub">precio actual</div></div>
+    <div class="metric"><div class="metric-label">Valor ETFs</div><div class="metric-value" id="d-etfs">—</div><div class="metric-sub">precio actual</div></div>
+    <div class="metric"><div class="metric-label">Patrimonio total</div><div class="metric-value" id="d-total">—</div><div class="metric-sub">cartera + cash</div></div>
+    <div class="metric"><div class="metric-label">G/P cartera</div><div class="metric-value" id="d-gp">—</div><div class="metric-sub" id="d-gp-pct">vs. coste</div></div>
+    <div class="metric"><div class="metric-label">Alertas activas</div><div class="metric-value" id="d-alerts">—</div><div class="metric-sub">compra / stop</div></div>
+    <div class="metric"><div class="metric-label">Posiciones</div><div class="metric-value" id="d-positions">—</div><div class="metric-sub">acciones + ETFs</div></div>
+  </div>
+  <div id="d-alert-boxes"></div>
+  <div class="section-label">Top posiciones por valor</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Posición</th><th>Peso %</th><th>Valor €</th><th>G/P €</th><th>G/P %</th></tr></thead>
+      <tbody id="d-top-positions"><tr><td colspan="5"><span class="spin"></span> Cargando...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TRACKER -->
+<div id="page-tracker" class="page">
+  <div class="section-label">Acciones individuales</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Empresa</th><th>Bróker</th><th>Acc.</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead>
+      <tbody id="t-stocks"><tr><td colspan="10"><span class="spin"></span> Cargando...</td></tr></tbody>
+    </table>
+  </div>
+  <div class="section-label" style="margin-top:1.5rem">ETFs y materias primas</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ETF</th><th>Acc.</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead>
+      <tbody id="t-etfs"><tr><td colspan="9"><span class="spin"></span> Cargando...</td></tr></tbody>
+    </table>
+  </div>
+  <div class="section-label" style="margin-top:1.5rem">Crypto</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Activo</th><th>Cantidad</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th></tr></thead>
+      <tbody id="t-crypto"><tr><td colspan="8"><span class="spin"></span> Cargando...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TESIS -->
+<div id="page-tesis" class="page">
+  <div class="thesis-tabs">
+    <button class="thesis-tab active" onclick="showThesis('meta',this)">Meta</button>
+    <button class="thesis-tab" onclick="showThesis('asml',this)">ASML</button>
+    <button class="thesis-tab" onclick="showThesis('alphabet',this)">Alphabet</button>
+    <button class="thesis-tab" onclick="showThesis('amazon',this)">Amazon</button>
+    <button class="thesis-tab" onclick="showThesis('msci',this)">MSCI ACWI</button>
+    <button class="thesis-tab" onclick="showThesis('gold',this)">Oro</button>
+    <button class="thesis-tab" onclick="showThesis('copper',this)">Cobre</button>
+  </div>
+  <div id="thesis-content" class="card"></div>
+</div>
+
+<!-- ALERTAS -->
+<div id="page-alertas" class="page">
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:1rem">Niveles configurados</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Posición</th><th>Precio actual</th><th>Alerta compra</th><th>Stop loss</th><th>BEP</th><th>Estado</th></tr></thead>
+        <tbody id="alerts-table"><tr><td colspan="6"><span class="spin"></span> Cargando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Alertas disparadas</div>
+    <div id="fired-alerts"><div style="color:var(--text2);font-size:13px"><span class="spin"></span> Actualizando...</div></div>
+  </div>
+</div>
+
+<!-- AJUSTES -->
+<div id="page-ajustes" class="page">
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:1rem">Cash disponible</div>
+    <div class="settings-row">
+      <div class="settings-label">Importe (€)</div>
+      <input type="number" class="settings-input" id="s-cash" value="7000" style="width:160px">
+    </div>
+    <div class="settings-row">
+      <div class="settings-label">Nota</div>
+      <input type="text" class="settings-input" id="s-cash-note" value="TR + DeGiro · incl. venta 3×GOOGL" style="width:320px">
+    </div>
+    <button class="btn-primary" onclick="saveCash()" style="margin-top:1rem">Guardar cash</button>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.5rem">Posiciones en acciones</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:1rem">Edita acciones, BEP y niveles de alerta. Pulsa Guardar cuando termines.</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Empresa</th><th>Ticker</th><th>Acciones</th><th>BEP</th><th>Alerta compra</th><th>Stop %</th></tr></thead>
+        <tbody id="s-stocks-table"></tbody>
+      </table>
+    </div>
+    <button class="btn-primary" onclick="savePositions()" style="margin-top:1rem">Guardar posiciones</button>
+  </div>
+  <div class="card" style="border-color:var(--red)">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.5rem">Restablecer</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:.75rem">Vuelve a los valores originales de la cartera.</div>
+    <button class="btn-danger" onclick="if(confirm('¿Seguro? Se perderán todos los cambios guardados.'))resetData()">Restablecer valores originales</button>
+  </div>
+</div>
+
+<script>
+// ─── DATOS ───────────────────────────────────────────────
+const DEFAULT_STOCKS = [
+  {name:'Meta Platforms', sym:'META',    shares:7,     bep:499.85, buyAlert:480,  stopPct:20,  cur:'USD', broker:'TR'},
+  {name:'ASML Holding',   sym:'ASML',    shares:4,     bep:720.00, buyAlert:580,  stopPct:30,  cur:'EUR', broker:'TR+DG'},
+  {name:'Alphabet',       sym:'GOOGL',   shares:11,    bep:168.89, buyAlert:150,  stopPct:30,  cur:'USD', broker:'TR+DG'},
+  {name:'Amazon',         sym:'AMZN',    shares:8,     bep:194.60, buyAlert:170,  stopPct:25,  cur:'USD', broker:'TR'},
+  {name:'Microsoft',      sym:'MSFT',    shares:4,     bep:407.90, buyAlert:360,  stopPct:20,  cur:'USD', broker:'TR'},
+  {name:'ACS',            sym:'ACS.MC',  shares:4,     bep:81.91,  buyAlert:38,   stopPct:15,  cur:'EUR', broker:'TR'},
+  {name:'Zegona',         sym:'ZEG.L',   shares:19,    bep:705.00, buyAlert:130,  stopPct:20,  cur:'GBX', broker:'TR+DG'},
+  {name:'Cal-Maine',      sym:'CALM',    shares:4,     bep:66.15,  buyAlert:58,   stopPct:20,  cur:'USD', broker:'TR'},
+  {name:'Sandoz',         sym:'SDZ.SW',  shares:4,     bep:35.30,  buyAlert:30,   stopPct:20,  cur:'CHF', broker:'TR+DG'},
+  {name:'Central G&P',    sym:'CENTA',   shares:2,     bep:33.05,  buyAlert:null, stopPct:null,cur:'USD', broker:'DG'},
+  {name:'Auto Partner',   sym:'APR.WA',  shares:3,     bep:24.90,  buyAlert:null, stopPct:null,cur:'PLN', broker:'DG'},
+  {name:'SAGE Therap.',   sym:'SAGE',    shares:3,     bep:0.01,   buyAlert:null, stopPct:null,cur:'USD', broker:'DG'},
+];
+const DEFAULT_ETFS = [
+  {name:'MSCI ACWI USD',      sym:'SSAC.L',  shares:15.28, bep:95.69, cur:'USD'},
+  {name:'Physical Gold',      sym:'IGLN.L',  shares:17,    bep:65.47, cur:'USD'},
+  {name:'Copper Hedged',      sym:'COPA.L',  shares:55,    bep:8.42,  cur:'USD'},
+  {name:'Euro STOXX 50',      sym:'CSX5.DE', shares:3,     bep:93.43, cur:'EUR'},
+  {name:'Uranium & Nuclear',  sym:'URAN.L',  shares:5.98,  bep:55.05, cur:'USD'},
+  {name:'VanEck Semis',       sym:'VVSM.AS', shares:3,     bep:41.90, cur:'EUR'},
+  {name:'iShares MSCI World', sym:'IWDA.AS', shares:3,     bep:95.69, cur:'EUR'},
+  {name:'World Water',        sym:'IQQQ.DE', shares:2,     bep:70.05, cur:'EUR'},
+  {name:'MSCI ACWI EUR Hed.', sym:'HMWO.L',  shares:15.31, bep:26.73, cur:'EUR'},
+  {name:'S&P SmallCap 600',   sym:'IUSS.L',  shares:1,     bep:69.03, cur:'USD'},
+  {name:'Silver 3x Lev.',     sym:'3SIL.L',  shares:0.74,  bep:93.28, cur:'USD'},
+  {name:'MSCI China',         sym:'CNYA.L',  shares:0.60,  bep:4.76,  cur:'USD'},
+];
+const CRYPTO = [
+  {name:'Ethereum', sym:'ETH-EUR', shares:0.0899, bep:1679, cur:'EUR'},
+  {name:'XRP',      sym:'XRP-EUR', shares:93.95,  bep:2.49, cur:'EUR'},
+];
+const RATES = {USD:0.92,EUR:1,GBX:0.00117,CHF:1.04,PLN:0.233};
+
+// ─── STATE ────────────────────────────────────────────────
+let stocks = JSON.parse(localStorage.getItem('stocks')||'null') || DEFAULT_STOCKS.map(s=>({...s}));
+let cash   = parseFloat(localStorage.getItem('cash')||'7000');
+let cashNote = localStorage.getItem('cashNote')||'TR + DeGiro · incl. venta 3×GOOGL';
+let cache  = {};
+
+// ─── PROXIES anti-CORS ────────────────────────────────────
+// Intentamos tres proxies en orden hasta que uno funcione
+const PROXIES = [
+  sym => `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`,
+  sym => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`)}`,
+  sym => `https://corsproxy.io/?${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`)}`,
+];
+
+async function fetchPrice(sym) {
+  for (const makeUrl of PROXIES) {
+    try {
+      const r = await fetch(makeUrl(sym), {signal: AbortSignal.timeout(6000)});
+      if (!r.ok) continue;
+      const d = await r.json();
+      const m = d?.chart?.result?.[0]?.meta;
+      if (!m) continue;
+      return {price: m.regularMarketPrice, prev: m.chartPreviousClose || m.previousClose};
+    } catch(e) { /* try next proxy */ }
+  }
+  return null;
+}
+
+// ─── UTILS ───────────────────────────────────────────────
+const toEur = (p,c) => p*(RATES[c]||1);
+const fmt   = n => (n===null||isNaN(n)) ? '—' : (n<0?'-':'')+Math.abs(Math.round(n)).toLocaleString('es-ES')+'€';
+const fmtP  = (n,c) => { if(n===null||n===undefined)return '—'; const s={USD:'$',EUR:'€',GBX:'p',CHF:'Fr',PLN:'zł'}[c]||''; return s+n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+const fmtPct= n => (n===null||isNaN(n)) ? '—' : (n>=0?'+':'')+n.toFixed(1).replace('.',',')+'%';
+const pcls  = n => n>=0?'pos':'neg';
+
+// ─── LOAD ─────────────────────────────────────────────────
+async function loadAll() {
+  document.getElementById('update-time').textContent = 'Actualizando...';
+  showStatus('Cargando precios vía proxy...', 'info');
+  const syms = [...stocks.map(s=>s.sym), ...DEFAULT_ETFS.map(e=>e.sym), ...CRYPTO.map(c=>c.sym)];
+  const results = await Promise.all(syms.map(async sym => ({sym, info: await fetchPrice(sym)})));
+  let loaded = 0;
+  results.forEach(r => { if(r.info){ cache[r.sym]=r.info; loaded++; } });
+  document.getElementById('update-time').textContent = 'Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  if(loaded===0){
+    showStatus('⚠️ No se pudieron cargar los precios. Comprueba tu conexión a internet.','warn');
+  } else if(loaded<syms.length){
+    showStatus(`ℹ️ ${loaded} de ${syms.length} precios cargados. Algunos pueden no estar disponibles ahora.`,'info');
+  } else {
+    hideStatus();
+  }
+  renderAll();
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('status-bar');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'status-bar visible alert-'+(type==='warn'?'warn':'info');
+}
+function hideStatus() {
+  const el = document.getElementById('status-bar');
+  if(el) el.className = 'status-bar';
+}
+
+// ─── RENDER ALL ──────────────────────────────────────────
+function renderAll(){ renderDashboard(); renderTracker(); renderAlertas(); renderSettingsTable(); }
+
+// ─── DASHBOARD ───────────────────────────────────────────
+function renderDashboard(){
+  document.getElementById('d-cash').textContent = cash.toLocaleString('es-ES')+'€';
+  document.getElementById('d-cash-note').textContent = cashNote;
+  let sv=0,sc=0,ev=0,ec=0,alerts=0;
+  const allPos=[];
+  stocks.forEach(s=>{
+    const p=cache[s.sym]?.price||null;
+    const ve=p?toEur(p,s.cur)*s.shares:0, vc=toEur(s.bep,s.cur)*s.shares;
+    sv+=ve; sc+=vc;
+    allPos.push({name:s.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
+    if(p){ if(s.buyAlert&&p<=s.buyAlert)alerts++; if(s.stopPct&&p>s.bep*(1+s.stopPct/100))alerts++; }
+  });
+  DEFAULT_ETFS.forEach(e=>{
+    const p=cache[e.sym]?.price||null;
+    const ve=p?toEur(p,e.cur)*e.shares:0, vc=toEur(e.bep,e.cur)*e.shares;
+    ev+=ve; ec+=vc;
+    allPos.push({name:e.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
+  });
+  const total=sv+ev+cash, gp=sv-sc;
+  document.getElementById('d-stocks').textContent=fmt(Math.round(sv));
+  document.getElementById('d-etfs').textContent=fmt(Math.round(ev));
+  document.getElementById('d-total').textContent=fmt(Math.round(total));
+  document.getElementById('d-gp').textContent=fmt(Math.round(gp));
+  document.getElementById('d-gp-pct').textContent=sc?fmtPct(gp/sc*100)+' vs. coste':'—';
+  document.getElementById('d-alerts').textContent=alerts||'0';
+  document.getElementById('d-positions').textContent=stocks.length+DEFAULT_ETFS.length;
+  // alert boxes
+  const buys=stocks.filter(s=>cache[s.sym]?.price&&s.buyAlert&&cache[s.sym].price<=s.buyAlert);
+  const stops=stocks.filter(s=>cache[s.sym]?.price&&s.stopPct&&cache[s.sym].price>s.bep*(1+s.stopPct/100));
+  let aHtml='';
+  if(buys.length) aHtml+=`<div class="alert alert-ok"><strong>Oportunidades de compra:</strong> ${buys.map(s=>`${s.name} (${fmtP(cache[s.sym].price,s.cur)} ≤ alerta ${fmtP(s.buyAlert,s.cur)})`).join(' · ')}</div>`;
+  if(stops.length) aHtml+=`<div class="alert alert-danger"><strong>Stop loss en zona:</strong> ${stops.map(s=>`${s.name} (${fmtP(cache[s.sym].price,s.cur)})`).join(' · ')}</div>`;
+  if(!buys.length&&!stops.length&&Object.keys(cache).length>0) aHtml=`<div class="alert alert-ok">Sin alertas activas. Todos los precios dentro de rango.</div>`;
+  document.getElementById('d-alert-boxes').innerHTML=aHtml;
+  // top positions
+  allPos.sort((a,b)=>b.ve-a.ve);
+  const totalP=sv+ev;
+  document.getElementById('d-top-positions').innerHTML=allPos.slice(0,10).map(p=>`<tr>
+    <td><strong>${p.name}</strong></td>
+    <td>${totalP>0?((p.ve/totalP)*100).toFixed(1).replace('.',',')+'%':'—'}</td>
+    <td>${fmt(Math.round(p.ve))}</td>
+    <td class="${pcls(p.gp)}">${fmt(Math.round(p.gp))}</td>
+    <td class="${pcls(p.gpPct)}">${fmtPct(p.gpPct)}</td>
+  </tr>`).join('');
+}
+
+// ─── TRACKER ─────────────────────────────────────────────
+function renderTracker(){
+  // stocks
+  document.getElementById('t-stocks').innerHTML=stocks.map(s=>{
+    const p=cache[s.sym]?.price||null, prev=cache[s.sym]?.prev||null;
+    const day=p&&prev?(p-prev)/prev*100:null;
+    const ve=p?toEur(p,s.cur)*s.shares:0, vc=toEur(s.bep,s.cur)*s.shares;
+    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
+    let sig='—',sc2='b-info';
+    if(p){ if(s.buyAlert&&p<=s.buyAlert){sig='Compra';sc2='b-buy';} else if(s.stopPct&&p>s.bep*(1+s.stopPct/100)){sig='Stop zona';sc2='b-stop';} else{sig='Mantener';sc2='b-hold';} }
+    return `<tr>
+      <td><span class="ticker-name">${s.name}</span><span class="ticker-sym">${s.sym}</span></td>
+      <td><span class="badge b-info">${s.broker}</span></td>
+      <td>${s.shares}</td>
+      <td>${p?fmtP(p,s.cur):'<span class="spin"></span>'}</td>
+      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
+      <td>${fmt(Math.round(ve))}</td>
+      <td>${fmtP(s.bep,s.cur)}</td>
+      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
+      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
+      <td><span class="badge ${sc2}">${sig}</span></td>
+    </tr>`;
+  }).join('');
+  // etfs
+  document.getElementById('t-etfs').innerHTML=DEFAULT_ETFS.map(e=>{
+    const p=cache[e.sym]?.price||null, prev=cache[e.sym]?.prev||null;
+    const day=p&&prev?(p-prev)/prev*100:null;
+    const ve=p?toEur(p,e.cur)*e.shares:0, vc=toEur(e.bep,e.cur)*e.shares;
+    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
+    const tr=day!==null?(day>=0.4?{l:'Momentum +',c:'b-buy'}:day<=-0.6?{l:'Caída',c:'b-warn'}:{l:'Estable',c:'b-hold'}):{l:'—',c:'b-info'};
+    return `<tr>
+      <td><span class="ticker-name">${e.name}</span><span class="ticker-sym">${e.sym}</span></td>
+      <td>${e.shares}</td>
+      <td>${p?fmtP(p,e.cur):'<span class="spin"></span>'}</td>
+      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
+      <td>${fmt(Math.round(ve))}</td>
+      <td>${fmtP(e.bep,e.cur)}</td>
+      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
+      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
+      <td><span class="badge ${tr.c}">${tr.l}</span></td>
+    </tr>`;
+  }).join('');
+  // crypto
+  document.getElementById('t-crypto').innerHTML=CRYPTO.map(c=>{
+    const p=cache[c.sym]?.price||null, prev=cache[c.sym]?.prev||null;
+    const day=p&&prev?(p-prev)/prev*100:null;
+    const ve=p?p*c.shares:0, vc=c.bep*c.shares;
+    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
+    return `<tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.shares}</td>
+      <td>${p?fmtP(p,c.cur):'<span class="spin"></span>'}</td>
+      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
+      <td>${fmt(Math.round(ve))}</td>
+      <td>${fmtP(c.bep,c.cur)}</td>
+      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
+      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── ALERTAS ─────────────────────────────────────────────
+function renderAlertas(){
+  let html='', fired=[];
+  stocks.filter(s=>s.buyAlert||s.stopPct).forEach(s=>{
+    const p=cache[s.sym]?.price||null;
+    const stopP=s.stopPct?s.bep*(1+s.stopPct/100):null;
+    let est='En rango',cls='b-hold';
+    if(p){
+      if(s.buyAlert&&p<=s.buyAlert){est='Compra activa';cls='b-buy';fired.push({name:s.name,msg:`Precio ${fmtP(p,s.cur)} ≤ alerta ${fmtP(s.buyAlert,s.cur)}`,type:'ok'});}
+      else if(stopP&&p>stopP){est='Stop superado';cls='b-stop';fired.push({name:s.name,msg:`Precio ${fmtP(p,s.cur)} superó stop ${fmtP(stopP,s.cur)}`,type:'danger'});}
+    }
+    html+=`<tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${p?fmtP(p,s.cur):'<span class="spin"></span>'}</td>
+      <td>${s.buyAlert?fmtP(s.buyAlert,s.cur):'—'}</td>
+      <td>${stopP?fmtP(stopP,s.cur)+' (+'+s.stopPct+'%)':'—'}</td>
+      <td>${fmtP(s.bep,s.cur)}</td>
+      <td><span class="badge ${cls}">${est}</span></td>
+    </tr>`;
+  });
+  document.getElementById('alerts-table').innerHTML=html||'<tr><td colspan="6" style="color:var(--text2)">Sin alertas configuradas</td></tr>';
+  document.getElementById('fired-alerts').innerHTML=fired.length
+    ? fired.map(f=>`<div class="alert alert-${f.type==='ok'?'ok':'danger'}"><strong>${f.name}:</strong> ${f.msg}</div>`).join('')
+    : '<div class="alert alert-ok">Sin alertas disparadas en este momento.</div>';
+}
+
+// ─── SETTINGS ────────────────────────────────────────────
+function renderSettingsTable(){
+  document.getElementById('s-cash').value=cash;
+  document.getElementById('s-cash-note').value=cashNote;
+  document.getElementById('s-stocks-table').innerHTML=stocks.map((s,i)=>`<tr>
+    <td>${s.name}</td>
+    <td><code style="font-size:11px">${s.sym}</code></td>
+    <td><input type="number" value="${s.shares}" onchange="stocks[${i}].shares=parseFloat(this.value)||0" style="width:65px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
+    <td><input type="number" value="${s.bep}" onchange="stocks[${i}].bep=parseFloat(this.value)||0" style="width:80px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
+    <td><input type="number" value="${s.buyAlert||''}" placeholder="—" onchange="stocks[${i}].buyAlert=parseFloat(this.value)||null" style="width:80px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
+    <td><input type="number" value="${s.stopPct||''}" placeholder="—" onchange="stocks[${i}].stopPct=parseFloat(this.value)||null" style="width:60px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
+  </tr>`).join('');
+}
+
+function saveCash(){
+  cash=parseFloat(document.getElementById('s-cash').value)||0;
+  cashNote=document.getElementById('s-cash-note').value;
+  localStorage.setItem('cash',cash);
+  localStorage.setItem('cashNote',cashNote);
+  renderDashboard();
+  alert('Cash guardado ✓');
+}
+function savePositions(){
+  localStorage.setItem('stocks',JSON.stringify(stocks));
+  renderAll();
+  alert('Posiciones guardadas ✓');
+}
+function resetData(){
+  localStorage.clear();
+  stocks=DEFAULT_STOCKS.map(s=>({...s}));
+  cash=7000; cashNote='TR + DeGiro · incl. venta 3×GOOGL';
+  renderSettingsTable(); renderAll();
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  else document.querySelectorAll('.nav-tab').forEach(t=>{ if(t.textContent.toLowerCase().includes(id.slice(0,4))) t.classList.add('active'); });
+}
+
+// ─── TESIS ───────────────────────────────────────────────
+const TESIS={
+  meta:{name:'Meta Platforms',meta:'META · Nasdaq · Redes sociales / IA publicitaria',
+    badges:[['b-buy','Mantener / Acumular en caídas'],['b-strong','3.560M usuarios diarios'],['b-warn','CapEx $125–145B 2026']],
+    metrics:[{l:'Precio actual',v:'~$580',s:'junio 2026'},{l:'Tu BEP',v:'$499',s:'7 acciones'},{l:'Obj. analistas',v:'$720–840',s:'consenso'},{l:'Upside potencial',v:'+24–45%',s:'12–18 meses'}],
+    moat:'3.560M usuarios diarios activos. Datos propios para IA publicitaria inigualables. 8M anunciantes usando herramientas GenAI. Coste de migración para anunciantes muy alto.',
+    motor:'AI-translated videos: 500M vistas semanales. Threads: 150M usuarios diarios. Reels +10% en tiempo de visionado. Revenues Q2 2026 guidance: $58–61B (+26% YoY).',
+    cats:['Monetización Meta AI (1.000M+ usuarios) — primeras señales de revenue en 2H 2026','Threads como nueva plataforma publicitaria independiente','Ray-Ban Meta Glasses: apertura de canal hardware si AR/VR traccionan','Q2 2026 guidance $58–61B: si lo bate, rerating al alza del múltiplo'],
+    risks:'CapEx masivo $125–145B penalizado por el mercado. Caída 10% en mayo 2026 tras resultados. Si ROI de la IA tarda más de 18 meses, presión sobre múltiplo. Riesgo regulatorio antimonopolio en EE.UU. y Europa.',
+    verdict:'Convicción a largo plazo justificada. No ampliar agresivamente a ~$580 con la concentración actual. Zona de compra: $520–540 en corrección. El negocio publicitario sigue siendo una máquina de caja.'},
+  asml:{name:'ASML Holding',meta:'ASML · Euronext / Nasdaq · Litografía EUV — Monopolio global',
+    badges:[['b-strong','Monopolio estructural sin rival'],['b-buy','Mantener — no vender'],['b-warn','Riesgo geopolítico China']],
+    metrics:[{l:'Precio actual',v:'~€1.700',s:'junio 2026'},{l:'Tu BEP',v:'€720',s:'4 acciones'},{l:'Obj. BofA',v:'€1.921',s:'subido junio 2026'},{l:'G/P actual',v:'+136%',s:'mejor posición'}],
+    moat:'Única empresa del mundo que fabrica máquinas EUV. Sin ASML no hay chips de 3nm o inferiores. TSMC, Samsung e Intel dependen absolutamente. La competencia tarda +20 años en replicar la tecnología.',
+    motor:'Q1 2026: €8.8B en ventas, €2.8B beneficio neto. High-NA EUV: próxima gen. a €350M/unidad. Backlog récord. $725B combinado de capex de los 4 hyperscalers en 2026.',
+    cats:['High-NA EUV: TSMC e Intel ya confirmaron pedidos para nodos sub-2nm','Marco UE-EE.UU. julio 2025 eliminó amenaza de aranceles sobre equipamiento semiconductor','BofA €1.921, Wells Fargo $2.200, Barclays Buy — momentum alcista analistas','Expansión ciclo CapEx IA: demanda estructural multi-año garantizada'],
+    risks:'Ciclo capex semiconductor cíclico: si TSMC/Intel retrasan pedidos, impacto directo. Prohibición exportación a China ya implementada (no EUV). Valoración exigente — prima de monopolio ya en precio.',
+    verdict:'No vendas. Moat estructural y catalizadores de High-NA EUV son multi-año. A +10 años es una de las mejores empresas del mundo. No añadir más — ya pesa ~18% de la cartera.'},
+  alphabet:{name:'Alphabet (Google)',meta:'GOOGL · Nasdaq · Búsqueda / Cloud / IA / Publicidad',
+    badges:[['b-strong','Punto de entrada interesante'],['b-buy','Recompra justificada'],['b-strong','GCP backlog $460B']],
+    metrics:[{l:'Precio actual',v:'~$342',s:'junio 2026'},{l:'Tu BEP',v:'$168',s:'11 acciones'},{l:'Obj. consenso',v:'$427–432',s:'63 analistas'},{l:'Upside',v:'+25%',s:'12 meses'}],
+    moat:'~40% del mercado publicitario digital global. Gemini integrado en Search potencia el gasto publicitario. Google Cloud superó $20B en Q1 2026 con backlog de $460B.',
+    motor:'Berkshire Hathaway $10B en ronda de capital IA. Deal SpaceX-Google $30B cloud. Acciones +10% tras Q1 2026. EPS forecast 2026: $14.22/acc (+30% YoY).',
+    cats:['Gemini Ultra: IA mejora Search y aumenta revenue por query','TPUs propios reducen dependencia de Nvidia y mejoran márgenes en Cloud','Waymo: autonomía vehicular como opción gratuita en el precio actual','Googlebook: nuevo hardware integrado con Gemini'],
+    risks:'Juicio antimonopolio EE.UU. sobre dominio en búsqueda. CapEx $180–190B 2026. Competencia OpenAI/ChatGPT y Perplexity en búsqueda generativa.',
+    verdict:'Tesis sólida. Precio actual ($342) muy por debajo del objetivo consenso ($427). Recomprar las 3 acciones vendidas o añadir 1–2 más tiene sentido. Soporte relevante en $310–320 si quieres esperar.'},
+  amazon:{name:'Amazon',meta:'AMZN · Nasdaq · Cloud (AWS) / eCommerce / IA / Publicidad',
+    badges:[['b-strong','AWS motor del 70%+ del beneficio'],['b-buy','Posición infraponderada'],['b-warn','CapEx $200B 2026']],
+    metrics:[{l:'Precio actual',v:'~$210',s:'junio 2026'},{l:'Tu BEP',v:'$194',s:'8 acciones'},{l:'AWS cuota',v:'~30%',s:'cloud global'},{l:'Publicidad YoY',v:'+19%',s:'Q1 2026'}],
+    moat:'AWS: 70%+ del beneficio operativo con márgenes 35–38%. Chips Trainium/Inferentia propios. Tercera plataforma publicitaria digital. Logística propia como ventaja competitiva.',
+    motor:'Amazon Bedrock: plataforma de modelos IA para empresas. Alexa+ con IA generativa. $200B CapEx 2026. Project Kuiper (satélites) como vertical de largo plazo.',
+    cats:['AWS: contratos multianuales con startups IA y enterprise','Advertising: tercera plataforma digital, creciendo +19% YoY','Same-day delivery vs. Temu/Shein: diferenciación real en eCommerce','IA nativa en toda la cadena de valor (almacenes, recomendaciones, Alexa)'],
+    risks:'Mayor CapEx ($200B): requiere demostrar retornos claros. Presión márgenes eCommerce por competencia asiática. Riesgo antimonopolio en marketplace.',
+    verdict:'Posición más infraponderada respecto a su potencial. AWS + Advertising + IA nativa = tesis muy sólida. Ampliar en correcciones hacia $185–195 sería inteligente con parte del cash.'},
+  msci:{name:'MSCI ACWI — ETF Global',meta:'SSAC / IWDA · iShares · 2.900+ empresas, 23 países',
+    badges:[['b-strong','Core de cartera'],['b-buy','DCA semanal sin hedge'],['b-hold','Diversificación real']],
+    metrics:[{l:'Exposición EE.UU.',v:'~65%',s:'S&P 500 dominante'},{l:'TER',v:'0,20%',s:'sin hedge'},{l:'G/P acumulado',v:'+30%',s:'desde entrada'},{l:'Rentab. histórica',v:'8–10%',s:'anual largo plazo'}],
+    moat:'2.900 empresas en 23 países. Cobertura global real. A 10+ años bate al 85–90% de gestores activos. TER de 0,20% — mínima fricción.',
+    motor:'DCA semanal de 20€ (a redirigir del hedgeado). Interés compuesto y consistencia del DCA son el motor. No requiere seguimiento activo.',
+    cats:['Consolidar MSCI ACWI EUR Hedged aquí — ahorro en TER y coste de cobertura','Aumentar DCA a 30–40€/semana si el cash lo permite','Mantener como ancla de cartera independientemente de movimientos en acciones'],
+    risks:'Alta concentración en EE.UU. (65%). Solapamiento parcial con las Big Tech que ya tienes en acciones. Sin hedge: si el dólar cae estructuralmente, impacta.',
+    verdict:'Sólido. Mantener y alimentar con DCA consistente. Única mejora pendiente: eliminar el ETF hedgeado y consolidar el DCA aquí.'},
+  gold:{name:'Oro Físico — iShares Physical Gold',meta:'IGLN · Materia prima / Reserva de valor / Cobertura',
+    badges:[['b-strong','Refugio estructural'],['b-buy','Mantener — no ampliar agresivamente'],['b-warn','Corrección 26% desde máximos']],
+    metrics:[{l:'Precio actual',v:'~$4.114/oz',s:'junio 2026'},{l:'Máximo histórico',v:'$5.595/oz',s:'29 enero 2026'},{l:'Obj. J.P.Morgan',v:'$6.000/oz',s:'Q4 2026'},{l:'Obj. 2027',v:'$6.300/oz',s:'J.P.Morgan'}],
+    moat:'Bancos centrales emergentes diversifican reservas fuera del dólar. Demanda estructural que reemplaza al inversor minorista como motor. Función de reserva de valor permanente.',
+    motor:'J.P. Morgan Q4 2026: $6.000/oz, 2027: $6.300. BNP Paribas: $6.250. Wells Fargo: $6.100–6.300. Compras de bancos centrales en Q1 2026 superiores a datos oficiales según WGC.',
+    cats:['Bajada de tipos Fed en 2H 2026: catalizador alcista directo','Escalada conflicto Irán/Israel: flujos de refugio','Debilitamiento estructural del dólar','Compras no reportadas de bancos centrales emergentes'],
+    risks:'Caída 26% desde máximos (enero $5.595 → $4.170). Si Fed sube tipos por inflación, presión adicional. Dólar fuerte es viento de cara.',
+    verdict:'Mantener como cobertura (6,4% de cartera es adecuado). No ampliar agresivamente desde niveles actuales. Zona de compra interesante: $3.800–4.000. Rol estructural válido.'},
+  copper:{name:'Cobre — WisdomTree Copper Hedged EUR',meta:'COPA · Materia prima industrial / Electrificación / IA',
+    badges:[['b-strong','Metal de la transición energética'],['b-buy','Posición pequeña — considerar ampliar'],['b-warn','Volatilidad aranceles EE.UU.']],
+    metrics:[{l:'Precio LME',v:'~$9.500/t',s:'junio 2026'},{l:'Obj. Goldman',v:'$11.200/t',s:'Q4 2026'},{l:'Obj. TD Sec.',v:'$13.000/t',s:'media 2026'},{l:'Déficit proyectado',v:'~3M t',s:'hasta 2036'}],
+    moat:'Data centers para IA consumen 10x más cobre que los tradicionales. EVs, redes eléctricas renovables y edificios inteligentes. No hay sustituto viable. Nuevas minas tardan 10–15 años.',
+    motor:'S&P Global proyecta déficit acumulado ~3M toneladas hasta 2036. Spot treatment charges: -$70/t (señal de escasez extrema). Rearme europeo = infraestructuras, cables, redes.',
+    cats:['Rearme europeo: cables submarinos, redes eléctricas militares y civiles','Cada MW solar/eólica requiere 4–5 toneladas de cobre','Resolución arancel 232 EE.UU.: foco vuelve a fundamentales alcistas','Debilitamiento del dólar: impulso adicional a materias primas'],
+    risks:'Goldman advierte posible superávit 300kt 2026 si demanda china sigue débil. Aranceles americanos en 2027 reconfiguran flujos. Precio puede haber adelantado fundamentales a corto plazo.',
+    verdict:'Tesis estructural a 5–10 años muy sólida. El cobre es el "petróleo de la economía digital". Tu posición (547€, 2,9%) es pequeña — ampliar progresivamente en correcciones tras resolución de incertidumbre arancelaria.'},
+};
+
+function showThesis(key,btn){
+  document.querySelectorAll('.thesis-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const t=TESIS[key]; if(!t) return;
+  document.getElementById('thesis-content').innerHTML=`
+    <div class="t-name">${t.name}</div>
+    <div class="t-meta">${t.meta}</div>
+    <div class="t-badges">${t.badges.map(b=>`<span class="badge ${b[0]}">${b[1]}</span>`).join('')}</div>
+    <div class="t-metrics">${t.metrics.map(m=>`<div class="metric"><div class="metric-label">${m.l}</div><div class="metric-value" style="font-size:16px">${m.v}</div><div class="metric-sub">${m.s}</div></div>`).join('')}</div>
+    <div class="section-label">Tesis central</div>
+    <div class="t-2col">
+      <div class="t-box"><h4>Foso competitivo</h4><p>${t.moat}</p></div>
+      <div class="t-box"><h4>Motor de crecimiento</h4><p>${t.motor}</p></div>
+    </div>
+    <div class="section-label">Catalizadores clave</div>
+    <ul class="cat-list">${t.cats.map(c=>`<li><span class="cat-dot"></span>${c}</li>`).join('')}</ul>
+    <div class="risk-box"><h4>Riesgos principales</h4><p>${t.risks}</p></div>
+    <div class="verdict"><strong>Veredicto:</strong> ${t.verdict}</div>`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+showThesis('meta', document.querySelector('.thesis-tab'));
+renderSettingsTable();
+loadAll();
+setInterval(loadAll, 5*60*1000);
+</script>
+</body>
+</html>
