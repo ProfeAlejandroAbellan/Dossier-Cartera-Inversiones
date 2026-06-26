@@ -4,211 +4,272 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Cartera — Dashboard de Inversión</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;
-  --text:#1a1a1a;--text2:#666;--text3:#999;
-  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.08);
-  --blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;
-  --green:#3B6D11;--green-bg:#EAF3DE;--green-text:#27500A;
-  --red:#A32D2D;--red-bg:#FCEBEB;--red-text:#791F1F;
-  --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#633806;
-  --teal:#0F6E56;--teal-bg:#E1F5EE;--teal-text:#085041;
-  --radius:8px;--radius-lg:12px;
-}
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1a1a1a;--bg2:#242424;--bg3:#2c2c2c;
-    --text:#e8e8e8;--text2:#aaa;--text3:#666;
-    --border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.07);
-    --blue-bg:#0c2a4a;--blue-text:#85B7EB;
-    --green-bg:#152608;--green-text:#C0DD97;
-    --red-bg:#2d0f0f;--red-text:#F09595;
-    --amber-bg:#2a1800;--amber-text:#FAC775;
-    --teal-bg:#04201a;--teal-text:#5DCAA5;
-  }
-}
+:root{--bg:#fff;--bg2:#f7f6f3;--bg3:#f0efe9;--text:#1a1a1a;--text2:#666;--text3:#999;--border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.07);--blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;--green:#3B6D11;--green-bg:#EAF3DE;--green-text:#27500A;--red:#A32D2D;--red-bg:#FCEBEB;--red-text:#791F1F;--amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#633806;--teal-bg:#E1F5EE;--teal-text:#085041;--purple-bg:#F0EDFB;--purple-text:#4A1D96;--r:8px;--rl:12px}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a1a;--bg2:#242424;--bg3:#2c2c2c;--text:#e8e8e8;--text2:#aaa;--text3:#666;--border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.07);--blue-bg:#0c2a4a;--blue-text:#85B7EB;--green-bg:#152608;--green-text:#C0DD97;--red-bg:#2d0f0f;--red-text:#F09595;--amber-bg:#2a1800;--amber-text:#FAC775;--teal-bg:#04201a;--teal-text:#5DCAA5;--purple-bg:#1e1040;--purple-text:#C4B5FD}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.5}
-.nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100}
-.nav-brand{font-size:16px;font-weight:500;padding:1rem 1rem 1rem 0;margin-right:1rem;border-right:0.5px solid var(--border);white-space:nowrap}
-.nav-tabs{display:flex;gap:0;overflow-x:auto}
-.nav-tab{padding:.9rem 1.1rem;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:color .15s}
-.nav-tab:hover{color:var(--text)}
-.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.btn-refresh{padding:6px 14px;font-size:12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text2);cursor:pointer}
-.btn-refresh:hover{background:var(--bg2)}
-.update-time{font-size:11px;color:var(--text3);white-space:nowrap}
+.nav{background:var(--bg);border-bottom:.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;position:sticky;top:0;z-index:100}
+.nav-brand{font-size:16px;font-weight:500;padding:1rem 1rem 1rem 0;margin-right:1rem;border-right:.5px solid var(--border);white-space:nowrap}
+.nav-tabs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nt{padding:.9rem 1rem;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none}
+.nt.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.btn{padding:6px 14px;font-size:12px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text2);cursor:pointer}
+.btn-p{padding:8px 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:500}
+.upd{font-size:11px;color:var(--text3);white-space:nowrap}
 .page{display:none;padding:1.5rem;max-width:1200px;margin:0 auto}
 .page.active{display:block}
-.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
-.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem}
-.metric{background:var(--bg2);border-radius:var(--radius);padding:.85rem 1rem}
-.metric-label{font-size:11px;color:var(--text2);margin-bottom:3px}
-.metric-value{font-size:20px;font-weight:500}
-.metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
-.table-wrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius-lg)}
+.card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem}
+.m{background:var(--bg2);border-radius:var(--r);padding:.85rem 1rem}
+.ml{font-size:11px;color:var(--text2);margin-bottom:3px}
+.mv{font-size:20px;font-weight:500}
+.ms{font-size:11px;color:var(--text3);margin-top:2px}
+.sl{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .6rem}
+.tw{overflow-x:auto;border:.5px solid var(--border);border-radius:var(--rl)}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{text-align:left;font-weight:500;font-size:11px;color:var(--text2);padding:8px 10px;border-bottom:0.5px solid var(--border);white-space:nowrap;background:var(--bg2)}
-td{padding:8px 10px;border-bottom:0.5px solid var(--border2);vertical-align:middle}
+th{text-align:left;font-weight:500;font-size:11px;color:var(--text2);padding:8px 10px;border-bottom:.5px solid var(--border);white-space:nowrap;background:var(--bg2)}
+td{padding:8px 10px;border-bottom:.5px solid var(--border2);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg2)}
-.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--radius);white-space:nowrap}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--r);white-space:nowrap}
 .b-buy{background:var(--green-bg);color:var(--green-text)}
 .b-hold{background:var(--blue-bg);color:var(--blue-text)}
 .b-warn{background:var(--amber-bg);color:var(--amber-text)}
 .b-stop{background:var(--red-bg);color:var(--red-text)}
 .b-strong{background:var(--teal-bg);color:var(--teal-text)}
-.b-info{background:var(--bg2);color:var(--text2);border:0.5px solid var(--border)}
-.pos{color:var(--green)}
-.neg{color:var(--red)}
-.section-label{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .6rem}
-.alert{border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;margin:.5rem 0;font-size:13px;line-height:1.5}
-.alert-warn{border-left:3px solid var(--amber);background:var(--amber-bg);color:var(--amber-text)}
-.alert-ok{border-left:3px solid var(--green);background:var(--green-bg);color:var(--green-text)}
-.alert-danger{border-left:3px solid var(--red);background:var(--red-bg);color:var(--red-text)}
-.alert-info{border-left:3px solid var(--blue);background:var(--blue-bg);color:var(--blue-text)}
-.thesis-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-.thesis-tab{padding:5px 12px;font-size:12px;border:0.5px solid var(--border);border-radius:var(--radius);cursor:pointer;background:var(--bg2);color:var(--text2)}
-.thesis-tab.active{background:var(--blue-bg);color:var(--blue-text);border-color:transparent;font-weight:500}
-.thesis-panel{display:none}.thesis-panel.active{display:block}
-.t-name{font-size:18px;font-weight:500}
-.t-meta{font-size:12px;color:var(--text2);margin-top:2px}
-.t-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;margin-bottom:1rem}
-.t-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1rem}
-.t-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-.t-box{background:var(--bg2);border-radius:var(--radius);padding:.75rem 1rem}
-.t-box h4{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
-.t-box p{font-size:13px;line-height:1.5}
-.cat-list{list-style:none;padding:0}
-.cat-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:6px 0;border-bottom:0.5px solid var(--border2);line-height:1.45}
-.cat-list li:last-child{border-bottom:none}
-.cat-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0}
-.verdict{background:var(--green-bg);border-left:3px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;font-size:13px;color:var(--green-text);margin-top:.75rem;line-height:1.5}
-.risk-box{background:var(--red-bg);border-radius:var(--radius);padding:.75rem 1rem;margin:.75rem 0}
-.risk-box h4{font-size:11px;font-weight:500;color:var(--red-text);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
-.risk-box p{font-size:13px;color:var(--red-text);line-height:1.5}
-.cash-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:1rem}
-.cash-val{font-size:24px;font-weight:500}
+.b-idea{background:var(--purple-bg);color:var(--purple-text)}
+.b-info{background:var(--bg2);color:var(--text2);border:.5px solid var(--border)}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.al{border-radius:0 var(--r) var(--r) 0;padding:.75rem 1rem;margin:.5rem 0;font-size:13px;line-height:1.5}
+.al-ok{border-left:3px solid var(--green);background:var(--green-bg);color:var(--green-text)}
+.al-warn{border-left:3px solid var(--amber);background:var(--amber-bg);color:var(--amber-text)}
+.al-danger{border-left:3px solid var(--red);background:var(--red-bg);color:var(--red-text)}
+.al-info{border-left:3px solid var(--blue);background:var(--blue-bg);color:var(--blue-text)}
+.al-idea{border-left:3px solid var(--purple-text);background:var(--purple-bg);color:var(--purple-text)}
+.cash-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:1rem 1.25rem;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:1rem}
 .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--text2);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.ticker-name{font-weight:500;display:block}
-.ticker-sym{font-size:10px;color:var(--text3)}
-.settings-row{display:flex;align-items:center;gap:12px;padding:.75rem 0;border-bottom:0.5px solid var(--border2);flex-wrap:wrap}
-.settings-row:last-child{border-bottom:none}
-.settings-label{font-size:13px;min-width:140px;color:var(--text)}
-.settings-input{padding:6px 10px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:13px}
-.settings-input:focus{outline:none;border-color:var(--blue)}
-.btn-primary{padding:8px 18px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:500}
-.btn-primary:hover{opacity:.9}
-.btn-danger{padding:6px 14px;background:var(--red-bg);color:var(--red-text);border:0.5px solid var(--red);border-radius:var(--radius);cursor:pointer;font-size:12px}
-.status-bar{font-size:11px;padding:6px 12px;background:var(--amber-bg);color:var(--amber-text);border-radius:var(--radius);margin-bottom:1rem;display:none}
-.status-bar.visible{display:block}
-@media(max-width:600px){.t-2col{grid-template-columns:1fr}.nav-brand{display:none}}
+.tn{font-weight:500;display:block}.ts{font-size:10px;color:var(--text3)}
+.tt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.ttab{padding:5px 12px;font-size:12px;border:.5px solid var(--border);border-radius:var(--r);cursor:pointer;background:var(--bg2);color:var(--text2)}
+.ttab.active{background:var(--blue-bg);color:var(--blue-text);border-color:transparent;font-weight:500}
+.t2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.tb{background:var(--bg2);border-radius:var(--r);padding:.75rem 1rem}
+.tb h4{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.tb p{font-size:13px;line-height:1.5}
+.cl{list-style:none;padding:0}
+.cl li{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:6px 0;border-bottom:.5px solid var(--border2);line-height:1.45}
+.cl li:last-child{border-bottom:none}
+.cd{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0}
+.vd{background:var(--green-bg);border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0;padding:.75rem 1rem;font-size:13px;color:var(--green-text);margin-top:.75rem;line-height:1.5}
+.rb{background:var(--red-bg);border-radius:var(--r);padding:.75rem 1rem;margin:.75rem 0}
+.rb h4{font-size:11px;font-weight:500;color:var(--red-text);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.rb p{font-size:13px;color:var(--red-text);line-height:1.5}
+.sr-row{display:flex;align-items:center;gap:12px;padding:.75rem 0;border-bottom:.5px solid var(--border2);flex-wrap:wrap}
+.sr-row:last-child{border-bottom:none}
+.sr-label{font-size:13px;min-width:140px}
+.sr-input{padding:6px 10px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:13px}
+/* IDEAS */
+.idea-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.idea-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;position:relative;overflow:hidden}
+.idea-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.idea-card.conv::before{background:var(--green)}
+.idea-card.watch::before{background:var(--amber)}
+.idea-card.study::before{background:var(--blue)}
+.idea-name{font-size:16px;font-weight:500;margin-bottom:2px}
+.idea-meta{font-size:11px;color:var(--text2);margin-bottom:.75rem}
+.idea-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.75rem}
+.idea-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:.75rem}
+.idea-m{background:var(--bg2);border-radius:var(--r);padding:.5rem .65rem}
+.idea-ml{font-size:10px;color:var(--text2);margin-bottom:2px}
+.idea-mv{font-size:14px;font-weight:500}
+.idea-section{font-size:10px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin:.75rem 0 .4rem}
+.idea-text{font-size:12.5px;line-height:1.55;color:var(--text)}
+.idea-verdict{background:var(--purple-bg);border-left:3px solid var(--purple-text);border-radius:0 var(--r) var(--r) 0;padding:.65rem .85rem;font-size:12.5px;color:var(--purple-text);margin-top:.75rem;line-height:1.5}
+.idea-cats{list-style:none;padding:0;margin-bottom:.5rem}
+.idea-cats li{display:flex;align-items:flex-start;gap:6px;font-size:12.5px;padding:4px 0;border-bottom:.5px solid var(--border2);line-height:1.4}
+.idea-cats li:last-child{border-bottom:none}
+.idea-dot{width:5px;height:5px;border-radius:50%;background:var(--purple-text);margin-top:6px;flex-shrink:0}
+.source-tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:var(--r);background:var(--purple-bg);color:var(--purple-text);border:.5px solid var(--purple-text);margin-left:4px}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.filter-btn{padding:4px 12px;font-size:12px;border:.5px solid var(--border);border-radius:20px;cursor:pointer;background:var(--bg2);color:var(--text2)}
+.filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+@media(max-width:600px){.t2{grid-template-columns:1fr}.nav-brand{display:none}.idea-grid{grid-template-columns:1fr}}
+
+/* CUSTOM ALERTS */
+.cal-form{background:var(--bg2);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem;border:.5px solid var(--border)}
+.cal-form h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1rem}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:11px;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.form-group input,.form-group select{padding:8px 10px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:13px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue)}
+.cal-list{display:flex;flex-direction:column;gap:8px}
+.cal-item{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cal-item.fired{border-color:var(--green);background:var(--green-bg)}
+.cal-item.fired-stop{border-color:var(--red);background:var(--red-bg)}
+.cal-item-info{flex:1;min-width:0}
+.cal-item-name{font-weight:500;font-size:13px}
+.cal-item-detail{font-size:12px;color:var(--text2);margin-top:2px}
+.cal-item-price{font-size:18px;font-weight:500;margin-left:auto}
+.cal-item-status{font-size:11px}
+.btn-del{padding:4px 10px;background:var(--red-bg);color:var(--red-text);border:.5px solid var(--red);border-radius:var(--r);cursor:pointer;font-size:11px;flex-shrink:0}
+.emailjs-config{background:var(--amber-bg);border:.5px solid var(--amber);border-radius:var(--r);padding:.75rem 1rem;font-size:12px;color:var(--amber-text);margin-bottom:1rem}
+.emailjs-config a{color:var(--amber-text);text-decoration:underline}
+.cfg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:.75rem}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;padding:12px 20px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;max-width:320px}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.error{background:var(--red)}
+.pulse{animation:pulse 1s ease-in-out}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <div class="nav-brand">📊 Mi Cartera</div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('dashboard',this)">Dashboard</button>
-    <button class="nav-tab" onclick="showPage('tracker',this)">Tracker</button>
-    <button class="nav-tab" onclick="showPage('tesis',this)">Tesis</button>
-    <button class="nav-tab" onclick="showPage('alertas',this)">Alertas</button>
-    <button class="nav-tab" onclick="showPage('ajustes',this)">Ajustes</button>
+    <button class="nt active" onclick="showPage('dashboard',this)">Dashboard</button>
+    <button class="nt" onclick="showPage('tracker',this)">Tracker</button>
+    <button class="nt" onclick="showPage('tesis',this)">Tesis</button>
+    <button class="nt" onclick="showPage('ideas',this)">💡 Nuevas Ideas</button>
+    <button class="nt" onclick="showPage('alertas',this)">Alertas</button>
+    <button class="nt" onclick="showPage('custom-alerts',this)">🔔 Mis Alertas</button>
+    <button class="nt" onclick="showPage('ajustes',this)">Ajustes</button>
   </div>
-  <div class="nav-right">
-    <span class="update-time" id="update-time">—</span>
-    <button class="btn-refresh" onclick="loadAll()">↻ Actualizar</button>
+  <div class="nav-r">
+    <span class="upd" id="upd">—</span>
+    <button class="btn" onclick="loadAll()">↻ Actualizar</button>
   </div>
 </nav>
 
 <!-- DASHBOARD -->
 <div id="page-dashboard" class="page active">
-  <div id="status-bar" class="status-bar"></div>
+  <div id="status-box"></div>
   <div class="cash-card">
-    <div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Cash disponible</div>
-      <div class="cash-val" id="d-cash">—</div>
-    </div>
-    <div style="margin-left:auto;text-align:right">
-      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Nota</div>
-      <div style="font-size:13px;color:var(--text2)" id="d-cash-note">—</div>
-    </div>
+    <div><div style="font-size:12px;color:var(--text2);margin-bottom:4px">Cash disponible</div><div style="font-size:24px;font-weight:500" id="d-cash">—</div></div>
+    <div style="margin-left:auto;text-align:right"><div style="font-size:12px;color:var(--text2);margin-bottom:4px">Nota</div><div style="font-size:13px;color:var(--text2)" id="d-note">—</div></div>
   </div>
-  <div class="metrics-grid">
-    <div class="metric"><div class="metric-label">Valor acciones</div><div class="metric-value" id="d-stocks">—</div><div class="metric-sub">precio actual</div></div>
-    <div class="metric"><div class="metric-label">Valor ETFs</div><div class="metric-value" id="d-etfs">—</div><div class="metric-sub">precio actual</div></div>
-    <div class="metric"><div class="metric-label">Patrimonio total</div><div class="metric-value" id="d-total">—</div><div class="metric-sub">cartera + cash</div></div>
-    <div class="metric"><div class="metric-label">G/P cartera</div><div class="metric-value" id="d-gp">—</div><div class="metric-sub" id="d-gp-pct">vs. coste</div></div>
-    <div class="metric"><div class="metric-label">Alertas activas</div><div class="metric-value" id="d-alerts">—</div><div class="metric-sub">compra / stop</div></div>
-    <div class="metric"><div class="metric-label">Posiciones</div><div class="metric-value" id="d-positions">—</div><div class="metric-sub">acciones + ETFs</div></div>
+  <div class="mg">
+    <div class="m"><div class="ml">Valor acciones</div><div class="mv" id="d-sv">—</div><div class="ms">precio actual</div></div>
+    <div class="m"><div class="ml">Valor ETFs</div><div class="mv" id="d-ev">—</div><div class="ms">precio actual</div></div>
+    <div class="m"><div class="ml">Patrimonio total</div><div class="mv" id="d-total">—</div><div class="ms">cartera + cash</div></div>
+    <div class="m"><div class="ml">G/P cartera</div><div class="mv" id="d-gp">—</div><div class="ms" id="d-gpp">vs. coste</div></div>
+    <div class="m"><div class="ml">Alertas activas</div><div class="mv" id="d-al">—</div><div class="ms">compra / stop</div></div>
+    <div class="m"><div class="ml">Ideas en estudio</div><div class="mv" id="d-ideas">7</div><div class="ms">nuevas candidatas</div></div>
   </div>
-  <div id="d-alert-boxes"></div>
-  <div class="section-label">Top posiciones por valor</div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Posición</th><th>Peso %</th><th>Valor €</th><th>G/P €</th><th>G/P %</th></tr></thead>
-      <tbody id="d-top-positions"><tr><td colspan="5"><span class="spin"></span> Cargando...</td></tr></tbody>
-    </table>
-  </div>
+  <div id="d-alerts"></div>
+  <div class="al al-idea" style="margin-bottom:1rem">💡 <strong>Nuevas ideas en radar:</strong> Oracle (ORCL), ASM International (ASMI), Marvell Technology (MRVL), Visa (V), Besi (BESI), Constellation Software (CSU) — ver pestaña Nuevas Ideas para análisis completo.</div>
+  <div class="sl">Top posiciones por valor</div>
+  <div class="tw"><table><thead><tr><th>Posición</th><th>Peso %</th><th>Valor €</th><th>G/P €</th><th>G/P %</th></tr></thead><tbody id="d-top"></tbody></table></div>
 </div>
 
 <!-- TRACKER -->
 <div id="page-tracker" class="page">
-  <div class="section-label">Acciones individuales</div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Empresa</th><th>Bróker</th><th>Acc.</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead>
-      <tbody id="t-stocks"><tr><td colspan="10"><span class="spin"></span> Cargando...</td></tr></tbody>
-    </table>
-  </div>
-  <div class="section-label" style="margin-top:1.5rem">ETFs y materias primas</div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>ETF</th><th>Acc.</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead>
-      <tbody id="t-etfs"><tr><td colspan="9"><span class="spin"></span> Cargando...</td></tr></tbody>
-    </table>
-  </div>
-  <div class="section-label" style="margin-top:1.5rem">Crypto</div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Activo</th><th>Cantidad</th><th>Precio</th><th>Día %</th><th>Valor €</th><th>BEP</th><th>G/P €</th><th>G/P %</th></tr></thead>
-      <tbody id="t-crypto"><tr><td colspan="8"><span class="spin"></span> Cargando...</td></tr></tbody>
-    </table>
-  </div>
+  <div class="sl">Acciones individuales</div>
+  <div class="tw"><table><thead><tr><th>Empresa</th><th>Bróker</th><th>Acc.</th><th>Precio €</th><th>Día %</th><th>Valor €</th><th>BEP €</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead><tbody id="t-stocks"></tbody></table></div>
+  <div class="sl" style="margin-top:1.5rem">ETFs y materias primas</div>
+  <div class="tw"><table><thead><tr><th>ETF</th><th>Acc.</th><th>Precio €</th><th>Día %</th><th>Valor €</th><th>BEP €</th><th>G/P €</th><th>G/P %</th><th>Señal</th></tr></thead><tbody id="t-etfs"></tbody></table></div>
+  <div class="sl" style="margin-top:1.5rem">Crypto</div>
+  <div class="tw"><table><thead><tr><th>Activo</th><th>Cantidad</th><th>Precio €</th><th>Día %</th><th>Valor €</th><th>BEP €</th><th>G/P €</th><th>G/P %</th></tr></thead><tbody id="t-crypto"></tbody></table></div>
 </div>
 
 <!-- TESIS -->
 <div id="page-tesis" class="page">
-  <div class="thesis-tabs">
-    <button class="thesis-tab active" onclick="showThesis('meta',this)">Meta</button>
-    <button class="thesis-tab" onclick="showThesis('asml',this)">ASML</button>
-    <button class="thesis-tab" onclick="showThesis('alphabet',this)">Alphabet</button>
-    <button class="thesis-tab" onclick="showThesis('amazon',this)">Amazon</button>
-    <button class="thesis-tab" onclick="showThesis('msci',this)">MSCI ACWI</button>
-    <button class="thesis-tab" onclick="showThesis('gold',this)">Oro</button>
-    <button class="thesis-tab" onclick="showThesis('copper',this)">Cobre</button>
+  <div class="tt">
+    <button class="ttab active" onclick="showT('meta',this)">Meta</button>
+    <button class="ttab" onclick="showT('asml',this)">ASML</button>
+    <button class="ttab" onclick="showT('alphabet',this)">Alphabet</button>
+    <button class="ttab" onclick="showT('amazon',this)">Amazon</button>
+    <button class="ttab" onclick="showT('msci',this)">MSCI ACWI</button>
+    <button class="ttab" onclick="showT('gold',this)">Oro</button>
+    <button class="ttab" onclick="showT('copper',this)">Cobre</button>
+    <button class="ttab" onclick="showT('calme',this)">Cal-Maine</button>
   </div>
   <div id="thesis-content" class="card"></div>
 </div>
 
+<!-- NUEVAS IDEAS -->
+<div id="page-ideas" class="page">
+  <div style="margin-bottom:1rem">
+    <div style="font-size:18px;font-weight:500;margin-bottom:4px">Nuevas ideas de inversión</div>
+    <div style="font-size:13px;color:var(--text2)">Candidatas extraídas y analizadas de Dan Fuentes, Invertir desde Cero, Gustavo Bolsa y Capital Radio. No son recomendaciones de compra — son puntos de partida para análisis propio.</div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterIdeas('all',this)">Todas (7)</button>
+    <button class="filter-btn" onclick="filterIdeas('conv',this)">Alta convicción</button>
+    <button class="filter-btn" onclick="filterIdeas('watch',this)">Vigilar precio</button>
+    <button class="filter-btn" onclick="filterIdeas('study',this)">En estudio</button>
+  </div>
+  <div class="idea-grid" id="ideas-grid"></div>
+</div>
+
 <!-- ALERTAS -->
 <div id="page-alertas" class="page">
-  <div class="card">
-    <div style="font-size:15px;font-weight:500;margin-bottom:1rem">Niveles configurados</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Posición</th><th>Precio actual</th><th>Alerta compra</th><th>Stop loss</th><th>BEP</th><th>Estado</th></tr></thead>
-        <tbody id="alerts-table"><tr><td colspan="6"><span class="spin"></span> Cargando...</td></tr></tbody>
-      </table>
+  <div class="card"><div style="font-size:15px;font-weight:500;margin-bottom:1rem">Niveles configurados</div>
+    <div class="tw"><table><thead><tr><th>Posición</th><th>Precio actual €</th><th>Alerta compra €</th><th>Stop loss €</th><th>BEP €</th><th>Estado</th></tr></thead><tbody id="al-table"></tbody></table></div>
+  </div>
+  <div class="card"><div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Alertas disparadas</div><div id="al-fired"></div></div>
+</div>
+
+
+<!-- ALERTAS PERSONALIZADAS -->
+<div id="page-custom-alerts" class="page">
+  <div id="emailjs-config-box" class="emailjs-config">
+    ⚙️ <strong>Configura EmailJS para recibir emails:</strong> Ve a <a href="https://emailjs.com" target="_blank">emailjs.com</a>, crea cuenta gratis y rellena los campos de abajo.
+    <div class="cfg-grid">
+      <div class="form-group"><label>Service ID</label><input type="text" id="cfg-service" placeholder="service_xxxxxxx" oninput="saveEmailConfig()"></div>
+      <div class="form-group"><label>Template ID</label><input type="text" id="cfg-template" placeholder="template_xxxxxxx" oninput="saveEmailConfig()"></div>
+      <div class="form-group"><label>Public Key</label><input type="text" id="cfg-pubkey" placeholder="Tu public key" oninput="saveEmailConfig()"></div>
+      <div class="form-group"><label>Tu email</label><input type="email" id="cfg-email" placeholder="tu@gmail.com" oninput="saveEmailConfig()"></div>
     </div>
   </div>
-  <div class="card">
-    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Alertas disparadas</div>
-    <div id="fired-alerts"><div style="color:var(--text2);font-size:13px"><span class="spin"></span> Actualizando...</div></div>
+
+  <div class="cal-form">
+    <h3>➕ Nueva alerta personalizada</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Ticker / Símbolo</label>
+        <input type="text" id="new-sym" placeholder="AVGO, META, GOOGL..." style="text-transform:uppercase">
+      </div>
+      <div class="form-group">
+        <label>Nombre (opcional)</label>
+        <input type="text" id="new-name" placeholder="Broadcom, Meta...">
+      </div>
+      <div class="form-group">
+        <label>Precio de alerta (€)</label>
+        <input type="number" id="new-price" placeholder="350.00" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Condición</label>
+        <select id="new-cond">
+          <option value="below">Precio baja de (compra)</option>
+          <option value="above">Precio sube de (toma beneficios)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nota (opcional)</label>
+        <input type="text" id="new-note-al" placeholder="Zona de entrada, stop loss...">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn-p" onclick="addCustomAlert()">Crear alerta</button>
+      <button class="btn" onclick="prefillBroadcom()">📌 Broadcom −1% hoy</button>
+      <span style="font-size:12px;color:var(--text2)" id="cal-status"></span>
+    </div>
+  </div>
+
+  <div class="sl">Alertas activas (<span id="cal-count">0</span>)</div>
+  <div class="cal-list" id="cal-list">
+    <div style="color:var(--text2);font-size:13px;padding:1rem">Sin alertas personalizadas. Crea la primera arriba.</div>
+  </div>
+
+  <div class="sl" style="margin-top:1.5rem">Historial disparado</div>
+  <div class="cal-list" id="cal-history">
+    <div style="color:var(--text2);font-size:13px;padding:1rem">Sin alertas disparadas aún.</div>
   </div>
 </div>
 
@@ -216,400 +277,623 @@ tr:hover td{background:var(--bg2)}
 <div id="page-ajustes" class="page">
   <div class="card">
     <div style="font-size:15px;font-weight:500;margin-bottom:1rem">Cash disponible</div>
-    <div class="settings-row">
-      <div class="settings-label">Importe (€)</div>
-      <input type="number" class="settings-input" id="s-cash" value="7000" style="width:160px">
-    </div>
-    <div class="settings-row">
-      <div class="settings-label">Nota</div>
-      <input type="text" class="settings-input" id="s-cash-note" value="TR + DeGiro · incl. venta 3×GOOGL" style="width:320px">
-    </div>
-    <button class="btn-primary" onclick="saveCash()" style="margin-top:1rem">Guardar cash</button>
+    <div class="sr-row"><div class="sr-label">Importe (€)</div><input type="number" class="sr-input" id="s-cash" style="width:160px"></div>
+    <div class="sr-row"><div class="sr-label">Nota</div><input type="text" class="sr-input" id="s-note" style="width:320px"></div>
+    <button class="btn-p" onclick="saveCash()" style="margin-top:1rem">Guardar cash</button>
   </div>
   <div class="card">
     <div style="font-size:15px;font-weight:500;margin-bottom:.5rem">Posiciones en acciones</div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:1rem">Edita acciones, BEP y niveles de alerta. Pulsa Guardar cuando termines.</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Empresa</th><th>Ticker</th><th>Acciones</th><th>BEP</th><th>Alerta compra</th><th>Stop %</th></tr></thead>
-        <tbody id="s-stocks-table"></tbody>
-      </table>
-    </div>
-    <button class="btn-primary" onclick="savePositions()" style="margin-top:1rem">Guardar posiciones</button>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:1rem">Edita acciones, BEP (en €) y niveles de alerta. Pulsa Guardar al terminar.</div>
+    <div class="tw"><table><thead><tr><th>Empresa</th><th>Ticker</th><th>Acciones</th><th>BEP (€)</th><th>Alerta compra (€)</th><th>Stop %</th></tr></thead><tbody id="s-table"></tbody></table></div>
+    <button class="btn-p" onclick="savePos()" style="margin-top:1rem">Guardar posiciones</button>
   </div>
   <div class="card" style="border-color:var(--red)">
     <div style="font-size:15px;font-weight:500;margin-bottom:.5rem">Restablecer</div>
     <div style="font-size:13px;color:var(--text2);margin-bottom:.75rem">Vuelve a los valores originales de la cartera.</div>
-    <button class="btn-danger" onclick="if(confirm('¿Seguro? Se perderán todos los cambios guardados.'))resetData()">Restablecer valores originales</button>
+    <button style="padding:6px 14px;background:var(--red-bg);color:var(--red-text);border:.5px solid var(--red);border-radius:var(--r);cursor:pointer;font-size:12px" onclick="if(confirm('¿Seguro?'))resetData()">Restablecer</button>
   </div>
 </div>
 
 <script>
-// ─── DATOS ───────────────────────────────────────────────
-const DEFAULT_STOCKS = [
-  {name:'Meta Platforms', sym:'META',    shares:7,     bep:499.85, buyAlert:480,  stopPct:20,  cur:'USD', broker:'TR'},
-  {name:'ASML Holding',   sym:'ASML',    shares:4,     bep:720.00, buyAlert:580,  stopPct:30,  cur:'EUR', broker:'TR+DG'},
-  {name:'Alphabet',       sym:'GOOGL',   shares:11,    bep:168.89, buyAlert:150,  stopPct:30,  cur:'USD', broker:'TR+DG'},
-  {name:'Amazon',         sym:'AMZN',    shares:8,     bep:194.60, buyAlert:170,  stopPct:25,  cur:'USD', broker:'TR'},
-  {name:'Microsoft',      sym:'MSFT',    shares:4,     bep:407.90, buyAlert:360,  stopPct:20,  cur:'USD', broker:'TR'},
-  {name:'ACS',            sym:'ACS.MC',  shares:4,     bep:81.91,  buyAlert:38,   stopPct:15,  cur:'EUR', broker:'TR'},
-  {name:'Zegona',         sym:'ZEG.L',   shares:19,    bep:705.00, buyAlert:130,  stopPct:20,  cur:'GBX', broker:'TR+DG'},
-  {name:'Cal-Maine',      sym:'CALM',    shares:4,     bep:66.15,  buyAlert:58,   stopPct:20,  cur:'USD', broker:'TR'},
-  {name:'Sandoz',         sym:'SDZ.SW',  shares:4,     bep:35.30,  buyAlert:30,   stopPct:20,  cur:'CHF', broker:'TR+DG'},
-  {name:'Central G&P',    sym:'CENTA',   shares:2,     bep:33.05,  buyAlert:null, stopPct:null,cur:'USD', broker:'DG'},
-  {name:'Auto Partner',   sym:'APR.WA',  shares:3,     bep:24.90,  buyAlert:null, stopPct:null,cur:'PLN', broker:'DG'},
-  {name:'SAGE Therap.',   sym:'SAGE',    shares:3,     bep:0.01,   buyAlert:null, stopPct:null,cur:'USD', broker:'DG'},
+// ── DATOS CARTERA ──────────────────────────────────────────────────────
+const DS=[
+  {name:'Meta Platforms',sym:'META',shares:7,bepEur:499.85*0.92,buyAlert:480*0.92,stopPct:20,cur:'USD',broker:'TR'},
+  {name:'ASML Holding',sym:'ASML',shares:4,bepEur:720.00,buyAlert:580,stopPct:30,cur:'EUR',broker:'TR+DG'},
+  {name:'Alphabet',sym:'GOOGL',shares:11,bepEur:168.89*0.92,buyAlert:150*0.92,stopPct:30,cur:'USD',broker:'TR+DG'},
+  {name:'Amazon',sym:'AMZN',shares:8,bepEur:194.60*0.92,buyAlert:170*0.92,stopPct:25,cur:'USD',broker:'TR'},
+  {name:'Microsoft',sym:'MSFT',shares:4,bepEur:407.90*0.92,buyAlert:360*0.92,stopPct:20,cur:'USD',broker:'TR'},
+  {name:'ACS',sym:'ACS.MC',shares:4,bepEur:81.91,buyAlert:38,stopPct:15,cur:'EUR',broker:'TR'},
+  {name:'Zegona',sym:'ZEG.L',shares:19,bepEur:705.00*0.00117,buyAlert:130*0.00117,stopPct:20,cur:'GBX',broker:'TR+DG'},
+  {name:'Cal-Maine',sym:'CALM',shares:4,bepEur:66.15*0.92,buyAlert:58*0.92,stopPct:20,cur:'USD',broker:'TR'},
+  {name:'Sandoz',sym:'SDZ.SW',shares:4,bepEur:35.30*1.04,buyAlert:30*1.04,stopPct:20,cur:'CHF',broker:'TR+DG'},
+  {name:'Central G&P',sym:'CENTA',shares:2,bepEur:33.05*0.92,buyAlert:null,stopPct:null,cur:'USD',broker:'DG'},
+  {name:'Auto Partner',sym:'APR.WA',shares:3,bepEur:24.90*0.233,buyAlert:null,stopPct:null,cur:'PLN',broker:'DG'},
+  {name:'SAGE Therap.',sym:'SAGE',shares:3,bepEur:0.01,buyAlert:null,stopPct:null,cur:'USD',broker:'DG'},
 ];
-const DEFAULT_ETFS = [
-  {name:'MSCI ACWI USD',      sym:'SSAC.L',  shares:15.28, bep:95.69, cur:'USD'},
-  {name:'Physical Gold',      sym:'IGLN.L',  shares:17,    bep:65.47, cur:'USD'},
-  {name:'Copper Hedged',      sym:'COPA.L',  shares:55,    bep:8.42,  cur:'USD'},
-  {name:'Euro STOXX 50',      sym:'CSX5.DE', shares:3,     bep:93.43, cur:'EUR'},
-  {name:'Uranium & Nuclear',  sym:'URAN.L',  shares:5.98,  bep:55.05, cur:'USD'},
-  {name:'VanEck Semis',       sym:'VVSM.AS', shares:3,     bep:41.90, cur:'EUR'},
-  {name:'iShares MSCI World', sym:'IWDA.AS', shares:3,     bep:95.69, cur:'EUR'},
-  {name:'World Water',        sym:'IQQQ.DE', shares:2,     bep:70.05, cur:'EUR'},
-  {name:'MSCI ACWI EUR Hed.', sym:'HMWO.L',  shares:15.31, bep:26.73, cur:'EUR'},
-  {name:'S&P SmallCap 600',   sym:'IUSS.L',  shares:1,     bep:69.03, cur:'USD'},
-  {name:'Silver 3x Lev.',     sym:'3SIL.L',  shares:0.74,  bep:93.28, cur:'USD'},
-  {name:'MSCI China',         sym:'CNYA.L',  shares:0.60,  bep:4.76,  cur:'USD'},
+const DE=[
+  {name:'MSCI ACWI USD',sym:'SSAC.L',shares:15.28,bepEur:83.58,gbx:true},
+  {name:'Physical Gold',sym:'IGLN.L',shares:17,bepEur:65.47,gbx:true},
+  {name:'Copper Hedged',sym:'COPA.L',shares:55,bepEur:8.43,gbx:true},
+  {name:'Euro STOXX 50',sym:'CSX5.DE',shares:3,bepEur:93.43,gbx:false},
+  {name:'Uranium & Nuclear',sym:'URAN.L',shares:5.98,bepEur:55.05,gbx:true},
+  {name:'VanEck Semis',sym:'VVSM.AS',shares:3,bepEur:41.90,gbx:false},
+  {name:'iShares MSCI World',sym:'IWDA.AS',shares:3,bepEur:95.69,gbx:false},
+  {name:'MSCI ACWI EUR Hed.',sym:'HMWO.L',shares:15.31,bepEur:24.89,gbx:true},
+  {name:'Silver 3x Lev.',sym:'3SIL.L',shares:0.74,bepEur:93.28,gbx:true},
+  {name:'MSCI China',sym:'CNYA.L',shares:0.60,bepEur:4.76,gbx:true},
 ];
-const CRYPTO = [
-  {name:'Ethereum', sym:'ETH-EUR', shares:0.0899, bep:1679, cur:'EUR'},
-  {name:'XRP',      sym:'XRP-EUR', shares:93.95,  bep:2.49, cur:'EUR'},
-];
-const RATES = {USD:0.92,EUR:1,GBX:0.00117,CHF:1.04,PLN:0.233};
-
-// ─── STATE ────────────────────────────────────────────────
-let stocks = JSON.parse(localStorage.getItem('stocks')||'null') || DEFAULT_STOCKS.map(s=>({...s}));
-let cash   = parseFloat(localStorage.getItem('cash')||'7000');
-let cashNote = localStorage.getItem('cashNote')||'TR + DeGiro · incl. venta 3×GOOGL';
-let cache  = {};
-
-// ─── PROXIES anti-CORS ────────────────────────────────────
-// Intentamos tres proxies en orden hasta que uno funcione
-const PROXIES = [
-  sym => `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`,
-  sym => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`)}`,
-  sym => `https://corsproxy.io/?${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`)}`,
+const DC=[
+  {name:'Ethereum',sym:'ETH-EUR',shares:0.0899,bepEur:1679},
+  {name:'XRP',sym:'XRP-EUR',shares:93.95,bepEur:2.49},
 ];
 
-async function fetchPrice(sym) {
-  for (const makeUrl of PROXIES) {
-    try {
-      const r = await fetch(makeUrl(sym), {signal: AbortSignal.timeout(6000)});
-      if (!r.ok) continue;
-      const d = await r.json();
-      const m = d?.chart?.result?.[0]?.meta;
-      if (!m) continue;
-      return {price: m.regularMarketPrice, prev: m.chartPreviousClose || m.previousClose};
-    } catch(e) { /* try next proxy */ }
+// ── NUEVAS IDEAS ───────────────────────────────────────────────────────
+const IDEAS=[
+  {
+    id:'oracle',type:'conv',
+    name:'Oracle Corporation',ticker:'ORCL',market:'NYSE · Cloud / IA / ERP',
+    sources:['Invertir desde Cero','Capital Radio'],
+    precio:'~$157',obj:'$252–268',upside:'+60–70%',pe:'~19x forward',sector:'Cloud / Enterprise Software',
+    badges:[['b-strong','Alta convicción'],['b-buy','Precio muy por debajo de objetivo'],['b-warn','Deuda $124B']],
+    moat:'Backlog récord de $553.000M en contratos comprometidos — ingresos futuros casi "pre-vendidos". OCI (Oracle Cloud Infrastructure) creciendo al 84% anual en IaaS. OpenAI, Meta y Nvidia eligieron OCI para sus cargas de IA. Único competidor cloud con precios competitivos para workloads masivos.',
+    motor:'FY2026: ingresos $67.360M (+17% YoY), beneficio $16.980M (+36%). Deal $300B con OpenAI a 5 años. Partner oficial de Stargate ($500B IA). FY2027 guidance: $90B en ingresos. IaaS creciendo: 52%→55%→68%→84% en trimestres consecutivos.',
+    cats:['$553B en RPO (contratos prepagados) — el mercado aún no lo valora correctamente','IaaS proyectado al 80–100% en Q4 FY2026 según TD Cowen y Jefferies','Restructuración: 21.000 despidos = márgenes operativos mejorando','Jefferies: "la industria está agotada en capacidad los próximos 6 meses" — ORCL en el centro'],
+    risks:'Deuda de $124.700M en largo plazo. FCF negativo temporalmente por capex de $50B en 2026. Demanda colectiva de accionistas (securities fraud). Deal OpenAI en riesgo si OpenAI pierde cuota. Microsoft intentó arrendar OCI pero no lo hizo por falta de FedRAMP.',
+    verdict:'Idea de alta convicción para largo plazo. Cotiza un 50% por debajo de máximos de septiembre 2025. El RPO de $553B es la clave: si convierte en revenue según lo previsto, la acción se re-ratará con fuerza. Precio de entrada atractivo: $150–165 (138–152€). Objetivo a 12–18 meses: $252–268 (232–247€). Paciencia requerida — es una tesis de 2–3 años.',
+    entrada:'$150–165 (~138–152€)',entradaObj:'$252–268 (~232–247€)'
+  },
+  {
+    id:'marvell',type:'conv',
+    name:'Marvell Technology',ticker:'MRVL',market:'Nasdaq · Semiconductores IA',
+    sources:['Capital Radio','Dan Fuentes'],
+    precio:'~$169',obj:'$226–385',upside:'+34–128%',pe:'~85x forward',sector:'Semiconductores / IA',
+    badges:[['b-strong','XPUs + fotónica óptica'],['b-buy','Acaba de unirse S&P 500'],['b-warn','Valoración estirada']],
+    moat:'Líder en fotónica de silicio para interconexión de centros de datos IA. Custom AI chips (XPUs) para Google, Amazon y Microsoft. Inversión estratégica de Nvidia de $2.000M. Data center +76% YoY en Q1 FY2026. Único en combinar XPUs + optical interconnects + Ethernet para IA.',
+    motor:'Acaba de incorporarse al S&P 500. B. Riley elevó objetivo a $345, KeyBanc a $385. Revenue proyectado: +50% FY27, +55% FY28. Optical business creciendo ~90% este año. Acaba de adquirir Polariton y Celestial AI para reforzar fotónica.',
+    cats:['Google colaboración en chips de inferencia IA personalizados y TPUs de próxima gen','Nvidia $2B de inversión estratégica = validación del moat en networking IA','Optical interconnects doblando capacidad en 2026 — demanda impulsada por LLMs','Acaba de incorporarse al S&P 500 — flujos de fondos índice entrantes'],
+    risks:'Forward P/E de 85x es muy exigente. Insiders vendiendo $137M más de lo que compraron. CEO y COO vendieron recientemente. Disputa por órdenes canceladas con POET Technologies. EPS del trimestre más reciente cayó 81% por restructuración.',
+    verdict:'Idea de muy alto potencial pero con riesgo elevado de valoración. La tesis es sólida — Marvell está en el centro de la infraestructura de IA — pero el precio actual ya descuenta mucho crecimiento futuro. Mejor esperar corrección hacia $130–145 (~120–134€) para una entrada con margen de seguridad. Si el sector corrige, es una de las primeras en la lista.',
+    entrada:'$130–145 (~120–134€)',entradaObj:'$226–385 (~208–354€)'
+  },
+  {
+    id:'asmi',type:'watch',
+    name:'ASM International',ticker:'ASMI',market:'Euronext Amsterdam · Litografía ALD',
+    sources:['Invertir desde Cero','Capital Radio'],
+    precio:'~€1.067',obj:'€925–1.300',upside:'-3% a +22%',pe:'~35x forward',sector:'Semiconductores / Equipamiento',
+    badges:[['b-strong','Líder ALD >55% cuota'],['b-hold','Cerca de máximos'],['b-warn','Ya en precio objetivo consenso']],
+    moat:'Líder indiscutible en deposición de capa atómica (ALD) con >55% cuota de mercado global. Tecnología crítica para chips gate-all-around (GAA) de última generación. Sin ALD no hay chips sub-2nm. Complemento natural de ASML en la cadena de fabricación de semiconductores avanzados.',
+    motor:'Q1 2026: entrada de pedidos +47% YoY — segunda mayor de su historia. Ventas récord 2025: €3.200M (+12%). Margen bruto histórico del 51,8%. Objetivo ingresos 2030: €5.700M. JPMorgan elevó objetivo a €930, Citi a €1.000, Deutsche Bank a €925.',
+    cats:['Nodo 1,4nm en piloto H2 2026: expansión del mercado potencial','Chips GAA son el futuro — ALD es el proceso crítico para fabricarlos','Cartera de pedidos en máximos históricos reflejando demanda 2027–2028','Complemento ideal a tu posición en ASML — misma cadena, más upside potencial'],
+    risks:'Precio actual cerca del objetivo consenso (~€925–1.000) — upside limitado a corto plazo. Beta de 2.13 — muy volátil. Si el ciclo capex de semiconductores se retrasa, impacto directo en pedidos. Cotiza ligeramente por encima del objetivo medio de analistas.',
+    verdict:'Empresa excelente con moat real, pero el precio actual (~€1.067) está por encima del objetivo consenso de analistas (~€925). No es el mejor punto de entrada ahora. Vigilar corrección hacia €750–850 para una entrada con margen de seguridad real. Si ya tienes ASML, ASMI sería un complemento natural — misma cadena de valor, con más exposición al crecimiento de nodos avanzados.',
+    entrada:'€750–850 (zona de compra)',entradaObj:'€1.100–1.300'
+  },
+  {
+    id:'visa',type:'study',
+    name:'Visa Inc.',ticker:'V',market:'NYSE · Pagos digitales globales',
+    sources:['Capital Radio','Dan Fuentes'],
+    precio:'~$370',obj:'$390–420',upside:'+5–14%',pe:'~28x forward',sector:'Servicios financieros / Pagos',
+    badges:[['b-strong','Foso casi indestructible'],['b-hold','Valoración justa'],['b-buy','Defensiva con crecimiento']],
+    moat:'Red de pagos global con 4.400M de tarjetas activas en 200 países. No asume riesgo de crédito — solo cobra por transacción. Márgenes operativos del 66–67% — entre los más altos del mundo empresarial. Cada transacción digital global es potencialmente ingresos para Visa.',
+    motor:'Ingresos creciendo 10–12% anual de forma consistente. Pagos cross-border (viajes, ecommerce internacional) como motor principal. Expansión en mercados emergentes todavía muy efectivo. Penetración digital en países en desarrollo como catalizador secular a 10+ años.',
+    cats:['Desdolarización del cash: cada pago que migra de efectivo a digital es upside para Visa','Ecommerce global creciendo al 15% anual — Visa se lleva comisión de cada transacción','Expansión en India, África y Latinoamérica: mercados masivos con baja penetración digital','Tokenización y pagos B2B: nuevos verticales que el mercado aún no valora completamente'],
+    risks:'Riesgo regulatorio sobre interchange fees en EE.UU. y Europa. Competencia de sistemas de pago instantáneo gubernamentales (UPI en India, Pix en Brasil). Potencial disrupción por stablecoins y pagos cripto a largo plazo. Upside limitado a valoraciones actuales.',
+    verdict:'Empresa de altísima calidad con foso casi indestructible. Es la definición de "negocio sencillo que todo el mundo entiende". El problema es que el mercado también lo sabe, por lo que cotiza con prima permanente. A precios actuales el upside es moderado (+5–14%). Interesante para construir una posición defensiva a largo plazo, especialmente en correcciones hacia $320–340 (~295–313€). Complementaría bien tu cartera como contrapeso a la concentración en tech.',
+    entrada:'$320–340 (~295–313€)',entradaObj:'$390–420 (~359–386€)'
+  },
+  {
+    id:'besi',type:'watch',
+    name:'BE Semiconductor (Besi)',ticker:'BESI',market:'Euronext Amsterdam · Empaquetado chips IA',
+    sources:['Capital Radio','Invertir desde Cero'],
+    precio:'~€90',obj:'€95–130',upside:'+5–44%',pe:'~40x forward',sector:'Semiconductores / Empaquetado avanzado',
+    badges:[['b-strong','Dominante hybrid bonding'],['b-warn','Valoración estirada'],['b-idea','Tesis IA directa']],
+    moat:'Dominante absoluto en hybrid bonding — el método de empaquetado avanzado que conecta chips cobre con cobre sin soldaduras. Maximiza eficiencia en GPUs de IA y memorias HBM. Sin Besi, no hay packaging avanzado para los chips más potentes de Nvidia, AMD o cualquier fabricante de IA.',
+    motor:'Demanda de hybrid bonding creciendo exponencialmente impulsada por AI chips. Cada GPU H100/H200/B200 de Nvidia usa HBM que requiere hybrid bonding. Único proveedor con solución madura y en producción para este proceso crítico.',
+    cats:['Ciclo IA requiere más HBM (High Bandwidth Memory) — Besi es el proveedor de empaquetado','GPUs de próxima generación (Rubin, Blackwell Ultra) requieren más stacking de memoria','Expansión hacia empaquetado de chips lógicos además de memoria','Potencial beneficiario del rearme de capacidad de TSMC en empaquetado avanzado'],
+    risks:'Ciclicidad del sector semiconductor — si los pedidos de HBM se frenan, Besi sufre. Concentración en pocos clientes grandes. Competencia emergente de ASE y Amkor en hybrid bonding. Valoración exigente a estos precios sin margen de seguridad.',
+    verdict:'Empresa fascinante con una tesis de inversión directamente ligada a la infraestructura de IA. El problema es que el precio actual ya refleja bastante del potencial. Mejor vigilar correcciones hacia €65–75 para construir una posición inicial con margen de seguridad. Si ya tienes ASML y VanEck Semiconductors en cartera, Besi añadiría exposición muy específica al packaging avanzado — complementaria y diferenciada.',
+    entrada:'€65–75 (zona de compra)',entradaObj:'€95–130'
+  },
+  {
+    id:'constellation',type:'study',
+    name:'Constellation Software',ticker:'CSU',market:'TSX Toronto · Software vertical',
+    sources:['Invertir desde Cero'],
+    precio:'~$4.800 CAD',obj:'$5.500–6.500 CAD',upside:'+15–35%',pe:'~35x FCF',sector:'Software / Capital Allocation',
+    badges:[['b-strong','Mejor allocator de capital del mundo'],['b-buy','Value + Growth híbrido'],['b-hold','Precio elevado en CAD']],
+    moat:'Adquiere y mejora software vertical de nicho de forma sistemática — un modelo que Mark Leonard lleva ejecutando desde 1995 con retornos extraordinarios. Cada software adquirido tiene clientes "cautivos" (switching costs altísimos) y flujos de caja predecibles. No compite, adquiere.',
+    motor:'Más de 500 empresas de software vertical en cartera. ROIC históricamente superior al 30%. Reinvierte el 100% del FCF en nuevas adquisiciones. Espinoff de Topicus para acelerar en Europa. Modelo replicable hasta donde haya software vertical que comprar — mercado prácticamente ilimitado.',
+    cats:['Pipeline de adquisiciones de software vertical aún enorme — miles de empresas candidatas en todo el mundo','Topicus (spin-off europeo) replicando el modelo en Europa con éxito','Barreras de entrada al modelo: requiere 30 años de cultura y disciplina — imposible de imitar rápido','Mención frecuente en el club de Invertir desde Cero como "compounder perfecto a largo plazo"'],
+    risks:'Precio en CAD muy elevado (~$4.800) — barrera psicológica de entrada. Dependencia del talento de Mark Leonard y su equipo ejecutivo. Riesgo de escasez de targets de adquisición a medida que el modelo madura. Complejidad para seguir el negocio dado el número de subsidiarias.',
+    verdict:'Una de las empresas más admiradas por inversores value/quality de todo el mundo. Fernando Sánchez (Invertir desde Cero) la menciona repetidamente como ejemplo de capital allocation excelente. No tiene el upside explosivo de una tech, pero la consistencia de retornos a 10+ años es casi única. Entrada difícil por precio: hay que comprar en correcciones del mercado general. Posición inicial pequeña (~2–3% cartera) y construir con DCA. Ideal para el núcleo de largo plazo.',
+    entrada:'Correcciones mercado (~$4.000–4.300 CAD)',entradaObj:'$5.500–6.500 CAD'
+  },,
+  {
+    id:'broadcom',type:'conv',
+    name:'Broadcom Inc.',ticker:'AVGO',market:'Nasdaq · Semiconductores IA / Software empresarial',
+    sources:['Dan Fuentes'],
+    precio:'~$406',obj:'$490–630',upside:'+21–55%',pe:'~31x forward',sector:'Semiconductores / Custom AI Chips',
+    badges:[['b-strong','Custom AI chips para hyperscalers'],['b-buy','Caída 15% post-earnings = oportunidad'],['b-warn','Concentración en pocos clientes']],
+    moat:'Diseña chips IA personalizados (XPUs) para Google, Meta, OpenAI y Anthropic — los mayores gastadores en IA del mundo. Único con capacidad para diseñar y entregar ASICs a escala para los 4 mayores hyperscalers simultáneamente. Además, software empresarial post-VMware con flujos de caja recurrentes de alto margen. Dividendo creciente 15 años consecutivos.',
+    motor:'Q2 FY2026 récord: ingresos $22.200M (+48% YoY). AI semiconductor revenue $10.800M (+143% YoY). Q3 guidance: AI chips >$16.000M. Meta y Broadcom deepening partnership para chips 2nm hasta 2029. OpenAI lanzó chip "Jalapeño" — diseñado con Broadcom. $35B plataforma financiación IA junto a Apollo/Blackstone para Anthropic.',
+    cats:['Guidance FY2027: >$100B en AI semiconductor revenue — el mercado lo subestima','Google TPU partnership extendida hasta 2031 para chips de próxima generación','OpenAI "Jalapeño": primer chip personalizado conjunto — abre vertical enorme','Broadcom supera $2 billones de capitalización — entra en élite de mega-caps IA','Recompra de $10B autorizada + dividendo creciente = retorno al accionista sólido'],
+    risks:'Acción cayó 15% tras Q2 FY2026 a pesar de batir estimaciones — mercado esperaba más. Concentración de clientes: Google, Meta y Anthropic representan la mayor parte del revenue AI. Si Google diversifica proveedores de TPU (ya hay señales), impacto directo. Márgenes brutos bajo presión por mix de productos. Insiders vendiendo.',
+    verdict:'La caída del 15% post-earnings es exactamente el tipo de situación que Buffett llamaría "Mr. Market siendo irracional". Los fundamentales son extraordinarios: +143% en AI revenue, guidance de $100B para 2027, partnerships multiaño con los mayores gastadores en IA del mundo. A ~$392–406 cotiza a 31x forward earnings — razonable para este crecimiento. Precio de entrada ideal: $370–390 (~340–359€) si corrige algo más. Objetivo a 12 meses: $490–530 (~451–488€). Alta convicción para largo plazo.',
+    entrada:'$370–390 (~340–359€)',entradaObj:'$490–630 (~451–580€)'
+  }
+];
+
+let stocks=JSON.parse(localStorage.getItem('stocks')||'null')||DS.map(s=>({...s}));
+let cash=parseFloat(localStorage.getItem('cash')||'7117.93');
+let note=localStorage.getItem('note')||'TR + DeGiro · incl. venta 3×GOOGL + SmallCap + WorldWater';
+let cache={};
+
+// ── PROXIES ────────────────────────────────────────────────────────────
+const PROXIES=[
+  s=>`https://query2.finance.yahoo.com/v8/finance/chart/${s}?interval=1d&range=1d`,
+  s=>`https://api.allorigins.win/raw?url=${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+s+'?interval=1d&range=1d')}`,
+  s=>`https://corsproxy.io/?${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+s+'?interval=1d&range=1d')}`,
+];
+async function fetchPrice(sym){
+  for(const mk of PROXIES){
+    try{
+      const r=await fetch(mk(sym),{signal:AbortSignal.timeout(7000)});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const m=d?.chart?.result?.[0]?.meta;
+      if(!m?.regularMarketPrice)continue;
+      return{price:m.regularMarketPrice,prev:m.chartPreviousClose||m.previousClose||m.regularMarketPrice};
+    }catch(e){}
   }
   return null;
 }
 
-// ─── UTILS ───────────────────────────────────────────────
-const toEur = (p,c) => p*(RATES[c]||1);
-const fmt   = n => (n===null||isNaN(n)) ? '—' : (n<0?'-':'')+Math.abs(Math.round(n)).toLocaleString('es-ES')+'€';
-const fmtP  = (n,c) => { if(n===null||n===undefined)return '—'; const s={USD:'$',EUR:'€',GBX:'p',CHF:'Fr',PLN:'zł'}[c]||''; return s+n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}); };
-const fmtPct= n => (n===null||isNaN(n)) ? '—' : (n>=0?'+':'')+n.toFixed(1).replace('.',',')+'%';
-const pcls  = n => n>=0?'pos':'neg';
+// ── CONVERSIÓN ─────────────────────────────────────────────────────────
+function priceToEur(rawP,item){
+  if(item.gbx)return(rawP/100)*1.17;
+  const rates={USD:0.92,EUR:1,GBX:0.00117,CHF:1.04,PLN:0.233};
+  return rawP*(rates[item.cur||'EUR']||1);
+}
 
-// ─── LOAD ─────────────────────────────────────────────────
-async function loadAll() {
-  document.getElementById('update-time').textContent = 'Actualizando...';
-  showStatus('Cargando precios vía proxy...', 'info');
-  const syms = [...stocks.map(s=>s.sym), ...DEFAULT_ETFS.map(e=>e.sym), ...CRYPTO.map(c=>c.sym)];
-  const results = await Promise.all(syms.map(async sym => ({sym, info: await fetchPrice(sym)})));
-  let loaded = 0;
-  results.forEach(r => { if(r.info){ cache[r.sym]=r.info; loaded++; } });
-  document.getElementById('update-time').textContent = 'Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-  if(loaded===0){
-    showStatus('⚠️ No se pudieron cargar los precios. Comprueba tu conexión a internet.','warn');
-  } else if(loaded<syms.length){
-    showStatus(`ℹ️ ${loaded} de ${syms.length} precios cargados. Algunos pueden no estar disponibles ahora.`,'info');
-  } else {
-    hideStatus();
-  }
+// ── UTILS ──────────────────────────────────────────────────────────────
+const fmt=n=>(n===null||isNaN(n))?'—':(n<0?'-':'')+Math.abs(Math.round(n)).toLocaleString('es-ES')+'€';
+const fmtPct=n=>(n===null||isNaN(n))?'—':(n>=0?'+':'')+n.toFixed(1).replace('.',',')+'%';
+const pc=n=>n>=0?'pos':'neg';
+
+// ── LOAD ───────────────────────────────────────────────────────────────
+async function loadAll(){
+  document.getElementById('upd').textContent='Actualizando...';
+  setStatus('Cargando precios...','info');
+  const all=[...stocks.map(s=>s.sym),...DE.map(e=>e.sym),...DC.map(c=>c.sym)];
+  const res=await Promise.all(all.map(async sym=>({sym,info:await fetchPrice(sym)})));
+  let loaded=0;
+  res.forEach(r=>{if(r.info){cache[r.sym]=r.info;loaded++;}});
+  document.getElementById('upd').textContent='Actualizado '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  if(loaded===0)setStatus('⚠️ Sin conexión. Comprueba tu red.','warn');
+  else if(loaded<all.length)setStatus(`ℹ️ ${loaded}/${all.length} precios cargados.`,'info');
+  else clearStatus();
   renderAll();
 }
+function setStatus(msg,type){document.getElementById('status-box').innerHTML=`<div class="al al-${type==='warn'?'warn':'info'}" style="margin-bottom:1rem">${msg}</div>`;}
+function clearStatus(){document.getElementById('status-box').innerHTML='';}
 
-function showStatus(msg, type) {
-  const el = document.getElementById('status-bar');
-  if(!el) return;
-  el.textContent = msg;
-  el.className = 'status-bar visible alert-'+(type==='warn'?'warn':'info');
-}
-function hideStatus() {
-  const el = document.getElementById('status-bar');
-  if(el) el.className = 'status-bar';
-}
+// ── RENDER ALL ─────────────────────────────────────────────────────────
+function renderAll(){renderDash();renderTracker();renderAlertas();renderSTable();}
 
-// ─── RENDER ALL ──────────────────────────────────────────
-function renderAll(){ renderDashboard(); renderTracker(); renderAlertas(); renderSettingsTable(); }
-
-// ─── DASHBOARD ───────────────────────────────────────────
-function renderDashboard(){
-  document.getElementById('d-cash').textContent = cash.toLocaleString('es-ES')+'€';
-  document.getElementById('d-cash-note').textContent = cashNote;
-  let sv=0,sc=0,ev=0,ec=0,alerts=0;
-  const allPos=[];
+// ── DASHBOARD ──────────────────────────────────────────────────────────
+function renderDash(){
+  document.getElementById('d-cash').textContent=cash.toLocaleString('es-ES')+'€';
+  document.getElementById('d-note').textContent=note;
+  let sv=0,sc=0,ev=0,alerts=0;const allPos=[];
   stocks.forEach(s=>{
     const p=cache[s.sym]?.price||null;
-    const ve=p?toEur(p,s.cur)*s.shares:0, vc=toEur(s.bep,s.cur)*s.shares;
-    sv+=ve; sc+=vc;
-    allPos.push({name:s.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
-    if(p){ if(s.buyAlert&&p<=s.buyAlert)alerts++; if(s.stopPct&&p>s.bep*(1+s.stopPct/100))alerts++; }
+    const ve=p?priceToEur(p,s)*s.shares:0,vc=s.bepEur*s.shares;
+    sv+=ve;sc+=vc;allPos.push({name:s.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
+    if(p){const pe=priceToEur(p,s);const ae=s.buyAlert;if(ae&&pe<=ae)alerts++;if(s.stopPct&&pe>s.bepEur*(1+s.stopPct/100))alerts++;}
   });
-  DEFAULT_ETFS.forEach(e=>{
+  DE.forEach(e=>{
     const p=cache[e.sym]?.price||null;
-    const ve=p?toEur(p,e.cur)*e.shares:0, vc=toEur(e.bep,e.cur)*e.shares;
-    ev+=ve; ec+=vc;
-    allPos.push({name:e.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
+    const ve=p?priceToEur(p,e)*e.shares:0,vc=e.bepEur*e.shares;
+    ev+=ve;allPos.push({name:e.name,ve,gp:ve-vc,gpPct:vc?(ve-vc)/vc*100:0});
   });
-  const total=sv+ev+cash, gp=sv-sc;
-  document.getElementById('d-stocks').textContent=fmt(Math.round(sv));
-  document.getElementById('d-etfs').textContent=fmt(Math.round(ev));
+  const total=sv+ev+cash,gp=sv-sc;
+  document.getElementById('d-sv').textContent=fmt(Math.round(sv));
+  document.getElementById('d-ev').textContent=fmt(Math.round(ev));
   document.getElementById('d-total').textContent=fmt(Math.round(total));
   document.getElementById('d-gp').textContent=fmt(Math.round(gp));
-  document.getElementById('d-gp-pct').textContent=sc?fmtPct(gp/sc*100)+' vs. coste':'—';
-  document.getElementById('d-alerts').textContent=alerts||'0';
-  document.getElementById('d-positions').textContent=stocks.length+DEFAULT_ETFS.length;
-  // alert boxes
-  const buys=stocks.filter(s=>cache[s.sym]?.price&&s.buyAlert&&cache[s.sym].price<=s.buyAlert);
-  const stops=stocks.filter(s=>cache[s.sym]?.price&&s.stopPct&&cache[s.sym].price>s.bep*(1+s.stopPct/100));
-  let aHtml='';
-  if(buys.length) aHtml+=`<div class="alert alert-ok"><strong>Oportunidades de compra:</strong> ${buys.map(s=>`${s.name} (${fmtP(cache[s.sym].price,s.cur)} ≤ alerta ${fmtP(s.buyAlert,s.cur)})`).join(' · ')}</div>`;
-  if(stops.length) aHtml+=`<div class="alert alert-danger"><strong>Stop loss en zona:</strong> ${stops.map(s=>`${s.name} (${fmtP(cache[s.sym].price,s.cur)})`).join(' · ')}</div>`;
-  if(!buys.length&&!stops.length&&Object.keys(cache).length>0) aHtml=`<div class="alert alert-ok">Sin alertas activas. Todos los precios dentro de rango.</div>`;
-  document.getElementById('d-alert-boxes').innerHTML=aHtml;
-  // top positions
+  document.getElementById('d-gpp').textContent=sc?fmtPct(gp/sc*100)+' vs. coste':'—';
+  document.getElementById('d-al').textContent=alerts||'0';
+  const buys=stocks.filter(s=>{if(!cache[s.sym]?.price||!s.buyAlert)return false;return priceToEur(cache[s.sym].price,s)<=s.buyAlert;});
+  const stops=stocks.filter(s=>{if(!cache[s.sym]?.price||!s.stopPct)return false;return priceToEur(cache[s.sym].price,s)>s.bepEur*(1+s.stopPct/100);});
+  let ah='';
+  if(buys.length)ah+=`<div class="al al-ok"><strong>Oportunidades de compra:</strong> ${buys.map(s=>s.name).join(' · ')}</div>`;
+  if(stops.length)ah+=`<div class="al al-danger"><strong>Stop loss en zona:</strong> ${stops.map(s=>s.name).join(' · ')}</div>`;
+  if(!buys.length&&!stops.length&&Object.keys(cache).length>0)ah=`<div class="al al-ok">Sin alertas activas. Todos los precios dentro de rango.</div>`;
+  document.getElementById('d-alerts').innerHTML=ah;
   allPos.sort((a,b)=>b.ve-a.ve);
-  const totalP=sv+ev;
-  document.getElementById('d-top-positions').innerHTML=allPos.slice(0,10).map(p=>`<tr>
-    <td><strong>${p.name}</strong></td>
-    <td>${totalP>0?((p.ve/totalP)*100).toFixed(1).replace('.',',')+'%':'—'}</td>
-    <td>${fmt(Math.round(p.ve))}</td>
-    <td class="${pcls(p.gp)}">${fmt(Math.round(p.gp))}</td>
-    <td class="${pcls(p.gpPct)}">${fmtPct(p.gpPct)}</td>
-  </tr>`).join('');
+  const tp=sv+ev;
+  document.getElementById('d-top').innerHTML=allPos.slice(0,12).map(p=>`<tr><td><strong>${p.name}</strong></td><td>${tp>0?((p.ve/tp)*100).toFixed(1).replace('.',',')+'%':'—'}</td><td>${fmt(Math.round(p.ve))}</td><td class="${pc(p.gp)}">${fmt(Math.round(p.gp))}</td><td class="${pc(p.gpPct)}">${fmtPct(p.gpPct)}</td></tr>`).join('');
 }
 
-// ─── TRACKER ─────────────────────────────────────────────
+// ── TRACKER ────────────────────────────────────────────────────────────
 function renderTracker(){
-  // stocks
   document.getElementById('t-stocks').innerHTML=stocks.map(s=>{
-    const p=cache[s.sym]?.price||null, prev=cache[s.sym]?.prev||null;
-    const day=p&&prev?(p-prev)/prev*100:null;
-    const ve=p?toEur(p,s.cur)*s.shares:0, vc=toEur(s.bep,s.cur)*s.shares;
-    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
-    let sig='—',sc2='b-info';
-    if(p){ if(s.buyAlert&&p<=s.buyAlert){sig='Compra';sc2='b-buy';} else if(s.stopPct&&p>s.bep*(1+s.stopPct/100)){sig='Stop zona';sc2='b-stop';} else{sig='Mantener';sc2='b-hold';} }
-    return `<tr>
-      <td><span class="ticker-name">${s.name}</span><span class="ticker-sym">${s.sym}</span></td>
-      <td><span class="badge b-info">${s.broker}</span></td>
-      <td>${s.shares}</td>
-      <td>${p?fmtP(p,s.cur):'<span class="spin"></span>'}</td>
-      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
-      <td>${fmt(Math.round(ve))}</td>
-      <td>${fmtP(s.bep,s.cur)}</td>
-      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
-      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
-      <td><span class="badge ${sc2}">${sig}</span></td>
-    </tr>`;
+    const info=cache[s.sym];const rawP=info?.price||null;const rawPrev=info?.prev||null;
+    const peEur=rawP?priceToEur(rawP,s):null;const prevEur=rawPrev?priceToEur(rawPrev,s):null;
+    const day=peEur&&prevEur?(peEur-prevEur)/prevEur*100:null;
+    const ve=peEur?peEur*s.shares:0,vc=s.bepEur*s.shares;const gp=ve-vc,gpPct=vc?gp/vc*100:0;
+    let sig='—',sc='b-info';
+    if(peEur){if(s.buyAlert&&peEur<=s.buyAlert){sig='Compra';sc='b-buy';}else if(s.stopPct&&peEur>s.bepEur*(1+s.stopPct/100)){sig='Stop zona';sc='b-stop';}else{sig='Mantener';sc='b-hold';}}
+    return`<tr><td><span class="tn">${s.name}</span><span class="ts">${s.sym}</span></td><td><span class="badge b-info">${s.broker}</span></td><td>${s.shares}</td><td>${peEur?fmt(peEur):'<span class="spin"></span>'}</td><td class="${day!==null?pc(day):''}">${fmtPct(day)}</td><td>${fmt(Math.round(ve))}</td><td>${fmt(s.bepEur)}</td><td class="${pc(gp)}">${fmt(Math.round(gp))}</td><td class="${pc(gpPct)}">${fmtPct(gpPct)}</td><td><span class="badge ${sc}">${sig}</span></td></tr>`;
   }).join('');
-  // etfs
-  document.getElementById('t-etfs').innerHTML=DEFAULT_ETFS.map(e=>{
-    const p=cache[e.sym]?.price||null, prev=cache[e.sym]?.prev||null;
-    const day=p&&prev?(p-prev)/prev*100:null;
-    const ve=p?toEur(p,e.cur)*e.shares:0, vc=toEur(e.bep,e.cur)*e.shares;
-    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
+  document.getElementById('t-etfs').innerHTML=DE.map(e=>{
+    const info=cache[e.sym];const rawP=info?.price||null;const rawPrev=info?.prev||null;
+    const peEur=rawP?priceToEur(rawP,e):null;const prevEur=rawPrev?priceToEur(rawPrev,e):null;
+    const day=peEur&&prevEur?(peEur-prevEur)/prevEur*100:null;
+    const ve=peEur?peEur*e.shares:0,vc=e.bepEur*e.shares;const gp=ve-vc,gpPct=vc?gp/vc*100:0;
     const tr=day!==null?(day>=0.4?{l:'Momentum +',c:'b-buy'}:day<=-0.6?{l:'Caída',c:'b-warn'}:{l:'Estable',c:'b-hold'}):{l:'—',c:'b-info'};
-    return `<tr>
-      <td><span class="ticker-name">${e.name}</span><span class="ticker-sym">${e.sym}</span></td>
-      <td>${e.shares}</td>
-      <td>${p?fmtP(p,e.cur):'<span class="spin"></span>'}</td>
-      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
-      <td>${fmt(Math.round(ve))}</td>
-      <td>${fmtP(e.bep,e.cur)}</td>
-      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
-      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
-      <td><span class="badge ${tr.c}">${tr.l}</span></td>
-    </tr>`;
+    return`<tr><td><span class="tn">${e.name}</span><span class="ts">${e.sym}</span></td><td>${e.shares}</td><td>${peEur?fmt(peEur):'<span class="spin"></span>'}</td><td class="${day!==null?pc(day):''}">${fmtPct(day)}</td><td>${fmt(Math.round(ve))}</td><td>${fmt(e.bepEur)}</td><td class="${pc(gp)}">${fmt(Math.round(gp))}</td><td class="${pc(gpPct)}">${fmtPct(gpPct)}</td><td><span class="badge ${tr.c}">${tr.l}</span></td></tr>`;
   }).join('');
-  // crypto
-  document.getElementById('t-crypto').innerHTML=CRYPTO.map(c=>{
-    const p=cache[c.sym]?.price||null, prev=cache[c.sym]?.prev||null;
-    const day=p&&prev?(p-prev)/prev*100:null;
-    const ve=p?p*c.shares:0, vc=c.bep*c.shares;
-    const gp=ve-vc, gpPct=vc?gp/vc*100:0;
-    return `<tr>
-      <td><strong>${c.name}</strong></td>
-      <td>${c.shares}</td>
-      <td>${p?fmtP(p,c.cur):'<span class="spin"></span>'}</td>
-      <td class="${day!==null?pcls(day):''}">${fmtPct(day)}</td>
-      <td>${fmt(Math.round(ve))}</td>
-      <td>${fmtP(c.bep,c.cur)}</td>
-      <td class="${pcls(gp)}">${fmt(Math.round(gp))}</td>
-      <td class="${pcls(gpPct)}">${fmtPct(gpPct)}</td>
-    </tr>`;
+  document.getElementById('t-crypto').innerHTML=DC.map(c=>{
+    const info=cache[c.sym];const rawP=info?.price||null;const rawPrev=info?.prev||null;
+    const day=rawP&&rawPrev?(rawP-rawPrev)/rawPrev*100:null;
+    const ve=rawP?rawP*c.shares:0,vc=c.bepEur*c.shares;const gp=ve-vc,gpPct=vc?gp/vc*100:0;
+    return`<tr><td><strong>${c.name}</strong></td><td>${c.shares}</td><td>${rawP?fmt(rawP):'<span class="spin"></span>'}</td><td class="${day!==null?pc(day):''}">${fmtPct(day)}</td><td>${fmt(Math.round(ve))}</td><td>${fmt(c.bepEur)}</td><td class="${pc(gp)}">${fmt(Math.round(gp))}</td><td class="${pc(gpPct)}">${fmtPct(gpPct)}</td></tr>`;
   }).join('');
 }
 
-// ─── ALERTAS ─────────────────────────────────────────────
+// ── ALERTAS ────────────────────────────────────────────────────────────
 function renderAlertas(){
-  let html='', fired=[];
+  let html='',fired=[];
   stocks.filter(s=>s.buyAlert||s.stopPct).forEach(s=>{
-    const p=cache[s.sym]?.price||null;
-    const stopP=s.stopPct?s.bep*(1+s.stopPct/100):null;
+    const p=cache[s.sym]?.price||null;const peEur=p?priceToEur(p,s):null;
+    const stopEur=s.stopPct?s.bepEur*(1+s.stopPct/100):null;
     let est='En rango',cls='b-hold';
-    if(p){
-      if(s.buyAlert&&p<=s.buyAlert){est='Compra activa';cls='b-buy';fired.push({name:s.name,msg:`Precio ${fmtP(p,s.cur)} ≤ alerta ${fmtP(s.buyAlert,s.cur)}`,type:'ok'});}
-      else if(stopP&&p>stopP){est='Stop superado';cls='b-stop';fired.push({name:s.name,msg:`Precio ${fmtP(p,s.cur)} superó stop ${fmtP(stopP,s.cur)}`,type:'danger'});}
-    }
-    html+=`<tr>
-      <td><strong>${s.name}</strong></td>
-      <td>${p?fmtP(p,s.cur):'<span class="spin"></span>'}</td>
-      <td>${s.buyAlert?fmtP(s.buyAlert,s.cur):'—'}</td>
-      <td>${stopP?fmtP(stopP,s.cur)+' (+'+s.stopPct+'%)':'—'}</td>
-      <td>${fmtP(s.bep,s.cur)}</td>
-      <td><span class="badge ${cls}">${est}</span></td>
-    </tr>`;
+    if(peEur){if(s.buyAlert&&peEur<=s.buyAlert){est='Compra activa';cls='b-buy';fired.push({name:s.name,msg:`Precio ${fmt(peEur)} ≤ alerta ${fmt(s.buyAlert)}`,type:'ok'});}
+    else if(stopEur&&peEur>stopEur){est='Stop superado';cls='b-stop';fired.push({name:s.name,msg:`Precio ${fmt(peEur)} superó stop ${fmt(stopEur)}`,type:'danger'});}}
+    html+=`<tr><td><strong>${s.name}</strong></td><td>${peEur?fmt(peEur):'<span class="spin"></span>'}</td><td>${s.buyAlert?fmt(s.buyAlert):'—'}</td><td>${stopEur?fmt(stopEur)+' (+'+s.stopPct+'%)':'—'}</td><td>${fmt(s.bepEur)}</td><td><span class="badge ${cls}">${est}</span></td></tr>`;
   });
-  document.getElementById('alerts-table').innerHTML=html||'<tr><td colspan="6" style="color:var(--text2)">Sin alertas configuradas</td></tr>';
-  document.getElementById('fired-alerts').innerHTML=fired.length
-    ? fired.map(f=>`<div class="alert alert-${f.type==='ok'?'ok':'danger'}"><strong>${f.name}:</strong> ${f.msg}</div>`).join('')
-    : '<div class="alert alert-ok">Sin alertas disparadas en este momento.</div>';
+  document.getElementById('al-table').innerHTML=html||'<tr><td colspan="6" style="color:var(--text2)">Sin alertas configuradas</td></tr>';
+  document.getElementById('al-fired').innerHTML=fired.length?fired.map(f=>`<div class="al al-${f.type==='ok'?'ok':'danger'}"><strong>${f.name}:</strong> ${f.msg}</div>`).join(''):'<div class="al al-ok">Sin alertas disparadas en este momento.</div>';
 }
 
-// ─── SETTINGS ────────────────────────────────────────────
-function renderSettingsTable(){
+// ── SETTINGS ───────────────────────────────────────────────────────────
+function renderSTable(){
   document.getElementById('s-cash').value=cash;
-  document.getElementById('s-cash-note').value=cashNote;
-  document.getElementById('s-stocks-table').innerHTML=stocks.map((s,i)=>`<tr>
-    <td>${s.name}</td>
-    <td><code style="font-size:11px">${s.sym}</code></td>
-    <td><input type="number" value="${s.shares}" onchange="stocks[${i}].shares=parseFloat(this.value)||0" style="width:65px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
-    <td><input type="number" value="${s.bep}" onchange="stocks[${i}].bep=parseFloat(this.value)||0" style="width:80px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
-    <td><input type="number" value="${s.buyAlert||''}" placeholder="—" onchange="stocks[${i}].buyAlert=parseFloat(this.value)||null" style="width:80px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
-    <td><input type="number" value="${s.stopPct||''}" placeholder="—" onchange="stocks[${i}].stopPct=parseFloat(this.value)||null" style="width:60px;padding:4px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:12px"></td>
-  </tr>`).join('');
+  document.getElementById('s-note').value=note;
+  document.getElementById('s-table').innerHTML=stocks.map((s,i)=>`<tr><td>${s.name}</td><td><code style="font-size:11px">${s.sym}</code></td><td><input type="number" value="${s.shares}" onchange="stocks[${i}].shares=parseFloat(this.value)||0" style="width:65px;padding:4px 6px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:12px"></td><td><input type="number" value="${s.bepEur.toFixed(2)}" onchange="stocks[${i}].bepEur=parseFloat(this.value)||0" style="width:80px;padding:4px 6px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:12px"></td><td><input type="number" value="${s.buyAlert||''}" placeholder="—" onchange="stocks[${i}].buyAlert=parseFloat(this.value)||null" style="width:80px;padding:4px 6px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:12px"></td><td><input type="number" value="${s.stopPct||''}" placeholder="—" onchange="stocks[${i}].stopPct=parseFloat(this.value)||null" style="width:55px;padding:4px 6px;border:.5px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-size:12px"></td></tr>`).join('');
+}
+function saveCash(){cash=parseFloat(document.getElementById('s-cash').value)||0;note=document.getElementById('s-note').value;localStorage.setItem('cash',cash);localStorage.setItem('note',note);renderDash();alert('Cash guardado ✓');}
+function savePos(){localStorage.setItem('stocks',JSON.stringify(stocks));renderAll();alert('Posiciones guardadas ✓');}
+function resetData(){localStorage.clear();stocks=DS.map(s=>({...s}));cash=7117.93;note='TR + DeGiro · incl. venta 3×GOOGL + SmallCap + WorldWater';renderSTable();renderAll();}
+
+// ── IDEAS ──────────────────────────────────────────────────────────────
+function renderIdeas(filter='all'){
+  const grid=document.getElementById('ideas-grid');
+  const filtered=filter==='all'?IDEAS:IDEAS.filter(i=>i.type===filter);
+  grid.innerHTML=filtered.map(idea=>`
+    <div class="idea-card ${idea.type}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem">
+        <div>
+          <div class="idea-name">${idea.name}</div>
+          <div class="idea-meta">${idea.ticker} · ${idea.market}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          ${idea.sources.map(s=>`<span class="source-tag">${s}</span>`).join('')}
+        </div>
+      </div>
+      <div class="idea-badges">${idea.badges.map(b=>`<span class="badge ${b[0]}">${b[1]}</span>`).join('')}</div>
+      <div class="idea-metrics">
+        <div class="idea-m"><div class="idea-ml">Precio actual</div><div class="idea-mv">${idea.precio}</div></div>
+        <div class="idea-m"><div class="idea-ml">Obj. analistas</div><div class="idea-mv">${idea.obj}</div></div>
+        <div class="idea-m"><div class="idea-ml">Upside potencial</div><div class="idea-mv pos">${idea.upside}</div></div>
+        <div class="idea-m"><div class="idea-ml">Sector</div><div class="idea-mv" style="font-size:11px">${idea.sector}</div></div>
+        <div class="idea-m"><div class="idea-ml">Entrada ideal</div><div class="idea-mv" style="font-size:11px">${idea.entrada}</div></div>
+        <div class="idea-m"><div class="idea-ml">Valoración</div><div class="idea-mv" style="font-size:11px">${idea.pe}</div></div>
+      </div>
+      <div class="idea-section">Foso competitivo</div>
+      <div class="idea-text">${idea.moat}</div>
+      <div class="idea-section">Motor de crecimiento</div>
+      <div class="idea-text">${idea.motor}</div>
+      <div class="idea-section">Catalizadores clave</div>
+      <ul class="idea-cats">${idea.cats.map(c=>`<li><span class="idea-dot"></span>${c}</li>`).join('')}</ul>
+      <div class="idea-section">Riesgos principales</div>
+      <div class="idea-text" style="color:var(--red-text);background:var(--red-bg);padding:.5rem .75rem;border-radius:var(--r)">${idea.risks}</div>
+      <div class="idea-verdict"><strong>Veredicto:</strong> ${idea.verdict}</div>
+    </div>
+  `).join('');
 }
 
-function saveCash(){
-  cash=parseFloat(document.getElementById('s-cash').value)||0;
-  cashNote=document.getElementById('s-cash-note').value;
-  localStorage.setItem('cash',cash);
-  localStorage.setItem('cashNote',cashNote);
-  renderDashboard();
-  alert('Cash guardado ✓');
-}
-function savePositions(){
-  localStorage.setItem('stocks',JSON.stringify(stocks));
-  renderAll();
-  alert('Posiciones guardadas ✓');
-}
-function resetData(){
-  localStorage.clear();
-  stocks=DEFAULT_STOCKS.map(s=>({...s}));
-  cash=7000; cashNote='TR + DeGiro · incl. venta 3×GOOGL';
-  renderSettingsTable(); renderAll();
+function filterIdeas(type,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderIdeas(type);
 }
 
-// ─── NAVIGATION ──────────────────────────────────────────
-function showPage(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  if(btn) btn.classList.add('active');
-  else document.querySelectorAll('.nav-tab').forEach(t=>{ if(t.textContent.toLowerCase().includes(id.slice(0,4))) t.classList.add('active'); });
-}
-
-// ─── TESIS ───────────────────────────────────────────────
-const TESIS={
-  meta:{name:'Meta Platforms',meta:'META · Nasdaq · Redes sociales / IA publicitaria',
-    badges:[['b-buy','Mantener / Acumular en caídas'],['b-strong','3.560M usuarios diarios'],['b-warn','CapEx $125–145B 2026']],
-    metrics:[{l:'Precio actual',v:'~$580',s:'junio 2026'},{l:'Tu BEP',v:'$499',s:'7 acciones'},{l:'Obj. analistas',v:'$720–840',s:'consenso'},{l:'Upside potencial',v:'+24–45%',s:'12–18 meses'}],
-    moat:'3.560M usuarios diarios activos. Datos propios para IA publicitaria inigualables. 8M anunciantes usando herramientas GenAI. Coste de migración para anunciantes muy alto.',
-    motor:'AI-translated videos: 500M vistas semanales. Threads: 150M usuarios diarios. Reels +10% en tiempo de visionado. Revenues Q2 2026 guidance: $58–61B (+26% YoY).',
-    cats:['Monetización Meta AI (1.000M+ usuarios) — primeras señales de revenue en 2H 2026','Threads como nueva plataforma publicitaria independiente','Ray-Ban Meta Glasses: apertura de canal hardware si AR/VR traccionan','Q2 2026 guidance $58–61B: si lo bate, rerating al alza del múltiplo'],
-    risks:'CapEx masivo $125–145B penalizado por el mercado. Caída 10% en mayo 2026 tras resultados. Si ROI de la IA tarda más de 18 meses, presión sobre múltiplo. Riesgo regulatorio antimonopolio en EE.UU. y Europa.',
-    verdict:'Convicción a largo plazo justificada. No ampliar agresivamente a ~$580 con la concentración actual. Zona de compra: $520–540 en corrección. El negocio publicitario sigue siendo una máquina de caja.'},
-  asml:{name:'ASML Holding',meta:'ASML · Euronext / Nasdaq · Litografía EUV — Monopolio global',
-    badges:[['b-strong','Monopolio estructural sin rival'],['b-buy','Mantener — no vender'],['b-warn','Riesgo geopolítico China']],
-    metrics:[{l:'Precio actual',v:'~€1.700',s:'junio 2026'},{l:'Tu BEP',v:'€720',s:'4 acciones'},{l:'Obj. BofA',v:'€1.921',s:'subido junio 2026'},{l:'G/P actual',v:'+136%',s:'mejor posición'}],
-    moat:'Única empresa del mundo que fabrica máquinas EUV. Sin ASML no hay chips de 3nm o inferiores. TSMC, Samsung e Intel dependen absolutamente. La competencia tarda +20 años en replicar la tecnología.',
-    motor:'Q1 2026: €8.8B en ventas, €2.8B beneficio neto. High-NA EUV: próxima gen. a €350M/unidad. Backlog récord. $725B combinado de capex de los 4 hyperscalers en 2026.',
-    cats:['High-NA EUV: TSMC e Intel ya confirmaron pedidos para nodos sub-2nm','Marco UE-EE.UU. julio 2025 eliminó amenaza de aranceles sobre equipamiento semiconductor','BofA €1.921, Wells Fargo $2.200, Barclays Buy — momentum alcista analistas','Expansión ciclo CapEx IA: demanda estructural multi-año garantizada'],
-    risks:'Ciclo capex semiconductor cíclico: si TSMC/Intel retrasan pedidos, impacto directo. Prohibición exportación a China ya implementada (no EUV). Valoración exigente — prima de monopolio ya en precio.',
-    verdict:'No vendas. Moat estructural y catalizadores de High-NA EUV son multi-año. A +10 años es una de las mejores empresas del mundo. No añadir más — ya pesa ~18% de la cartera.'},
-  alphabet:{name:'Alphabet (Google)',meta:'GOOGL · Nasdaq · Búsqueda / Cloud / IA / Publicidad',
-    badges:[['b-strong','Punto de entrada interesante'],['b-buy','Recompra justificada'],['b-strong','GCP backlog $460B']],
-    metrics:[{l:'Precio actual',v:'~$342',s:'junio 2026'},{l:'Tu BEP',v:'$168',s:'11 acciones'},{l:'Obj. consenso',v:'$427–432',s:'63 analistas'},{l:'Upside',v:'+25%',s:'12 meses'}],
-    moat:'~40% del mercado publicitario digital global. Gemini integrado en Search potencia el gasto publicitario. Google Cloud superó $20B en Q1 2026 con backlog de $460B.',
-    motor:'Berkshire Hathaway $10B en ronda de capital IA. Deal SpaceX-Google $30B cloud. Acciones +10% tras Q1 2026. EPS forecast 2026: $14.22/acc (+30% YoY).',
-    cats:['Gemini Ultra: IA mejora Search y aumenta revenue por query','TPUs propios reducen dependencia de Nvidia y mejoran márgenes en Cloud','Waymo: autonomía vehicular como opción gratuita en el precio actual','Googlebook: nuevo hardware integrado con Gemini'],
-    risks:'Juicio antimonopolio EE.UU. sobre dominio en búsqueda. CapEx $180–190B 2026. Competencia OpenAI/ChatGPT y Perplexity en búsqueda generativa.',
-    verdict:'Tesis sólida. Precio actual ($342) muy por debajo del objetivo consenso ($427). Recomprar las 3 acciones vendidas o añadir 1–2 más tiene sentido. Soporte relevante en $310–320 si quieres esperar.'},
-  amazon:{name:'Amazon',meta:'AMZN · Nasdaq · Cloud (AWS) / eCommerce / IA / Publicidad',
-    badges:[['b-strong','AWS motor del 70%+ del beneficio'],['b-buy','Posición infraponderada'],['b-warn','CapEx $200B 2026']],
-    metrics:[{l:'Precio actual',v:'~$210',s:'junio 2026'},{l:'Tu BEP',v:'$194',s:'8 acciones'},{l:'AWS cuota',v:'~30%',s:'cloud global'},{l:'Publicidad YoY',v:'+19%',s:'Q1 2026'}],
-    moat:'AWS: 70%+ del beneficio operativo con márgenes 35–38%. Chips Trainium/Inferentia propios. Tercera plataforma publicitaria digital. Logística propia como ventaja competitiva.',
-    motor:'Amazon Bedrock: plataforma de modelos IA para empresas. Alexa+ con IA generativa. $200B CapEx 2026. Project Kuiper (satélites) como vertical de largo plazo.',
-    cats:['AWS: contratos multianuales con startups IA y enterprise','Advertising: tercera plataforma digital, creciendo +19% YoY','Same-day delivery vs. Temu/Shein: diferenciación real en eCommerce','IA nativa en toda la cadena de valor (almacenes, recomendaciones, Alexa)'],
-    risks:'Mayor CapEx ($200B): requiere demostrar retornos claros. Presión márgenes eCommerce por competencia asiática. Riesgo antimonopolio en marketplace.',
-    verdict:'Posición más infraponderada respecto a su potencial. AWS + Advertising + IA nativa = tesis muy sólida. Ampliar en correcciones hacia $185–195 sería inteligente con parte del cash.'},
-  msci:{name:'MSCI ACWI — ETF Global',meta:'SSAC / IWDA · iShares · 2.900+ empresas, 23 países',
-    badges:[['b-strong','Core de cartera'],['b-buy','DCA semanal sin hedge'],['b-hold','Diversificación real']],
-    metrics:[{l:'Exposición EE.UU.',v:'~65%',s:'S&P 500 dominante'},{l:'TER',v:'0,20%',s:'sin hedge'},{l:'G/P acumulado',v:'+30%',s:'desde entrada'},{l:'Rentab. histórica',v:'8–10%',s:'anual largo plazo'}],
-    moat:'2.900 empresas en 23 países. Cobertura global real. A 10+ años bate al 85–90% de gestores activos. TER de 0,20% — mínima fricción.',
-    motor:'DCA semanal de 20€ (a redirigir del hedgeado). Interés compuesto y consistencia del DCA son el motor. No requiere seguimiento activo.',
-    cats:['Consolidar MSCI ACWI EUR Hedged aquí — ahorro en TER y coste de cobertura','Aumentar DCA a 30–40€/semana si el cash lo permite','Mantener como ancla de cartera independientemente de movimientos en acciones'],
-    risks:'Alta concentración en EE.UU. (65%). Solapamiento parcial con las Big Tech que ya tienes en acciones. Sin hedge: si el dólar cae estructuralmente, impacta.',
-    verdict:'Sólido. Mantener y alimentar con DCA consistente. Única mejora pendiente: eliminar el ETF hedgeado y consolidar el DCA aquí.'},
-  gold:{name:'Oro Físico — iShares Physical Gold',meta:'IGLN · Materia prima / Reserva de valor / Cobertura',
-    badges:[['b-strong','Refugio estructural'],['b-buy','Mantener — no ampliar agresivamente'],['b-warn','Corrección 26% desde máximos']],
-    metrics:[{l:'Precio actual',v:'~$4.114/oz',s:'junio 2026'},{l:'Máximo histórico',v:'$5.595/oz',s:'29 enero 2026'},{l:'Obj. J.P.Morgan',v:'$6.000/oz',s:'Q4 2026'},{l:'Obj. 2027',v:'$6.300/oz',s:'J.P.Morgan'}],
-    moat:'Bancos centrales emergentes diversifican reservas fuera del dólar. Demanda estructural que reemplaza al inversor minorista como motor. Función de reserva de valor permanente.',
-    motor:'J.P. Morgan Q4 2026: $6.000/oz, 2027: $6.300. BNP Paribas: $6.250. Wells Fargo: $6.100–6.300. Compras de bancos centrales en Q1 2026 superiores a datos oficiales según WGC.',
-    cats:['Bajada de tipos Fed en 2H 2026: catalizador alcista directo','Escalada conflicto Irán/Israel: flujos de refugio','Debilitamiento estructural del dólar','Compras no reportadas de bancos centrales emergentes'],
-    risks:'Caída 26% desde máximos (enero $5.595 → $4.170). Si Fed sube tipos por inflación, presión adicional. Dólar fuerte es viento de cara.',
-    verdict:'Mantener como cobertura (6,4% de cartera es adecuado). No ampliar agresivamente desde niveles actuales. Zona de compra interesante: $3.800–4.000. Rol estructural válido.'},
-  copper:{name:'Cobre — WisdomTree Copper Hedged EUR',meta:'COPA · Materia prima industrial / Electrificación / IA',
-    badges:[['b-strong','Metal de la transición energética'],['b-buy','Posición pequeña — considerar ampliar'],['b-warn','Volatilidad aranceles EE.UU.']],
-    metrics:[{l:'Precio LME',v:'~$9.500/t',s:'junio 2026'},{l:'Obj. Goldman',v:'$11.200/t',s:'Q4 2026'},{l:'Obj. TD Sec.',v:'$13.000/t',s:'media 2026'},{l:'Déficit proyectado',v:'~3M t',s:'hasta 2036'}],
-    moat:'Data centers para IA consumen 10x más cobre que los tradicionales. EVs, redes eléctricas renovables y edificios inteligentes. No hay sustituto viable. Nuevas minas tardan 10–15 años.',
-    motor:'S&P Global proyecta déficit acumulado ~3M toneladas hasta 2036. Spot treatment charges: -$70/t (señal de escasez extrema). Rearme europeo = infraestructuras, cables, redes.',
-    cats:['Rearme europeo: cables submarinos, redes eléctricas militares y civiles','Cada MW solar/eólica requiere 4–5 toneladas de cobre','Resolución arancel 232 EE.UU.: foco vuelve a fundamentales alcistas','Debilitamiento del dólar: impulso adicional a materias primas'],
-    risks:'Goldman advierte posible superávit 300kt 2026 si demanda china sigue débil. Aranceles americanos en 2027 reconfiguran flujos. Precio puede haber adelantado fundamentales a corto plazo.',
-    verdict:'Tesis estructural a 5–10 años muy sólida. El cobre es el "petróleo de la economía digital". Tu posición (547€, 2,9%) es pequeña — ampliar progresivamente en correcciones tras resolución de incertidumbre arancelaria.'},
+// ── TESIS ──────────────────────────────────────────────────────────────
+const TH={
+  meta:{name:'Meta Platforms',meta:'META · Nasdaq · Redes sociales / IA publicitaria',badges:[['b-buy','Mantener / Acumular en caídas'],['b-strong','3.560M usuarios diarios'],['b-warn','CapEx $125–145B 2026']],metrics:[{l:'Precio actual',v:'~$580',s:'junio 2026'},{l:'Tu BEP',v:'$499',s:'7 acciones'},{l:'Obj. analistas',v:'$720–840',s:'consenso'},{l:'Upside',v:'+24–45%',s:'12–18 meses'}],moat:'3.560M usuarios diarios. Datos propios para IA publicitaria inigualables. 8M anunciantes usando GenAI. Coste de migración altísimo.',motor:'Revenues Q2 2026 guidance: $58–61B (+26% YoY). Threads 150M usuarios diarios. AI-translated videos 500M vistas/semana.',cats:['Monetización Meta AI en 2H 2026','Threads como nueva plataforma publicitaria','Ray-Ban Meta Glasses: canal hardware potencial','CapEx $125–145B: ROI esperado en 2027'],risks:'CapEx masivo penalizado por mercado. Riesgo antimonopolio EE.UU. y Europa. Caída 10% en mayo 2026.',verdict:'Convicción LP justificada. Zona de compra: $520–540 (~478–497€). No ampliar agresivamente a precios actuales.'},
+  asml:{name:'ASML Holding',meta:'ASML · Euronext · Litografía EUV',badges:[['b-strong','Monopolio estructural'],['b-buy','Mantener — no vender'],['b-warn','Riesgo geopolítico']],metrics:[{l:'Precio actual',v:'~€1.700',s:'junio 2026'},{l:'Tu BEP',v:'€720',s:'4 acciones'},{l:'Obj. BofA',v:'€1.921',s:'junio 2026'},{l:'G/P actual',v:'+136%',s:'mejor posición'}],moat:'Única empresa del mundo que fabrica máquinas EUV. Sin ASML no hay chips de 3nm. TSMC, Samsung, Intel dependen absolutamente.',motor:'Q1 2026: €8.8B ventas, €2.8B beneficio neto. High-NA EUV a €350M/unidad. Backlog récord.',cats:['High-NA EUV: pedidos confirmados para nodos sub-2nm','Marco UE-EE.UU. eliminó amenaza arancelaria','BofA €1.921, Wells Fargo $2.200','CapEx IA de hyperscalers garantiza demanda multi-año'],risks:'Ciclo capex cíclico. Valoración con prima de monopolio ya incluida.',verdict:'No vendas. Moat estructural y High-NA EUV son multi-año. No añadir más — pesa ~18% de cartera.'},
+  alphabet:{name:'Alphabet (Google)',meta:'GOOGL · Nasdaq · Búsqueda / Cloud / IA',badges:[['b-strong','Punto de entrada interesante'],['b-buy','Recompra justificada'],['b-strong','GCP backlog $460B']],metrics:[{l:'Precio actual',v:'~$342',s:'junio 2026'},{l:'Tu BEP',v:'$168',s:'11 acciones'},{l:'Obj. consenso',v:'$427–432',s:'63 analistas'},{l:'Upside',v:'+25%',s:'12 meses'}],moat:'~40% mercado publicitario digital. Google Cloud superó $20B en Q1 2026. Backlog $460B.',motor:'Q1 +10% en un día. EPS forecast 2026: $14.22 (+30% YoY). Berkshire $10B en ronda IA.',cats:['Gemini Ultra: IA mejora Search y revenue por query','TPUs propios reducen dependencia Nvidia','Waymo: opción gratuita en precio actual','Deal SpaceX $30B cloud'],risks:'Juicio antimonopolio EE.UU. CapEx $180–190B. Competencia OpenAI y Perplexity.',verdict:'Recomprar las 3 acciones vendidas o añadir 1–2 más tiene sentido. Soporte en $310–320 (~285–294€).'},
+  amazon:{name:'Amazon',meta:'AMZN · Nasdaq · Cloud / eCommerce / IA',badges:[['b-strong','AWS motor del 70%+ del beneficio'],['b-buy','Posición infraponderada'],['b-warn','CapEx $200B 2026']],metrics:[{l:'Precio actual',v:'~$210',s:'junio 2026'},{l:'Tu BEP',v:'$194',s:'8 acciones'},{l:'AWS cuota',v:'~30%',s:'cloud global'},{l:'Publicidad YoY',v:'+19%',s:'Q1 2026'}],moat:'AWS: 70%+ beneficio operativo, márgenes 35–38%. Tercera plataforma publicitaria digital.',motor:'Amazon Bedrock: IA para empresas. $200B CapEx. Project Kuiper como vertical LP.',cats:['AWS contratos multianuales con startups IA','Advertising +19% YoY','Same-day delivery vs. Temu/Shein','IA nativa en toda la cadena'],risks:'$200B CapEx requiere demostrar retornos. Presión márgenes eCommerce. Riesgo antimonopolio.',verdict:'Posición más infraponderada respecto a su potencial. Ampliar en correcciones hacia $185–195 (~170–179€).'},
+  msci:{name:'MSCI ACWI — ETF Global',meta:'SSAC / IWDA · iShares · 2.900+ empresas',badges:[['b-strong','Core de cartera'],['b-buy','DCA semanal sin hedge'],['b-hold','Diversificación real']],metrics:[{l:'Exposición EE.UU.',v:'~65%',s:'S&P 500'},{l:'TER',v:'0,20%',s:'sin hedge'},{l:'G/P',v:'+30%',s:'desde entrada'},{l:'Rentab. histórica',v:'8–10%',s:'anual LP'}],moat:'2.900 empresas en 23 países. A 10+ años bate al 85–90% de gestores activos.',motor:'DCA semanal de 20€. Interés compuesto y consistencia son el motor.',cats:['Consolidar MSCI ACWI EUR Hedged aquí','Aumentar DCA a 30–40€/semana','Mantener como ancla de cartera'],risks:'Alta concentración EE.UU. (65%). Solapamiento con Big Tech.',verdict:'Sólido. Mantener y alimentar con DCA. Eliminar el hedgeado y consolidar aquí.'},
+  gold:{name:'Oro Físico — iShares Physical Gold',meta:'IGLN · Materia prima / Reserva de valor',badges:[['b-strong','Refugio estructural'],['b-buy','Mantener'],['b-warn','Corrección 26% desde máximos']],metrics:[{l:'Precio actual',v:'~$4.114/oz',s:'junio 2026'},{l:'Máximo histórico',v:'$5.595/oz',s:'enero 2026'},{l:'Obj. J.P.Morgan',v:'$6.000/oz',s:'Q4 2026'},{l:'Obj. 2027',v:'$6.300/oz',s:'J.P.Morgan'}],moat:'Bancos centrales emergentes diversifican fuera del dólar. Función de reserva de valor permanente.',motor:'J.P.Morgan Q4 2026: $6.000/oz. BNP Paribas: $6.250. Compras bancos centrales.',cats:['Bajada tipos Fed 2H 2026: catalizador alcista','Escalada conflicto Irán/Israel','Debilitamiento estructural del dólar'],risks:'Caída 26% desde máximos. Si Fed sube tipos, más presión.',verdict:'Mantener (6,4% de cartera adecuado). Zona de compra: $3.800–4.000. No ampliar agresivamente.'},
+  copper:{name:'Cobre — WisdomTree Copper Hedged EUR',meta:'COPA · Materia prima industrial / Electrificación',badges:[['b-strong','Metal de la transición energética'],['b-buy','Posición pequeña — ampliar'],['b-warn','Volatilidad aranceles']],metrics:[{l:'Precio LME',v:'~$9.500/t',s:'junio 2026'},{l:'Obj. Goldman',v:'$11.200/t',s:'Q4 2026'},{l:'Obj. TD Sec.',v:'$13.000/t',s:'2026'},{l:'Déficit',v:'~3M t',s:'hasta 2036'}],moat:'Data centers IA consumen 10x más cobre. EVs, redes renovables. No hay sustituto.',motor:'S&P Global: déficit ~3M t hasta 2036. Rearme europeo = infraestructuras.',cats:['Rearme europeo: cables y redes','Cada MW solar/eólica requiere 4–5 t','Resolución arancel 232 EE.UU.'],risks:'Posible superávit 300kt 2026 si China sigue débil. Aranceles 2027.',verdict:'Tesis estructural a 5–10 años muy sólida. Posición pequeña (547€) — ampliar en correcciones.'},
+  calme:{name:'Cal-Maine Foods',meta:'CALM · Nasdaq · Producción de huevo EE.UU.',badges:[['b-hold','Mantener — no ampliar'],['b-warn','Riesgo DOJ antimonopolio'],['b-buy','Dividendo 6,2%']],metrics:[{l:'Precio actual',v:'~$82',s:'junio 2026'},{l:'Tu BEP',v:'$66',s:'4 acciones'},{l:'Obj. consenso',v:'$88–92',s:'4 analistas'},{l:'Dividendo',v:'6,2%',s:'cubierto por FCF'}],moat:'Mayor productor de huevo de EE.UU. Diversificación creciente hacia huevos especiales (50%+ de ventas) y alimentos preparados (9,5%). Escala que ningún competidor puede replicar.',motor:'Q3 FY2026: EPS $1.06 vs $0.78 estimado (+36% beat). Dividendo 6,2% cubierto por beneficios (ratio 34%) y FCF. Adquisición de Van\'s Foods (Sara Lee) para expandir línea de alimentos preparados.',cats:['Huevos especiales al 50%+ de ventas — mayor margen y menor volatilidad','Alimentos preparados al 9,5% — diversificación real del modelo de negocio','Dividendo variable generoso: si los precios del huevo suben, el dividendo explota al alza','Posición defensiva real: baja correlación con tech, contrapeso a tu cartera'],risks:'DOJ preparando demanda antimonopolio por coordinación de precios — riesgo nuevo y serio. Normalización precios huevo: ingresos Q3 FY2026 cayeron 53% vs año anterior. EPS FY2026 estimado: $7.57 vs $25.04 de FY2025.',verdict:'Mantener con convicción moderada. El dividendo del 6,2% bien cubierto es el colchón real. No ampliar hasta que se resuelva la situación del DOJ. Si presentan la demanda y la acción corrige un 20–25%, sería zona de ampliación. Peso actual (<2%) es adecuado como posición defensiva.'},
 };
 
-function showThesis(key,btn){
-  document.querySelectorAll('.thesis-tab').forEach(t=>t.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const t=TESIS[key]; if(!t) return;
+function showT(key,btn){
+  document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const t=TH[key];if(!t)return;
   document.getElementById('thesis-content').innerHTML=`
-    <div class="t-name">${t.name}</div>
-    <div class="t-meta">${t.meta}</div>
-    <div class="t-badges">${t.badges.map(b=>`<span class="badge ${b[0]}">${b[1]}</span>`).join('')}</div>
-    <div class="t-metrics">${t.metrics.map(m=>`<div class="metric"><div class="metric-label">${m.l}</div><div class="metric-value" style="font-size:16px">${m.v}</div><div class="metric-sub">${m.s}</div></div>`).join('')}</div>
-    <div class="section-label">Tesis central</div>
-    <div class="t-2col">
-      <div class="t-box"><h4>Foso competitivo</h4><p>${t.moat}</p></div>
-      <div class="t-box"><h4>Motor de crecimiento</h4><p>${t.motor}</p></div>
-    </div>
-    <div class="section-label">Catalizadores clave</div>
-    <ul class="cat-list">${t.cats.map(c=>`<li><span class="cat-dot"></span>${c}</li>`).join('')}</ul>
-    <div class="risk-box"><h4>Riesgos principales</h4><p>${t.risks}</p></div>
-    <div class="verdict"><strong>Veredicto:</strong> ${t.verdict}</div>`;
+    <div style="font-size:18px;font-weight:500">${t.name}</div>
+    <div style="font-size:12px;color:var(--text2);margin-top:2px;margin-bottom:.75rem">${t.meta}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem">${t.badges.map(b=>`<span class="badge ${b[0]}">${b[1]}</span>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1rem">${t.metrics.map(m=>`<div class="m"><div class="ml">${m.l}</div><div style="font-size:16px;font-weight:500">${m.v}</div><div class="ms">${m.s}</div></div>`).join('')}</div>
+    <div class="sl">Tesis central</div>
+    <div class="t2"><div class="tb"><h4>Foso competitivo</h4><p>${t.moat}</p></div><div class="tb"><h4>Motor de crecimiento</h4><p>${t.motor}</p></div></div>
+    <div class="sl">Catalizadores clave</div>
+    <ul class="cl">${t.cats.map(c=>`<li><span class="cd"></span>${c}</li>`).join('')}</ul>
+    <div class="rb"><h4>Riesgos principales</h4><p>${t.risks}</p></div>
+    <div class="vd"><strong>Veredicto:</strong> ${t.verdict}</div>`;
 }
 
-// ─── INIT ─────────────────────────────────────────────────
-showThesis('meta', document.querySelector('.thesis-tab'));
-renderSettingsTable();
+// ── NAVIGATION ─────────────────────────────────────────────────────────
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(id==='ideas')renderIdeas();
+  if(id==='custom-alerts'){renderCustomAlerts();}
+}
+
+
+// ── EMAILJS CONFIG ─────────────────────────────────────────────────────
+let ejsConfig = JSON.parse(localStorage.getItem('ejsConfig')||JSON.stringify({
+  service: 'service_acp5ofk',
+  template: 'template_g81ra39',
+  pubkey: 'ZlnmkMaIyjypUaDmY',
+  email: 'alejandro.abellan@iesgs.es'
+}));
+let customAlerts = JSON.parse(localStorage.getItem('customAlerts')||'[]');
+let alertHistory = JSON.parse(localStorage.getItem('alertHistory')||'[]');
+let alertCheckInterval = null;
+
+function saveEmailConfig(){
+  ejsConfig = {
+    service: document.getElementById('cfg-service')?.value||'',
+    template: document.getElementById('cfg-template')?.value||'',
+    pubkey: document.getElementById('cfg-pubkey')?.value||'',
+    email: document.getElementById('cfg-email')?.value||''
+  };
+  localStorage.setItem('ejsConfig', JSON.stringify(ejsConfig));
+  if(ejsConfig.pubkey) emailjs.init(ejsConfig.pubkey);
+}
+
+function loadEmailConfig(){
+  // Pre-fill defaults if empty
+  if(!ejsConfig.service) ejsConfig.service='service_acp5ofk';
+  if(!ejsConfig.template) ejsConfig.template='template_g81ra39';
+  if(!ejsConfig.pubkey) ejsConfig.pubkey='ZlnmkMaIyjypUaDmY';
+  if(!ejsConfig.service) return;
+  const s=document.getElementById('cfg-service');
+  const t=document.getElementById('cfg-template');
+  const p=document.getElementById('cfg-pubkey');
+  const e=document.getElementById('cfg-email');
+  if(s) s.value=ejsConfig.service||'';
+  if(t) t.value=ejsConfig.template||'';
+  if(p) p.value=ejsConfig.pubkey||'';
+  if(e) e.value=ejsConfig.email||'';
+  if(ejsConfig.pubkey) emailjs.init(ejsConfig.pubkey);
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────
+function showToast(msg, type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(type==='error'?' error':'');
+  setTimeout(()=>el.className='toast',3500);
+}
+
+// ── ALERT SOUND ────────────────────────────────────────────────────────
+function playAlertSound(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [880,1100,880].forEach((freq,i)=>{
+      const osc=ctx.createOscillator();
+      const gain=ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value=freq; osc.type='sine';
+      gain.gain.setValueAtTime(0.3,ctx.currentTime+i*0.15);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.15+0.12);
+      osc.start(ctx.currentTime+i*0.15);
+      osc.stop(ctx.currentTime+i*0.15+0.12);
+    });
+  }catch(e){}
+}
+
+// ── PREFILL BROADCOM ───────────────────────────────────────────────────
+async function prefillBroadcom(){
+  document.getElementById('new-sym').value='AVGO';
+  document.getElementById('new-name').value='Broadcom';
+  document.getElementById('new-cond').value='below';
+  document.getElementById('new-note-al').value='Dan Fuentes — entrada en corrección del 1%';
+  document.getElementById('cal-status').textContent='Cargando precio actual de Broadcom...';
+  const info = await fetchPrice('AVGO');
+  if(info?.price){
+    const alertPrice = (info.price * 0.92 * 0.99).toFixed(2); // USD to EUR, -1%
+    document.getElementById('new-price').value=alertPrice;
+    document.getElementById('cal-status').textContent=
+      `Precio actual AVGO: ${fmt(info.price*0.92)} → Alerta en ${fmt(parseFloat(alertPrice))} (−1%)`;
+  } else {
+    document.getElementById('cal-status').textContent='No se pudo cargar el precio. Introdúcelo manualmente.';
+  }
+}
+
+// ── ADD ALERT ──────────────────────────────────────────────────────────
+async function addCustomAlert(){
+  const sym = document.getElementById('new-sym').value.trim().toUpperCase();
+  const name = document.getElementById('new-name').value.trim() || sym;
+  const price = parseFloat(document.getElementById('new-price').value);
+  const cond = document.getElementById('new-cond').value;
+  const note = document.getElementById('new-note-al').value.trim();
+  if(!sym){ showToast('Introduce el ticker del activo','error'); return; }
+  if(!price||isNaN(price)){ showToast('Introduce un precio de alerta válido','error'); return; }
+  const alert = {
+    id: Date.now(),
+    sym, name, price, cond, note,
+    created: new Date().toLocaleDateString('es-ES'),
+    fired: false,
+    currentPrice: null
+  };
+  customAlerts.push(alert);
+  localStorage.setItem('customAlerts', JSON.stringify(customAlerts));
+  document.getElementById('new-sym').value='';
+  document.getElementById('new-name').value='';
+  document.getElementById('new-price').value='';
+  document.getElementById('new-note-al').value='';
+  document.getElementById('cal-status').textContent='';
+  showToast(`Alerta creada para ${name} a ${fmt(price)}`);
+  renderCustomAlerts();
+  checkCustomAlerts();
+}
+
+// ── DELETE ALERT ───────────────────────────────────────────────────────
+function deleteAlert(id){
+  customAlerts = customAlerts.filter(a=>a.id!==id);
+  localStorage.setItem('customAlerts', JSON.stringify(customAlerts));
+  renderCustomAlerts();
+  showToast('Alerta eliminada');
+}
+
+function clearHistory(){
+  alertHistory=[];
+  localStorage.setItem('alertHistory', JSON.stringify(alertHistory));
+  renderCustomAlerts();
+}
+
+// ── RENDER CUSTOM ALERTS ───────────────────────────────────────────────
+function renderCustomAlerts(){
+  loadEmailConfig();
+  const list=document.getElementById('cal-list');
+  const hist=document.getElementById('cal-history');
+  const count=document.getElementById('cal-count');
+  if(!list||!hist) return;
+  count.textContent=customAlerts.filter(a=>!a.fired).length;
+  const active=customAlerts.filter(a=>!a.fired);
+  if(active.length===0){
+    list.innerHTML='<div style="color:var(--text2);font-size:13px;padding:1rem">Sin alertas activas.</div>';
+  } else {
+    list.innerHTML=active.map(a=>{
+      const isFired=a.currentPrice&&(a.cond==='below'?a.currentPrice<=a.price:a.currentPrice>=a.price);
+      const condLabel=a.cond==='below'?'Compra si baja de':'Vende/alerta si sube de';
+      const arrow=a.cond==='below'?'↓':'↑';
+      return`<div class="cal-item ${isFired?(a.cond==='below'?'fired':'fired-stop'):''}">
+        <div class="cal-item-info">
+          <div class="cal-item-name">${a.name} <code style="font-size:11px;color:var(--text2)">${a.sym}</code></div>
+          <div class="cal-item-detail">${condLabel} <strong>${fmt(a.price)}</strong>${a.note?' · '+a.note:''}</div>
+          <div class="cal-item-detail" style="margin-top:2px;font-size:11px;color:var(--text3)">Creada: ${a.created}</div>
+        </div>
+        ${a.currentPrice?`<div class="cal-item-price ${a.cond==='below'&&a.currentPrice<=a.price?'pos':a.cond==='above'&&a.currentPrice>=a.price?'pos':''}">${fmt(a.currentPrice)}</div>`:'<div style="color:var(--text3);font-size:12px"><span class="spin"></span></div>'}
+        <div>
+          <div class="cal-item-status badge ${isFired?(a.cond==='below'?'b-buy':'b-stop'):'b-hold'}">${isFired?'🔔 ALERTA':'En espera '+arrow}</div>
+        </div>
+        <button class="btn-del" onclick="deleteAlert(${a.id})">Eliminar</button>
+      </div>`;
+    }).join('');
+  }
+  // History
+  if(alertHistory.length===0){
+    hist.innerHTML='<div style="color:var(--text2);font-size:13px;padding:1rem">Sin alertas disparadas aún.</div>';
+  } else {
+    hist.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><span style="font-size:13px;color:var(--text2)">${alertHistory.length} alerta(s) disparada(s)</span><button class="btn" onclick="clearHistory()" style="font-size:11px">Limpiar historial</button></div>`+
+    alertHistory.slice().reverse().map(h=>`<div class="cal-item ${h.cond==='below'?'fired':'fired-stop'}">
+      <div class="cal-item-info">
+        <div class="cal-item-name">${h.name} <code style="font-size:11px">${h.sym}</code></div>
+        <div class="cal-item-detail">Disparada a <strong>${fmt(h.firedAt)}</strong> · alerta era ${fmt(h.price)}</div>
+        <div class="cal-item-detail" style="font-size:11px;color:var(--text3)">${h.firedTime}</div>
+      </div>
+      <div class="badge ${h.cond==='below'?'b-buy':'b-stop'}">${h.cond==='below'?'Compra disparada':'Venta disparada'}</div>
+    </div>`).join('');
+  }
+}
+
+// ── CHECK CUSTOM ALERTS ────────────────────────────────────────────────
+async function checkCustomAlerts(){
+  if(customAlerts.filter(a=>!a.fired).length===0) return;
+  const syms=[...new Set(customAlerts.filter(a=>!a.fired).map(a=>a.sym))];
+  const prices={};
+  await Promise.all(syms.map(async sym=>{
+    const info=await fetchPrice(sym);
+    if(info?.price) prices[sym]=info.price*0.92; // convert to EUR approx
+  }));
+  let anyFired=false;
+  customAlerts.forEach(a=>{
+    if(a.fired) return;
+    const p=prices[a.sym];
+    if(!p) return;
+    a.currentPrice=p;
+    const triggered=a.cond==='below'?p<=a.price:p>=a.price;
+    if(triggered){
+      anyFired=true;
+      a.fired=true;
+      const histEntry={...a, firedAt:p, firedTime:new Date().toLocaleString('es-ES')};
+      alertHistory.push(histEntry);
+      localStorage.setItem('alertHistory', JSON.stringify(alertHistory));
+      playAlertSound();
+      showToast(`🔔 ¡Alerta disparada! ${a.name} a ${fmt(p)}`);
+      sendAlertEmail(a, p);
+    }
+  });
+  localStorage.setItem('customAlerts', JSON.stringify(customAlerts));
+  if(anyFired||document.getElementById('page-custom-alerts')?.classList.contains('active')){
+    renderCustomAlerts();
+  }
+}
+
+// ── SEND EMAIL ────────────────────────────────────────────────────────
+async function sendAlertEmail(alert, currentPrice){
+  if(!ejsConfig.service||!ejsConfig.template||!ejsConfig.pubkey||!ejsConfig.email){
+    console.log('EmailJS no configurado — alerta solo visual');
+    return;
+  }
+  try{
+    emailjs.init(ejsConfig.pubkey);
+    await emailjs.send(ejsConfig.service, ejsConfig.template, {
+      to_email: ejsConfig.email||'alejandro.abellan@iesgs.es',
+      ticker: alert.sym,
+      nombre: alert.name,
+      precio_actual: fmt(currentPrice),
+      precio_alerta: fmt(alert.price),
+      condicion: alert.cond==='below'?'Precio bajó del nivel de compra':'Precio superó el nivel de alerta',
+      nota: alert.note||'—',
+      hora: new Date().toLocaleString('es-ES')
+    });
+    showToast(`📧 Email enviado para ${alert.name}`);
+  }catch(e){
+    console.error('EmailJS error:', e);
+    showToast('Error al enviar email. Revisa la config de EmailJS','error');
+  }
+}
+
+// ── AUTO CHECK EVERY 5 MIN ────────────────────────────────────────────
+function startAlertChecker(){
+  if(alertCheckInterval) clearInterval(alertCheckInterval);
+  alertCheckInterval=setInterval(checkCustomAlerts, 5*60*1000);
+  checkCustomAlerts();
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────
+// Init EmailJS
+try{ emailjs.init('ZlnmkMaIyjypUaDmY'); }catch(e){}
+showT('meta',document.querySelector('.ttab'));
+renderSTable();
+renderIdeas();
 loadAll();
-setInterval(loadAll, 5*60*1000);
+startAlertChecker();
+setInterval(loadAll,5*60*1000);
 </script>
+<div class="toast" id="toast"></div>
 </body>
 </html>
