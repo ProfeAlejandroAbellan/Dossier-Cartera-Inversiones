@@ -222,7 +222,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       <button class="pin-key" onclick="pinDel()" style="font-size:14px;color:var(--text2)">⌫</button>
       <button class="pin-key zero" onclick="pinKey('0')">0</button>
     </div>
-    <button class="btn" onclick="skipPin()" style="width:100%;font-size:12px;margin-top:.25rem">Acceso público (Tesis, Ideas, Alertas)</button>
+    <button onclick="skipPin()" style="width:100%;font-size:14px;font-weight:700;padding:14px 20px;margin-top:.75rem;background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));border:1px solid rgba(59,130,246,0.4);border-radius:var(--r);color:#93C5FD;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:all .2s" onmouseover="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15))'">🌐 Acceso público — Ver Tesis, Ideas y Alertas</button>
     <div class="pin-hint">PIN por defecto: 1234 · Cámbialo en Ajustes</div>
   </div>
 </div>
@@ -513,7 +513,7 @@ const DS=[
   {name:'Amazon',sym:'AMZN',shares:8,bepEur:179.03,buyAlert:156.4,stopPct:25,broker:'TR'},
   {name:'Microsoft',sym:'MSFT',shares:4,bepEur:375.27,buyAlert:331.2,stopPct:20,broker:'TR'},
   {name:'ACS',sym:'ACS.MC',shares:4,bepEur:81.91,buyAlert:38,stopPct:15,broker:'TR'},
-  {name:'Zegona',sym:'ZEG.L',shares:19,bepEur:0.825,buyAlert:0.152,stopPct:20,broker:'TR+DG'},
+  {name:'Zegona',sym:'ZEG.L',shares:19,bepEur:8.25,buyAlert:1.52,stopPct:20,cur:'GBX',broker:'TR+DG'},
   {name:'Cal-Maine',sym:'CALM',shares:4,bepEur:60.86,buyAlert:53.36,stopPct:20,broker:'TR'},
   {name:'Sandoz',sym:'SDZ.SW',shares:4,bepEur:36.71,buyAlert:31.2,stopPct:20,broker:'TR+DG'},
   {name:'Central G&P',sym:'CENTA',shares:2,bepEur:30.41,buyAlert:null,stopPct:null,broker:'DG'},
@@ -629,7 +629,8 @@ async function fetchPrice(sym){
 // ── CONVERSION ────────────────────────────────────────────────────────
 function priceToEur(rawP,item){
   if(item.gbx)return(rawP/100)*1.17;
-  const rates={USD:0.92,EUR:1,GBX:0.00117,CHF:1.04,PLN:0.233};
+  if(item.cur==='GBX')return(rawP/100)*1.17;
+  const rates={USD:0.92,EUR:1,CHF:1.04,PLN:0.233};
   return rawP*(rates[item.cur||'EUR']||1);
 }
 
