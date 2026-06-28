@@ -105,6 +105,11 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 /* TESIS */
 .tt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
 .ttab{padding:6px 14px;font-size:12px;font-weight:500;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--bg3);color:var(--text2);transition:all .15s;font-family:'Inter',sans-serif}
+.sfil{padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.sfil:hover{border-color:var(--accent);color:var(--accent)}
+.sfil.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.ttab.buy-zone{border-color:rgba(34,197,94,0.6)!important;color:#4ade80!important;box-shadow:0 0 8px rgba(34,197,94,0.25)}
+.ttab.buy-zone::after{content:' 🟢';font-size:9px}
 .ttab:hover{border-color:rgba(212,175,55,0.4);color:var(--text)}
 .ttab.active{background:var(--gold-bg);color:var(--gold);border-color:rgba(212,175,55,0.5);font-weight:700}
 .ttab.in-cartera{border-color:rgba(212,175,55,0.4);color:var(--gold)}
@@ -251,22 +256,52 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <div class="cartera-banner-title">⭐ Posiciones actuales en cartera</div>
     <div class="cartera-chips" id="cartera-chips"></div>
   </div>
-  <div class="tt" id="thesis-tabs">
-    <button class="ttab in-cartera active" onclick="showT('meta',this)">Meta</button>
-    <button class="ttab in-cartera" onclick="showT('asml',this)">ASML</button>
-    <button class="ttab in-cartera" onclick="showT('alphabet',this)">Alphabet</button>
-    <button class="ttab in-cartera" onclick="showT('amazon',this)">Amazon</button>
-    <button class="ttab in-cartera" onclick="showT('msci',this)">MSCI ACWI</button>
-    <button class="ttab in-cartera" onclick="showT('gold',this)">Oro</button>
-    <button class="ttab in-cartera" onclick="showT('copper',this)">Cobre</button>
-    <button class="ttab in-cartera" onclick="showT('calme',this)">Cal-Maine</button>
-    <button class="ttab" onclick="showT('oracle',this)">💡 Oracle</button>
-    <button class="ttab" onclick="showT('broadcom',this)">💡 Broadcom</button>
-    <button class="ttab" onclick="showT('marvell',this)">💡 Marvell</button>
-    <button class="ttab" onclick="showT('asmi',this)">💡 ASMI</button>
-    <button class="ttab" onclick="showT('visa',this)">💡 Visa</button>
-    <button class="ttab" onclick="showT('besi',this)">💡 Besi</button>
-    <button class="ttab" onclick="showT('constellation',this)">💡 Constellation</button>
+  <div id="thesis-tabs">
+    <!-- Sector filter bar -->
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
+      <button class="sfil active" onclick="filterSector('all',this)">Todos</button>
+      <button class="sfil" onclick="filterSector('ia',this)">🤖 IA & Semis</button>
+      <button class="sfil" onclick="filterSector('salud',this)">🏥 Salud</button>
+      <button class="sfil" onclick="filterSector('defensa',this)">🛡️ Defensa</button>
+      <button class="sfil" onclick="filterSector('energia',this)">⚡ Energía</button>
+      <button class="sfil" onclick="filterSector('seguros',this)">🏦 Seguros</button>
+      <button class="sfil" onclick="filterSector('commodities',this)">🪙 Commodities</button>
+      <button class="sfil" onclick="filterSector('cartera',this)">⭐ Mi cartera</button>
+    </div>
+    <!-- All tabs grouped by sector (data-sector attribute for filtering) -->
+    <div class="tt" id="thesis-tab-list">
+      <!-- IA & SEMIS -->
+      <button class="ttab in-cartera active" data-sector="ia" onclick="showT('meta',this)">Meta</button>
+      <button class="ttab in-cartera" data-sector="ia" onclick="showT('asml',this)">ASML</button>
+      <button class="ttab in-cartera" data-sector="ia" onclick="showT('alphabet',this)">Alphabet</button>
+      <button class="ttab in-cartera" data-sector="ia" onclick="showT('amazon',this)">Amazon</button>
+      <button class="ttab" data-sector="ia" onclick="showT('oracle',this)">💡 Oracle</button>
+      <button class="ttab" data-sector="ia" onclick="showT('broadcom',this)">💡 Broadcom</button>
+      <button class="ttab" data-sector="ia" onclick="showT('marvell',this)">💡 Marvell</button>
+      <button class="ttab" data-sector="ia" onclick="showT('asmi',this)">💡 ASMI</button>
+      <button class="ttab" data-sector="ia" onclick="showT('besi',this)">💡 Besi</button>
+      <button class="ttab" data-sector="ia" onclick="showT('constellation',this)">💡 Constellation</button>
+      <button class="ttab" data-sector="ia" onclick="showT('oust',this)">💡 Ouster</button>
+      <button class="ttab" data-sector="ia" onclick="showT('amba',this)">💡 Ambarella</button>
+      <button class="ttab" data-sector="ia" style="border-color:rgba(239,68,68,0.4);color:var(--red-text)" onclick="showT('stm',this)">⚠️ STM</button>
+      <!-- SALUD -->
+      <button class="ttab" data-sector="salud" onclick="showT('lly',this)">💡 Eli Lilly</button>
+      <button class="ttab" data-sector="salud" onclick="showT('isrg',this)">💡 Intuitive Srg</button>
+      <!-- DEFENSA -->
+      <button class="ttab" data-sector="defensa" onclick="showT('ktos',this)">💡 Kratos</button>
+      <button class="ttab" data-sector="defensa" onclick="showT('avav',this)">💡 AeroVironment</button>
+      <!-- ENERGÍA -->
+      <button class="ttab in-cartera" data-sector="energia" onclick="showT('msci',this)">MSCI ACWI</button>
+      <button class="ttab" data-sector="energia" onclick="showT('ibe',this)">💡 Iberdrola</button>
+      <!-- SEGUROS -->
+      <button class="ttab" data-sector="seguros" onclick="showT('pgr',this)">💡 Progressive</button>
+      <button class="ttab" data-sector="seguros" onclick="showT('iak',this)">💡 IAK ETF</button>
+      <button class="ttab" data-sector="seguros" onclick="showT('visa',this)">💡 Visa</button>
+      <!-- COMMODITIES -->
+      <button class="ttab in-cartera" data-sector="commodities" onclick="showT('gold',this)">Oro</button>
+      <button class="ttab in-cartera" data-sector="commodities" onclick="showT('copper',this)">Cobre</button>
+      <button class="ttab in-cartera" data-sector="commodities" onclick="showT('calme',this)">Cal-Maine</button>
+    </div>
   </div>
   <div id="thesis-content" class="card"></div>
 </div>
@@ -902,68 +937,107 @@ function calcCompound(){
 }
 
 // ── SIMULATOR ─────────────────────────────────────────────────────────
-async function runSimulator(){
+async async function runSimulator(){
   const sym=document.getElementById('sim-sym').value.trim().toUpperCase();
   const amount=parseFloat(document.getElementById('sim-amount').value)||1000;
   if(!sym){showToast('Introduce un ticker','error');return;}
+  const errEl=document.getElementById('sim-error');
+  const loadEl=document.getElementById('sim-loading');
   document.getElementById('sim-results').style.display='none';
-  document.getElementById('sim-error').style.display='none';
-  document.getElementById('sim-loading').style.display='block';
-  // Get current price
-  const current=await fetchPrice(sym);
-  document.getElementById('sim-loading').style.display='none';
-  if(!current?.price){document.getElementById('sim-error').style.display='block';document.getElementById('sim-error').textContent='No se pudo obtener datos para '+sym+'. Comprueba el ticker.';return;}
-  const currentPrice=current.price;
-  // Simulate historical performance using approximate growth rates
-  // We fetch 5Y data from Yahoo
-  const periods=[
-    {label:'1 mes',months:1,approxReturn:null},
-    {label:'3 meses',months:3,approxReturn:null},
-    {label:'6 meses',months:6,approxReturn:null},
-    {label:'1 año',months:12,approxReturn:null},
-    {label:'2 años',months:24,approxReturn:null},
-    {label:'5 años',months:60,approxReturn:null},
-    {label:'10 años',months:120,approxReturn:null},
-  ];
-  // Fetch historical data
-  try{
-    let historicalData={};
-    for(const mk of PROXIES){
-      try{
-        const r=await fetch(mk(sym).replace('interval=1d&range=1d','interval=1mo&range=10y'),{signal:AbortSignal.timeout(10000)});
-        if(!r.ok)continue;
-        const d=await r.json();
-        const timestamps=d?.chart?.result?.[0]?.timestamp||[];
-        const closes=d?.chart?.result?.[0]?.indicators?.quote?.[0]?.close||[];
-        if(timestamps.length>0&&closes.length>0){historicalData={timestamps,closes};break;}
-      }catch(e){}
-    }
-    const now=Date.now()/1000;
-    periods.forEach(p=>{
-      const targetTs=now-(p.months*30*24*3600);
-      if(historicalData.timestamps){
-        let bestIdx=0;let bestDiff=Infinity;
-        historicalData.timestamps.forEach((ts,i)=>{const diff=Math.abs(ts-targetTs);if(diff<bestDiff&&historicalData.closes[i]){bestDiff=diff;bestIdx=i;}});
-        const histPrice=historicalData.closes[bestIdx];
-        if(histPrice&&histPrice>0)p.approxReturn=(currentPrice-histPrice)/histPrice;
+  errEl.style.display='none';
+  loadEl.style.display='block';
+
+  // Fetch historical monthly data from Yahoo Finance
+  let currentPrice=null, histData={timestamps:[],closes:[]}, stockName=sym;
+  for(const mk of PROXIES){
+    try{
+      // Use 10y monthly range to get historical prices
+      const url=mk(sym).replace('interval=1d&range=1d','interval=1mo&range=11y');
+      const r=await fetch(url,{signal:AbortSignal.timeout(12000)});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const meta=d?.chart?.result?.[0]?.meta;
+      const ts=d?.chart?.result?.[0]?.timestamp||[];
+      const cl=d?.chart?.result?.[0]?.indicators?.quote?.[0]?.close||[];
+      if(meta?.regularMarketPrice&&ts.length>2){
+        currentPrice=meta.regularMarketPrice;
+        stockName=meta.longName||meta.shortName||sym;
+        // Filter out null closes
+        const valid=ts.map((t,i)=>({t,c:cl[i]})).filter(x=>x.c&&x.c>0);
+        histData.timestamps=valid.map(x=>x.t);
+        histData.closes=valid.map(x=>x.c);
+        break;
       }
+    }catch(e){}
+  }
+
+  loadEl.style.display='none';
+  if(!currentPrice){
+    errEl.style.display='block';
+    errEl.textContent='No se pudo obtener datos para "'+sym+'". Verifica el ticker (ej: AAPL, NVDA, IBE.MC, ASML)';
+    return;
+  }
+  if(histData.timestamps.length<3){
+    errEl.style.display='block';
+    errEl.textContent='Datos históricos insuficientes para "'+sym+'". Prueba con otro ticker.';
+    return;
+  }
+
+  const now=Date.now()/1000;
+  const periods=[
+    {label:'Hace 1 mes',months:1},
+    {label:'Hace 3 meses',months:3},
+    {label:'Hace 6 meses',months:6},
+    {label:'Hace 1 año',months:12},
+    {label:'Hace 2 años',months:24},
+    {label:'Hace 5 años',months:60},
+    {label:'Hace 10 años',months:120},
+  ];
+
+  // For each period find the closest historical price
+  periods.forEach(p=>{
+    const targetTs=now-(p.months*30.44*24*3600);
+    let bestIdx=-1,bestDiff=Infinity;
+    histData.timestamps.forEach((ts,i)=>{
+      const diff=Math.abs(ts-targetTs);
+      if(diff<bestDiff){bestDiff=diff;bestIdx=i;}
     });
-  }catch(e){}
-  const metricsEl=document.getElementById('sim-metrics');
-  const validPeriods=periods.filter(p=>p.approxReturn!==null&&p.approxReturn>-1);
-  if(validPeriods.length===0){document.getElementById('sim-error').style.display='block';document.getElementById('sim-error').textContent='No hay datos históricos disponibles para '+sym;return;}
-  const best=validPeriods.reduce((a,b)=>a.approxReturn>b.approxReturn?a:b);
-  metricsEl.innerHTML=`<div class="m"><div class="ml">Activo</div><div class="mv" style="font-size:16px">${sym}</div><div class="ms">Yahoo Finance</div></div><div class="m"><div class="ml">Precio actual</div><div class="mv">$${currentPrice.toFixed(2)}</div><div class="ms">USD</div></div><div class="m"><div class="ml">Mejor periodo</div><div class="mv pos">${best.label}</div><div class="ms">+${(best.approxReturn*100).toFixed(1)}%</div></div><div class="m"><div class="ml">Inversión simulada</div><div class="mv">${amount.toLocaleString('es-ES')}€</div><div class="ms">capital inicial</div></div>`;
-  document.getElementById('sim-table').innerHTML=validPeriods.map(p=>{
-    const entryPrice=currentPrice/(1+p.approxReturn);
-    const finalValue=amount*(1+p.approxReturn);
-    const gain=finalValue-amount;
-    return`<tr>
-      <td style="font-weight:600;color:var(--text)">Hace ${p.label}</td>
-      <td style="text-align:right;color:var(--text2)">$${entryPrice.toFixed(2)}</td>
-      <td style="text-align:right;color:var(--text2)">$${currentPrice.toFixed(2)}</td>
-      <td style="text-align:right" class="${pc(p.approxReturn)}">${(p.approxReturn>=0?'+':'')}${(p.approxReturn*100).toFixed(1).replace('.',',')}%</td>
-      <td style="text-align:right;font-weight:700" class="${pc(gain)}">${Math.round(finalValue).toLocaleString('es-ES')}€ <span style="font-size:11px">(${gain>=0?'+':''}${Math.round(gain).toLocaleString('es-ES')}€)</span></td>
+    if(bestIdx>=0&&bestDiff<120*24*3600){// within 120 days
+      p.histPrice=histData.closes[bestIdx];
+      p.return=(currentPrice-p.histPrice)/p.histPrice;
+    }
+  });
+
+  const valid=periods.filter(p=>p.histPrice&&p.histPrice>0&&Math.abs(p.return)<50);
+  if(!valid.length){
+    errEl.style.display='block';
+    errEl.textContent='No hay suficientes datos históricos para calcular rendimientos.';
+    return;
+  }
+
+  // Best period
+  const best=valid.reduce((a,b)=>b.return>a.return?b:a,valid[0]);
+
+  // Summary cards
+  document.getElementById('sim-metrics').innerHTML=`
+    <div class="m"><div class="ml">Activo</div><div style="font-size:14px;font-weight:700">${sym}</div><div class="ms">${stockName.substring(0,28)}</div></div>
+    <div class="m"><div class="ml">Precio actual</div><div style="font-size:15px;font-weight:700">$${currentPrice.toFixed(2)}</div><div class="ms">USD</div></div>
+    <div class="m"><div class="ml">Mejor periodo</div><div style="font-size:15px;font-weight:700;color:var(--green)">${best.label}</div><div class="ms">+${(best.return*100).toFixed(1)}%</div></div>
+    <div class="m"><div class="ml">Capital simulado</div><div style="font-size:15px;font-weight:700">${Math.round(amount).toLocaleString('es-ES')}€</div><div class="ms">capital inicial</div></div>`;
+
+  // Table rows
+  document.getElementById('sim-table-body').innerHTML=valid.map(p=>{
+    const finalVal=amount*(1+p.return);
+    const gain=finalVal-amount;
+    const pct=(p.return*100).toFixed(1);
+    const color=p.return>=0?'var(--green)':'var(--red)';
+    const sign=p.return>=0?'+':'';
+    return `<tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:9px 10px;font-weight:500">${p.label}</td>
+      <td style="padding:9px 10px;text-align:right;color:var(--text2)">$${p.histPrice.toFixed(2)}</td>
+      <td style="padding:9px 10px;text-align:right">$${currentPrice.toFixed(2)}</td>
+      <td style="padding:9px 10px;text-align:right;color:${color};font-weight:700">${sign}${pct}%</td>
+      <td style="padding:9px 10px;text-align:right;color:${color};font-weight:700">${Math.round(finalVal).toLocaleString('es-ES')}€ <span style="font-size:11px">(${gain>=0?'+':''}${Math.round(gain).toLocaleString('es-ES')}€)</span></td>
     </tr>`;
   }).join('');
   document.getElementById('sim-results').style.display='block';
@@ -985,6 +1059,732 @@ const TH={
   asmi:{name:'ASM International',meta:'ASMI · Euronext Amsterdam · Litografía ALD',inCartera:false,badges:[['b-strong','Líder ALD >55% cuota'],['b-hold','Cerca del objetivo consenso'],['b-warn','Beta 2.13 — muy volátil']],metrics:[{l:'Precio actual',v:'~€1.067',s:'junio 2026'},{l:'Obj. analistas',v:'€925–1.300',s:'consenso'},{l:'Upside',v:'-3% a +22%',s:'—'},{l:'Pedidos Q1 2026',v:'+47% YoY',s:'segundo mayor histórico'}],moat:'Líder en deposición de capa atómica (ALD) con >55% cuota global. Crítico para chips GAA sub-2nm.',motor:'Q1 2026: pedidos +47% YoY. Ventas récord 2025: €3.200M. Objetivo 2030: €5.700M.',cats:['Nodo 1,4nm en piloto H2 2026','Chips GAA son el futuro','Cartera pedidos en máximos históricos','Complemento natural a ASML'],risks:'Precio actual por encima del objetivo consenso. Beta 2.13. Ciclo capex cíclico.',verdict:'Empresa excelente pero cara. Vigilar corrección hacia €750–850 para margen de seguridad.'},
   visa:{name:'Visa Inc.',meta:'V · NYSE · Pagos digitales globales',inCartera:false,badges:[['b-strong','Foso casi indestructible'],['b-hold','Valoración justa'],['b-buy','Defensiva con crecimiento']],metrics:[{l:'Precio actual',v:'~$370',s:'junio 2026'},{l:'Obj. analistas',v:'$390–420',s:'consenso'},{l:'Upside',v:'+5–14%',s:'—'},{l:'Margen operativo',v:'66–67%',s:'entre los más altos del mundo'}],moat:'Red de pagos global con 4.400M tarjetas activas en 200 países. No asume riesgo de crédito. Márgenes operativos 66–67%.',motor:'Ingresos creciendo 10–12% anual. Pagos cross-border como motor. Expansión en mercados emergentes.',cats:['Migración de efectivo a digital — cada pago es upside','Ecommerce global +15% anual','Expansión India, África, Latinoamérica','Tokenización y pagos B2B'],risks:'Riesgo regulatorio sobre interchange fees. Competencia sistemas de pago instantáneo. Upside limitado.',verdict:'Altísima calidad con foso indestructible. Interesante en correcciones hacia $320–340 (~295–313€).'},
   besi:{name:'BE Semiconductor (Besi)',meta:'BESI · Euronext Amsterdam · Packaging IA',inCartera:false,badges:[['b-strong','Dominante hybrid bonding'],['b-warn','Valoración estirada'],['b-idea','Tesis IA directa']],metrics:[{l:'Precio actual',v:'~€90',s:'junio 2026'},{l:'Obj. analistas',v:'€95–130',s:'consenso'},{l:'Upside',v:'+5–44%',s:'—'},{l:'Hybrid Bonding',v:'Dominante',s:'>70% cuota estimada'}],moat:'Dominante en hybrid bonding. Crítico para GPUs de IA y memorias HBM. Sin Besi no hay packaging avanzado para Nvidia.',motor:'Demanda hybrid bonding creciendo exponencialmente por AI chips. GPUs H100/H200/B200 usan HBM.',cats:['Ciclo IA requiere más HBM','GPUs próxima gen requieren más stacking','Expansión hacia chips lógicos','TSMC rearme en packaging'],risks:'Ciclicidad del sector. Competencia ASE y Amkor. Valoración exigente.',verdict:'Fascinante tesis IA. Precio actual elevado. Vigilar correcciones hacia €65–75.'},
+  oust:{name:'Ouster Inc.',meta:'OUST · Nasdaq · LiDAR / Physical AI / Robótica / Defensa',inCartera:false,badges:[['b-warn','⚠️ Ya subió +130% — DAN LA CITÓ A $27, HOY ~$47'],['b-strong','13 trimestres consecutivos de crecimiento'],['b-buy','Moat regulatorio: ley bloquea LiDAR chino desde 30 jun 2026'],['b-idea','Vigilar corrección hacia $32–36']],metrics:[{l:'Precio actual',v:'~$47',s:'⚠️ Dan la citó a $27'},{l:'Obj. Roth Capital',v:'$75',s:'Buy — iniciación reciente'},{l:'Obj. Rosenblatt',v:'$53',s:'Buy — deal defensa'},{l:'Entrada ideal',v:'$32–36 (~29–33€)',s:'si corrige desde máximos'}],moat:'Único LiDAR americano certificado por el Departamento de Defensa bajo el Blue UAS Framework. Ley efectiva 30 jun 2026 bloquea LiDAR chino de toda contratación federal. Con Stereolabs (adq. feb 2026): plataforma unificada LiDAR + cámaras ZED + edge AI + software. 700+ sitios BlueCity. Cero deuda, $175M en caja.',motor:'Q1 2026: $48,58M (+49% YoY), 13 trimestres consecutivos de crecimiento. Partnership Nvidia DRIVE Hyperion. Deal defensa ARGUS Interception (counter-drones). Rev8: primer LiDAR nativo color del mundo.',cats:["⚠️ DAN FUENTES LA CITÓ A $27 — hoy ~$47, parte del potencial ya en precio",'Ley 30 jun 2026: LiDAR chino (Hesai) excluido de contratación federal — Ouster única alternativa','Rev8: primer LiDAR nativo color — ya en NVIDIA DRIVE Hyperion, FieldAI, Gecko Robotics','Defensa: deal ARGUS anti-drones + aprobación DoD Blue UAS Framework','Infraestructura: 40+ sites New Jersey DOT para Mundial FIFA 2026','Roth Capital Buy $75: camino a FCF breakeven finales 2027'],risks:'Ya subió +130% en un año. Empresa aún en pérdidas. Insiders vendieron $2,5M más de lo que compraron. Alta volatilidad: puede volver a $33. Competencia Aeva (AEVA) con tecnología FMCW.',verdict:'Tesis estructural muy sólida con catalizador regulatorio real (30 jun 2026). Dan la identificó correctamente a $27 — quien entró tiene ya +70%. A $47 el riesgo/recompensa es menos favorable. ESTRATEGIA: esperar corrección hacia $32–36 (~29–33€). Horizonte 2030. Posición pequeña (1–2% cartera).'},
+  amba:{name:'Ambarella Inc.',meta:'AMBA · Nasdaq · Edge AI SoCs / Robótica / Automoción / Drones',inCartera:false,badges:[['b-strong','El cerebro de robots, drones y vehículos autónomos'],['b-buy','14 analistas Buy · obj. medio $95 · cotiza ~$62'],['b-idea','Posible adquisición: +21% en un día con la noticia'],['b-warn','Aún en pérdidas — horizonte LP requerido']],metrics:[{l:'Precio actual',v:'~$62',s:'Market cap $3.100M'},{l:'Obj. consenso',v:'$95–120',s:'14 analistas Buy'},{l:'Revenue FY2026',v:'$390,7M',s:'+37% YoY'},{l:'Deal Hanwha',v:'$800M+',s:'contrato 10 años'}],moat:'Integra percepción, fusión, aceleración IA, CPU y codificación en UN SOLO chip de bajo consumo. 46M+ SoCs edge AI embarcados. 200+ arquitecturas de modelos IA en producción. 15 design wins en robótica con revenue vitalicio >$100M. Único chip que hace todo on-device sin nube — crítico para robots humanoides, drones y vehículos autónomos.',motor:'Q1 FY2027: $100,4M (+16,9% YoY) — record automotive. Deal Hanwha $800M+ a 10 años. CV3-AD (L2+ autónomo) empieza revenue en 2026. Chip 2nm proyectado 2028. 30+ clientes en pipeline robótica. Recompra acciones $50M autorizada.',cats:['Deal Hanwha $800M+ a 10 años: visibilidad de ingresos excepcional en robótica e industria','CV3-AD para vehículos autónomos L2+: inicio de revenue en calendario 2026','Drones: management los cita como mercado de MAYOR crecimiento en 2026','Posible adquisición: acciones subieron 21% con noticias — opción alcista adicional','Chip 2nm proyectado 2028: ventaja tecnológica generacional','Rosenblatt $120 Buy · Stifel $106 Buy · Susquehanna $110 Positivo'],risks:'Aún en pérdidas (-$75,9M netos TTM). Summit Insights degradó a Hold citando riesgos cadena suministro H2 2026. Alta dependencia de un solo segmento. Exposición a restricciones comerciales China. Competencia Qualcomm y Nvidia.',verdict:'La más interesante de las dos ideas del vídeo. A ~$62 cotiza muy por debajo del objetivo consenso de $95 (14 analistas Buy). Deal $800M con Hanwha ya firmado. Posible adquisición como catalizador adicional. Entrada: zona $60–70 (~55–64€) con posición inicial 1–2% cartera y horizonte 2027–2030.'},
+  stm:{name:'STMicroelectronics',meta:'STM · NYSE · Semiconductores / SpaceX / AWS / SiC / IA',inCartera:false,badges:[['b-stop','⚠️ PRECIO ACTUAL NO ES PUNTO DE ENTRADA'],['b-warn','Cotiza 38% por encima del valor DCF'],['b-strong','SpaceX 90% cuota · AWS · SiC líder'],['b-idea','Vigilar — alerta a $32']],metrics:[{l:'Precio actual',v:'~$44',s:'⚠️ NO ES ZONA DE COMPRA'},{l:'Obj. mediano analistas',v:'$32,40',s:'18 analistas'},{l:'Valor DCF',v:'~$32',s:'38% por encima actualmente'},{l:'Alerta de entrada',v:'$28–32',s:'zona con margen de seguridad'}],moat:'90% cuota de mercado en chips RF para Starlink. 10 años de co-diseño con SpaceX. Líder global en SiC con 32,6% de cuota para inversores de VE. Deal multianual con AWS para data centers IA. Presente en SpaceX, AWS, Nvidia robotics y SiC simultáneamente.',motor:'5.000M chips enviados a SpaceX en 10 años — volumen a duplicarse en 2027. Data center revenue: de $500M a $1.000M en 2026 y doble en 2027. Q2 2026: $3.450M (+25% YoY). FCF: de -$702M actuales a +$3.470M en 2030.',cats:["⚠️ PRECIO ACTUAL ~$44 ESTÁ UN 38% POR ENCIMA DEL DCF — NO ENTRAR AHORA",'Starlink: 20.000 terminales/día — STM suministra 5M chips/día y dobla en 2027','AWS deal multianual: chips para conectividad y gestión de potencia en hiperescala','SiC líder global (32,6% cuota) para vehículos eléctricos — estructura oligopolística','Adquisición MEMS de NXP cerrada feb 2026: refuerza automoción y sensores','Craig-Hallum Buy $58, Mizuho Outperform $48 — optimismo en recuperación'],risks:'VALORACIÓN ES EL RIESGO PRINCIPAL: precio ~$44 con objetivo mediano analistas $32,40 (18 analistas: 6 Buy, 9 Hold). DCF intrínseco ~$32 — prima del 38%. La acción ha subido +168% desde mínimos. FCF aún negativo (-$702M). Competencia Infineon, Onsemi y China en SiC.',verdict:'⚠️ ESPERAR. Tesis estructural extraordinaria — SpaceX + AWS + SiC + IA en una sola empresa europea. PERO el precio actual ($44) descuenta demasiado futuro. El objetivo mediano de 18 analistas es $32,40. ESTRATEGIA: alerta en la app a $28–32 (~26–29€) y esperar corrección con margen de seguridad real. La tesis es válida — la paciencia es la clave.'},
+  lly:{name:'Eli Lilly and Company',
+    meta:'LLY · NYSE · Farmacéutica Global / GLP-1 / IA Drug Discovery · Fundada 1876',
+    inCartera:false,
+    badges:[
+      ['b-strong','Líder absoluto en GLP-1 — mayor ciclo de producto en historia de la farmacia'],
+      ['b-buy','Forward PE 28,9x vs. media histórica 52x — 44% más barato que su propia historia'],
+      ['b-buy','Revenue guidance 2026: $80.000–83.000M (+~40% YoY)'],
+      ['b-idea','IA Drug Discovery + Nvidia supercomputador — aceleradora de pipeline'],
+      ['b-warn','Guerra de precios GLP-1: Novo Nordisk recortó precios hasta 50% desde enero 2027']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$1.128',s:'junio 2026'},
+      {l:'Forward PE',v:'28,9x',s:'⭐ vs. 52x media 10 años — en mínimos históricos relativos'},
+      {l:'PE mediana sector',v:'16,8x',s:'Lilly cotiza 72% prima — diferencial justificado por crecimiento'},
+      {l:'Obj. consenso',v:'$1.236',s:'20 analistas Buy · GF Value $1.382 (infravalorada)'}
+    ],
+    moat:`<strong>1. Foso manufacturero — $55.000M invertidos desde 2020:</strong> Eli Lilly ha construido el mayor programa de inversión manufacturera de la historia farmacéutica. Esta capacidad productiva propia en EE.UU. le permite 1,8x más producción de dosis de incretinas que cualquier competidor. Mientras Novo Nordisk sufrió escasez crónica de Ozempic/Wegovy, Lilly pudo escalar oferta globalmente. La manufactura se ha convertido de cuello de botella en arma estratégica.
+
+<strong>2. Ventaja clínica en la ciencia dual/triple agonista:</strong> Tirzepatide (Mounjaro/Zepbound) actúa sobre dos receptores simultáneamente (GIP + GLP-1) — Semaglutide de Novo solo actúa sobre uno. En ensayos head-to-head, tirzepatide produce una pérdida de peso media del 22,5% vs. 16% de semaglutide. Esa diferencia de 6,5 puntos porcentuales es clínicamente significativa y difícil de superar. Retatrutide, su triple agonista en Fase 3, ha mostrado pérdidas de peso del 24% en 48 semanas.
+
+<strong>3. Pipeline de 157 activos — primer mover en oral GLP-1:</strong> Orforglipron, la píldora GLP-1 sin restricciones de agua/comida (Foundayo, recién aprobada), es el primer GLP-1 oral verdaderamente conveniente. Pfizer intentó entrar en oral GLP-1 y fracasó por problemas de seguridad — lleva años de retraso. 42 programas en Fase 3 simultáneos. Ningún competidor replica esta combinación de profundidad de pipeline + ventaja clínica + capacidad manufacturera.
+
+<strong>4. IA como multiplicador de R&D:</strong> Supercomputador propio con Nvidia (el más potente del sector farmacéutico). Plataforma TuneLab abierta a biotechs pequeñas para acelerar descubrimiento. $409M en Genetic Leap (IA para fármacos dirigidos a RNA). Colaboración con OpenAI para identificar nuevos candidatos terapéuticos. El objetivo: comprimir el ciclo de R&D de 12–15 años a 3–4 años — si lo consigue, el pipeline se multiplica sin aumentar el coste proporcionalmente.`,
+    motor:`<strong>Resultados Q1 2026 — crecimiento sin precedentes en Big Pharma:</strong>
+Revenue +56% YoY. Mounjaro $4.700M (+95% YoY) y Zepbound $2.500M (+170% YoY) son los motores primarios. Non-GAAP EPS creciendo al 60%+ YoY. Guidance completo 2026: $80.000–83.000M (subido $2.000M tras Q1). Margen de performance non-GAAP guided al 47–48,5%.
+
+<strong>Los tres motores de crecimiento secular:</strong>
+
+Motor 1 — Expansión de indicaciones: Mounjaro/Zepbound no son solo para obesidad/diabetes. Aprobaciones adicionales en insuficiencia cardíaca, apnea del sueño, osteoartritis, NASH hepática y enfermedad renal crónica están expandiendo el mercado potencial de forma exponencial. Cada indicación nueva es un nuevo mercado multimillonario.
+
+Motor 2 — Oral GLP-1 (orforglipron/Foundayo): La mayor barrera al uso de GLP-1 es la inyección semanal. Una píldora diaria sin restricciones elimina esa barrera. Analistas estiman que la forma oral puede triplicar el mercado potencial total (TAM). Lilly es el primero en tenerla disponible.
+
+Motor 3 — IA Drug Discovery: Si el supercomputador con Nvidia reduce el tiempo de R&D en un 50%, Lilly puede lanzar el doble de fármacos con el mismo presupuesto. El valor de esto no está en el precio actual.`,
+    cats:[
+      'Forward PE 28,9x es 44% más barato que la media histórica de 52x — el mercado subestima el crecimiento futuro',
+      'Orforglipron (oral GLP-1): aprobación FDA esperada 2027 — puede triplicar el mercado potencial de GLP-1',
+      'Retatrutide (triple agonista): Phase 3 con -24% pérdida de peso en 48 semanas — generación siguiente ya en marcha',
+      'Supercomputador Nvidia + OpenAI: aceleración R&D que el mercado no descuenta en valoración actual',
+      'Acuerdo gobierno EE.UU. para acceso masivo a medicamentos de obesidad — expansión de mercado pagador',
+      '4 adquisiciones en Q1 2026: Kelonia Therapeutics, CNTA y otras — pipeline inorgánico acelerándose',
+      'Expansión global: lanzamiento Mounjaro en mercados emergentes abre TAM adicional no en precio'
+    ],
+    risks:`<strong>Riesgo 1 — Guerra de precios GLP-1:</strong> Novo Nordisk anunció recortes de precio del 50% en Ozempic/Wegovy desde enero 2027 ($675/mes vs. $1.028/$1.349 actuales). Presión directa sobre los precios de Lilly. El propio management guió que "los precios serán un drag del low-to-mid-teens" en 2026. El crecimiento en volumen está compensando, pero el margen puede comprimirse a medio plazo.
+
+<strong>Riesgo 2 — Concentración en tirzepatide:</strong> A pesar de 157 activos en pipeline, el 70%+ del revenue actual viene de una sola molécula. Si aparecen problemas de seguridad a largo plazo, el impacto sería severo.
+
+<strong>Riesgo 3 — Regulación de precios EE.UU.:</strong> La Ley IRA (Inflation Reduction Act) incluye negociaciones de precios para Medicare que afectarán a GLP-1 en 2026–2027. Potencial recorte adicional en precios pagados por el gobierno.
+
+<strong>Riesgo 4 — Competencia emergente:</strong> AstraZeneca, Pfizer, Amgen, Roche y Structure Therapeutics tienen programas GLP-1 activos. Ninguno está cerca en 2026, pero el paisaje competitivo de 2028–2030 es incierto.`,
+    verdict:`Eli Lilly es una de las 5–10 mejores empresas del mundo en este momento: el mayor ciclo de producto de la historia farmacéutica (GLP-1), una ventaja manufacturera de años, el mejor pipeline de la industria y ahora un multiplicador de IA que el mercado no descuenta. Lo más llamativo es la valoración: a Forward PE de 28,9x cotiza un 44% por debajo de su propia media histórica de 52x, en el momento en que sus fundamentales son mejores que en cualquier otro punto de su historia. GuruFocus la considera "modestamente infravalorada" con GF Value de $1.382.
+
+El único riesgo serio a vigilar es la guerra de precios GLP-1 con Novo Nordisk — si los precios caen más rápido de lo que sube el volumen, los márgenes sufren. Pero incluso en ese escenario, Lilly tiene la ventaja clínica (tirzepatide vs. semaglutide) y la capacidad manufacturera para ganar en volumen.
+
+<strong>Estrategia:</strong> Posición inicial 2–3% en correcciones hacia $950–1.000 (~873–919€). A precios actuales (~$1.128) la entrada sigue siendo razonable para un horizonte de 5–10 años dado el crecimiento proyectado. No es una posición para buscar un 20% rápido — es una empresa para mantener 10 años.`,
+    pgr:{name:'Progressive Corporation',
+    meta:'PGR · NYSE · Seguros P&C / "Mathematical Moat" / IA Telemática · Fundada 1937',
+    inCartera:false,
+    badges:[
+      ['b-strong','"Mathematical Moat" — empresa de tecnología que vende seguros'],
+      ['b-buy','PE 10,5x vs. media histórica 24,8x — 58% más barato históricamente'],
+      ['b-buy','Combined ratio 86,4 — doble rentabilidad que la media sectorial'],
+      ['b-hold','Crecimiento moderándose: premios netas +6% vs. +20% en años anteriores'],
+      ['b-warn','Exposición a catástrofes climáticas en segmento Property']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$207',s:'junio 2026'},
+      {l:'Forward PE',v:'12,1x',s:'⭐ vs. 24,8x media 10 años — 51% descuento histórico'},
+      {l:'PE mediana sector',v:'10,7x',s:'Progressive cotiza ligera prima — justificada por calidad'},
+      {l:'Obj. BofA',v:'$331',s:'Buy — +60% upside · GF Value $268 (+29% descuento)'}
+    ],
+    moat:`<strong>El "Mathematical Moat" — una ventaja competitiva única en el mundo asegurador:</strong>
+
+Progressive no es una aseguradora que usa tecnología. Es una empresa de tecnología de datos que vende seguros como producto final. Esta distinción es fundamental para entender su ventaja. La CEO Tricia Griffith, que empezó como agente de siniestros en 1988, describe la filosofía como "pricing to risk" — cobrar exactamente lo que corresponde a cada conductor individual, ni un centavo más ni menos.
+
+<strong>1. Snapshot — casi dos décadas de datos de conducción propietarios:</strong> Progressive fue pionera en telemática de seguros en 2008. Hoy tiene el mayor dataset propietario de comportamiento de conducción del mundo — millones de conductores rastreados, miles de millones de millas de datos. Un competidor que quiera replicarlo necesita empezar desde cero en 2026 y esperar 20 años. Este dataset permite suscribir riesgo a nivel individual con una precisión que ningún modelo actuarial tradicional puede igualar.
+
+<strong>2. IA sobre el dataset — compounding competitivo:</strong> La IA de Progressive no trabaja sobre datos genéricos — trabaja sobre 20 años de datos exclusivos de comportamiento real de conducción correlacionados con siniestros reales. El modelo se retroalimenta continuamente: más pólizas → más datos → mejores modelos → mejor pricing → más clientes rentables → más datos. Es un flywheel que se acelera solo y que un competidor no puede replicar aunque tenga la misma IA, porque no tiene los datos.
+
+<strong>3. Combined ratio de 86,4 — la métrica que lo dice todo:</strong> Por cada 100€ de prima que cobra, Progressive gasta solo 86,4€ en siniestros y gastos operativos. Eso significa 13,6€ de beneficio de suscripción puro — casi el doble de la media del sector P&C, que está en torno a 95–97%. Este margen no es un accidente de un buen año: es el resultado estructural de suscribir mejor riesgo durante décadas.
+
+<strong>4. "Robinsons" — la estrategia de bundling que eleva el lifetime value:</strong> La directiva llama "Robinsons" a los clientes que tienen tanto auto como hogar con Progressive. Este segmento tiene una tasa de retención significativamente mayor y genera más revenue por cliente. La expansión al segmento Property es el siguiente vector de crecimiento inorgánico.`,
+    motor:`<strong>Q1 2026 — solidez operativa en un entorno competitivo:</strong>
+EPS $4,81 (+9,8% YoY). Revenue $22.200M (+8,7% YoY). Net income $2.820M (+9,8%). Primas netas escritas +6%. Policies in force personales +11% YoY (+$1.300M adicionales). Combined ratio 86,4 — excepcional.
+
+<strong>FY 2025 — base extraordinaria:</strong> Comprehensive income $13.000M. ROE del 40% — uno de los más altos del sector financiero americano. EPS creció al 33,6% anualizado en los últimos 3 años. Revenue TTM $87.600M.
+
+<strong>Los tres motores de crecimiento a medio plazo:</strong>
+
+Motor 1 — IA en toda la cadena de valor: Progressive está integrando IA en suscripción (precios más precisos), siniestros (liquidación automática del 70% de interacciones sin humano), detección de fraude (bloqueo antes del pago) y marketing (adquisición de clientes de menor riesgo). Cada mejora en una fase reduce el combined ratio y amplía el margen.
+
+Motor 2 — Expansión commercial trucking: Progressive está aplicando su modelo de telemática al segmento de camiones pesados y logística, replicando la ventaja que ya tiene en auto personal. Es un mercado significativamente mayor y menos eficiente desde el punto de vista del pricing.
+
+Motor 3 — Re-rating del múltiplo: El PE actual de 10,5x está un 58% por debajo de la media histórica de 24,8x. Si el mercado reconoce a Progressive como empresa de tecnología/datos (lo que es) en lugar de como aseguradora tradicional, el re-rating puede ser el mayor driver de retorno, independientemente del crecimiento operativo.`,
+    cats:[
+      'PE 10,5x es 58% más barato que la media histórica 24,8x — cuando el mercado reconozca el moat tecnológico, re-rating brutal',
+      'ROE del 40% — excepcional en cualquier sector, extraordinario en seguros — refleja la calidad del modelo de negocio',
+      'Pólizas en vigor personales +11% YoY — aún está ganando cuota de mercado a pesar de ser ya la mayor aseguradora directa',
+      'Florida tort reform: reducción estructural de litigios fraudulentos que distorsionaban la siniestralidad',
+      'Reforma tarifaria: los aumentos de primas implementados en 2023–2024 siguen fluyendo como earned premium en 2026',
+      'IA en siniestros: 70% de interacciones cerradas sin intervención humana — reducción de costes estructural permanente',
+      'Expansión commercial trucking: replicar el modelo telemático en segmento de camiones — mercado enorme y virgen'
+    ],
+    risks:`<strong>Riesgo 1 — Moderación del crecimiento:</strong> Las primas netas crecen al +6% vs. +20% en años anteriores. Los competidores (Allstate, State Farm, Geico/Berkshire) también están subiendo primas y mejorando sus modelos. La ventaja tecnológica existe pero se reduce con el tiempo.
+
+<strong>Riesgo 2 — Catástrofes climáticas:</strong> El segmento Property (hogar) sigue siendo vulnerable. Los huracanes Helene y Milton de 2024–2025 generaron pérdidas significativas. El cambio climático implica que la frecuencia e intensidad de eventos extremos aumenta estructuralmente, presionando el combined ratio de Property.
+
+<strong>Riesgo 3 — Regulación de telemática:</strong> Algunos estados están considerando legislación que limite el uso de ciertos tipos de datos para pricing. Si se restringen los datos de conducción, el moat de Snapshot se debilita.
+
+<strong>Riesgo 4 — Selección adversa:</strong> Al mantener el combined ratio por disciplina, Progressive puede perder conductores de bajo riesgo a competidores más agresivos en precio. El balance entre rentabilidad y volumen es permanente.`,
+    verdict:`Progressive es la empresa más sofisticada tecnológicamente del sector asegurador — es literalmente una empresa de datos que usa los seguros como vehículo de monetización. El "Mathematical Moat" descrito por los analistas no es metáfora: es un flywheel de datos propietarios + IA + pricing que lleva 20 años construyéndose y que ningún competidor puede replicar rápidamente.
+
+Lo más llamativo es la valoración: a PE de 10,5x cotiza un 58% por debajo de su media histórica de 24,8x, con un ROE del 40%, combined ratio de 86,4 (doble que la media) y policies en vigor creciendo al +11%. El mercado está valorando a Progressive como una aseguradora ordinaria. Cuando el consenso la reconozca como empresa tecnológica de datos — lo que ya es — el re-rating puede ser espectacular.
+
+<strong>BofA mantiene objetivo de $331 (+60% upside). GuruFocus considera la acción "modestamente infravalorada" con valor intrínseco de $268 (+29% sobre precio actual).</strong>
+
+Estrategia: Zona de entrada actual $195–215 (~179–198€) es atractiva para posición inicial del 2–3%. Es la mejor forma de añadir exposición defensiva al portfolio sin sacrificar calidad. Complementa perfectamente la concentración en tech.`,
+    isrg:{name:'Intuitive Surgical',
+    meta:'ISRG · Nasdaq · Monopolio Cirugía Robótica / IA Quirúrgica / MedTech · Fundada 1995',
+    inCartera:false,
+    badges:[
+      ['b-strong','Quasi-monopolio en cirugía robótica de tejido blando — 70–80% cuota global'],
+      ['b-buy','Caída -27% YTD = oportunidad: múltiplo comprimido de 60x a 45x sin deterioro fundamental'],
+      ['b-buy','86% revenue recurrente — visibilidad excepcional de beneficios futuros'],
+      ['b-hold','Forward PE 45x — valoración exigente pero en rango razonable para el moat'],
+      ['b-warn','China: competidores locales reducen placements — 4 unidades en Q1 2026']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$453',s:'junio 2026 — YTD -27%'},
+      {l:'Forward PE',v:'~45x NTM',s:'vs. >60x hace un año — compresión ya realizada'},
+      {l:'PE medtech peers',v:'Stryker 25x · Medtronic 15x',s:'ISRG cotiza prima por moat y crecimiento superior'},
+      {l:'Obj. mediano',v:'$615',s:'44 analistas · Strong Buy 8.2/10 · rango $378–$750'}
+    ],
+    moat:`<strong>El moat más profundo del sector MedTech — construido durante 30 años:</strong>
+
+<strong>1. Base instalada de 11.395 sistemas — switching costs casi infinitos:</strong> Un hospital que instala un da Vinci reestructura su quirófano, forma a sus cirujanos (meses de entrenamiento), crea flujos de trabajo específicos, firma contratos de mantenimiento y construye toda su cadena de suministro de instrumental alrededor del sistema. El coste de cambiar a un competidor no es solo el precio del nuevo robot — es la reconversión de toda la infraestructura clínica. Esto hace que la tasa de retención de clientes sea casi del 100%.
+
+<strong>2. Lock-in del cirujano — la barrera más alta:</strong> Los programas de residencia médica en EE.UU. forman a los cirujanos sobre da Vinci. Cuando un cirujano entra en el mercado laboral ya sabe usar da Vinci. Aprender un sistema diferente requiere recredenciación, reentrenamiento del equipo de quirófano y semanas sin operar. El resultado: los cirujanos "piden" da Vinci en los hospitales donde trabajan. La demanda no viene del marketing de ISRG — viene de los propios médicos.
+
+<strong>3. Modelo razor/blade — recurrencia del 86%:</strong> El sistema da Vinci (el "razor") se vende o arrienda. Pero los instrumentos, accesorios y servicios (las "blades") son de uso único o recurrente y generan el 86% del revenue. Cada procedimiento que se realiza con da Vinci genera revenue automáticamente, independientemente de si se instalan sistemas nuevos. Con 20 millones de procedimientos acumulados y creciendo al 17% anual, la base recurrente se compone sola.
+
+<strong>4. Datos clínicos — 30 años de ventaja:</strong> Más de 20 millones de procedimientos generan el mayor dataset de cirugía robótica del mundo. Cada operación enseña al sistema. Los competidores (Medtronic Hugo, J&J Ottava, CMR Versius) están en fase de acumulación de datos clínicos — llevan años de retraso en evidencia científica publicada que los cirujanos y comités hospitalarios exigen antes de adoptar una plataforma.
+
+<strong>5. "Platform Refresh Wall" — da Vinci 5 bloquea el mercado:</strong> El da Vinci 5 representó el 85% de las instalaciones en EE.UU. en Q1 2026. Esto significa que los hospitales americanos están actualizando sus sistemas ahora, bloqueando sus presupuestos de capital en ISRG por el ciclo de vida completo del sistema (7–10 años). Medtronic y J&J no pueden penetrar esos hospitales hasta que ese ciclo venza.`,
+    motor:`<strong>Q1 2026 — números que refutan la narrativa bajista:</strong>
+Revenue $2.770M (+23% YoY). Procedimientos +17% YoY. Sistemas instalados: 11.395 (+12% YoY). Da Vinci 5 instalados: 1.500+ globalmente. EPS $2,50 (+20% vs. consenso). FCF anual $2.500M (duplicado YoY). Guidance 2026 elevado a 14–16% crecimiento procedimientos.
+
+<strong>Lo más revelador: revenue creció un 23% mientras los procedimientos crecieron solo un 17%.</strong> Esa brecha de 6 puntos es el "innovation-led revenue premium" — el da Vinci 5 genera más revenue por procedimiento gracias a su pricing premium y mayor utilización (11% más alta que generaciones anteriores). El CFO lo confirmó: "Where you can be differentiated and make a meaningful difference for customers, then you get to sharing that value in the form of accretive pricing."
+
+<strong>Tres vectores de crecimiento adicionales más allá del da Vinci estándar:</strong>
+
+Vector 1 — Ion (biopsia pulmonar): +39% de crecimiento en procedimientos en Q1. Es una plataforma completamente diferente al da Vinci, en un mercado nuevo, generando un segundo flywheel independiente.
+
+Vector 2 — SP (Single Port): +68% de crecimiento en procedimientos. Cirugía de puerto único — diferente categoría con adopción acelerándose.
+
+Vector 3 — Internacional: Japón introduce reembolso para 7 nuevos procedimientos robóticos desde junio 2026. Europa: adquisición de red de distribución directa (Italia, España, Portugal) — más margen y control del canal.`,
+    cats:[
+      'Caída -27% YTD = oportunidad real: múltiplo de 60x comprimido a 45x sin ningún deterioro en fundamentales',
+      '"Platform Refresh Wall": 85% de instalaciones en EE.UU. son da Vinci 5 — bloquea presupuestos hospitalarios 7–10 años vs. competidores',
+      'Ion +39% procedimientos — segunda plataforma creciendo independientemente; diversifica riesgo del portfolio de procedimientos',
+      'Japón: reembolso para 7 nuevos procedimientos desde junio 2026 — catalizador internacional concreto e inmediato',
+      'Adquisición distribución directa Europa (Italia, España, Portugal) — control canal + mejora de márgenes',
+      'Penetración global <10% del pool total de procedimientos addressable — el runway de crecimiento es generacional',
+      'TIKR mid-case: $777 por acción en 2030 asumiendo revenue CAGR 12% y márgenes netos 32%'
+    ],
+    risks:`<strong>Riesgo 1 — Valoración que no perdona errores:</strong> A 45x forward PE, cualquier decepción en guidance (procedimientos por debajo del 13,5% guiado, o presión de márgenes por aranceles) puede generar correcciones adicionales. Deutsche Bank tiene Sell con objetivo $366 basado en modelos DCF conservadores.
+
+<strong>Riesgo 2 — GLP-1 y reducción de cirugías bariátricas:</strong> Los fármacos GLP-1 (Ozempic, Mounjaro) reducen la necesidad de cirugía de bypass gástrico. Este segmento era históricamente de alto volumen para da Vinci. La dirección ha señalado que colecistectomía y reparación de hernia están compensando, pero el impacto estructural en bariátrica es permanente.
+
+<strong>Riesgo 3 — China:</strong> Solo 4 sistemas instalados en Q1 2026 en China — competidores locales (MicroPort y otros) están ganando terreno en licitaciones. China era un mercado de alto crecimiento; su pérdida impacta el OUS growth rate que sustenta la tesis.
+
+<strong>Riesgo 4 — Competencia emergente:</strong> Hugo de Medtronic supera los 30.000 procedimientos globales. Ottava de J&J tiene respaldo financiero ilimitado. Versius de CMR Surgical recibió aprobación en EE.UU. Ninguno está cerca de replicar el moat de ISRG, pero la competencia añade presión en precio en mercados internacionales sensibles al coste.
+
+<strong>Riesgo 5 — Aranceles:</strong> Los componentes del da Vinci Xi importados están sujetos a aranceles que comprimen el margen bruto ~100bps. Management ha confirmado que es un headwind para H2 2026.`,
+    verdict:`Intuitive Surgical es el mejor negocio de MedTech del mundo: un quasi-monopolio de 30 años en cirugía robótica de tejido blando, con switching costs casi infinitos, modelo razor/blade con 86% de revenue recurrente, y un runway de penetración global que apenas supera el 10% del mercado addressable.
+
+La caída del -27% YTD no refleja deterioro fundamental — refleja compresión de múltiplo del sector MedTech de alta valoración. El mercado ha pasado de pagar 60x a pagar 45x, pero los números de Q1 2026 (+23% revenue, +17% procedimientos, guidance elevado) siguen siendo extraordinarios. Como dijo un analista: "ISRG es simultáneamente cara respecto al mercado y barata respecto a su propia historia y su crecimiento."
+
+<strong>El consenso de 44 analistas es Strong Buy (8.2/10) con objetivo mediano de $615 — implica +36% de upside. TIKR proyecta $777 en 2030.</strong>
+
+La entrada ideal está en la zona actual o en correcciones adicionales. La penetración global por debajo del 10% del mercado total addressable garantiza un runway de crecimiento de al menos una década más, con Ion y SP como vectores adicionales completamente independientes.
+
+Estrategia: posición inicial 2–3% a precios actuales ~$453 (~416€). Horizonte mínimo 5 años. No es una posición especulativa — es una de las mejores empresas del mundo con un moat estructural que pocos activos del mercado pueden igualar.`,
+    iak:{name:'iShares U.S. Insurance ETF (IAK)',
+    meta:'IAK · NYSE Arca · ETF Seguros EE.UU. · BlackRock iShares · TER 0,39%',
+    inCartera:false,
+    badges:[
+      ['b-strong','Exposición diversificada al sector más infravalorado que se beneficia de la IA'],
+      ['b-buy','+20% YTD · Morningstar Bronze Medal · PE sectorial 10–12x'],
+      ['b-strong','Progressive 13% + Chubb 13% — los dos mejores nombres del sector como top holdings'],
+      ['b-hold','TER 0,39% — ligeramente superior a ETFs de mercado amplio'],
+      ['b-idea','Descorrelación con tech: beta baja — cobertura perfecta vs. corrección Nasdaq']
+    ],
+    metrics:[
+      {l:'AUM',v:'~$1.000M',s:'iShares BlackRock — fondo establecido'},
+      {l:'TER',v:'0,39%',s:'Aceptable para ETF sectorial especializado'},
+      {l:'Rentabilidad YTD',v:'+20%',s:'Batiendo al S&P 500 en 2026'},
+      {l:'Morningstar',v:'Bronze Medal',s:'Reconocimiento calidad del fondo'}
+    ],
+    moat:`<strong>Por qué el sector asegurador es la oportunidad sectorial más ignorada de 2026:</strong>
+
+El mercado tiene una visión anticuada del sector seguros: empresas lentas, reguladas, con márgenes finos y cíclicas. Esa visión era correcta en 2010. En 2026 hay una transformación en curso que el mercado no está valorando correctamente:
+
+<strong>1. IA como multiplicador de rentabilidad estructural:</strong> La IA en seguros no es un proyecto piloto — es implementación masiva que ya está en producción. Progressive cierra el 70% de interacciones de siniestros sin intervención humana. Allstate usa IA para detección de fraude en tiempo real bloqueando pagos fraudulentos antes de que ocurran. Chubb aplica ML para suscripción de riesgos comerciales complejos. El ahorro estructural de costes es permanente y se acumula año a año.
+
+<strong>2. Nuevos riesgos asegurables — mercados completamente nuevos:</strong> La explosión de la economía digital crea categorías de riesgo que no existían hace 5 años: seguros de ciberataques para empresas (mercado $25.000M creciendo al 25% anual), seguros de responsabilidad de modelos de IA, seguros paramétricos de infraestructura de data centers, seguros de flotas de vehículos autónomos. Las aseguradoras que definan y suscriban estos riesgos primero construyen moats de décadas.
+
+<strong>3. Subida de tipos — ingresos de float multiplicados:</strong> Las aseguradoras gestionan enormes reservas de dinero (el "float") que invierten en bonos y renta fija. Con tipos más altos que en la última década, los ingresos financieros del float se han multiplicado — añadiendo rentabilidad adicional sin incrementar el riesgo de suscripción.
+
+<strong>4. Disciplina de suscripción post-catástrofes:</strong> Los años 2022–2024 forzaron subidas de primas masivas en auto, hogar y comercial. Esas primas elevadas se están "ganando" a lo largo de 2025–2026, generando combined ratios extraordinariamente bajos. El sector está en su mejor momento de rentabilidad en 15 años.
+
+<strong>Las 10 principales posiciones del IAK (66% del fondo):</strong>
+Chubb (CB) 13,16% — seguros premium globales, el Warren Buffett de las aseguradoras. Progressive (PGR) 13,04% — el líder tecnológico descrito arriba. Travelers (TRV) 7,29% — líder en seguros comerciales. Allstate (ALL) 6,17% — auto y hogar con IA avanzada. MetLife (MET) 5,24% — vida e institucional global. Aflac (AFL) 4,61% — suplementario con modelo de distribución único. Hartford (HIG) 4,28%. AIG (AIG) 4,27% — turnaround completado, bien posicionado. Prudential (PRU) 4,15%. Arch Capital (ACGL) 3,85% — especialidad y reaseguro.`,
+    motor:`<strong>Los cinco catalizadores estructurales del sector en 2026–2028:</strong>
+
+Catalizador 1 — IA reduciendo el combined ratio: Cada punto de mejora en combined ratio equivale a decenas de millones de euros de beneficio adicional. Las aseguradoras más avanzadas en IA (Progressive, Allstate, Hartford) están reduciendo su combined ratio 1–2 puntos anuales gracias a mejor suscripción y menor fraude. A escala, esto es enorme.
+
+Catalizador 2 — Mercado de seguros digitales y ciberseguridad: El mercado de cyber insurance crece al 25% anual y apenas está siendo suscrito. Las grandes aseguradoras con capacidad de análisis de riesgo y escala financiera son las únicas capaces de asumir este riesgo a escala. Es un mercado nuevo de decenas de miles de millones que no está en los modelos actuales de valoración.
+
+Catalizador 3 — Vehículos autónomos y cambio en el modelo de auto insurance: Los vehículos autónomos cambiarán quién suscribe el riesgo (del conductor individual al fabricante/operador). Las aseguradoras con experiencia en riesgo de producto y escala global son las mejor posicionadas.
+
+Catalizador 4 — Reaseguro de infraestructura IA: Los data centers de $1 billón que se están construyendo necesitan seguro de infraestructura, seguro de interrupción de negocio, seguro de responsabilidad tecnológica. Mercado completamente nuevo.
+
+Catalizador 5 — Re-rating del múltiplo: El sector cotiza a PE de 10–12x cuando el mercado entienda que es un sector tecnológico de datos, no una industria financiera tradicional. El re-rating puede ser el mayor driver de retorno.`,
+    cats:[
+      'IA reduce combined ratio estructuralmente: cada punto menos = decenas de millones en beneficio adicional permanente',
+      'Cyber insurance +25% CAGR: mercado $25.000M que apenas está siendo captado por las grandes aseguradoras',
+      'Float a tipos altos: reservas de miles de millones generando más rentabilidad financiera que en cualquier año post-2008',
+      'Chubb (13%) + Progressive (13%) en top holdings: los dos mejores operadores del sector en una sola posición',
+      'Diversificación real vs. cartera concentrada en tech: beta baja — protección frente a corrección de Nasdaq',
+      'PE sectorial 10–12x vs. S&P 500 ~21x: el mayor descuento relativo del sector en muchos años',
+      'Alternativa más concentrada: KBWP (Invesco KBW P&C Insurance) si quieres solo P&C sin vida'
+    ],
+    risks:`<strong>Riesgo 1 — Catástrofes climáticas:</strong> Un año de huracanes/inundaciones/incendios severo puede destruir la rentabilidad de suscripción trimestral. Es el riesgo más inmediato e impredecible del sector.
+
+<strong>Riesgo 2 — Ciclo de suscripción:</strong> El entorno actual de combined ratios bajos y primas altas es cíclico. Cuando los competidores entren agresivamente en precio para ganar cuota, los combined ratios subirán y los márgenes bajarán.
+
+<strong>Riesgo 3 — Regulación de pricing:</strong> Algunos estados regulan activamente los precios de los seguros, limitando la capacidad de subir primas. California especialmente es un mercado complicado para las aseguradoras de auto y hogar.
+
+<strong>Riesgo 4 — Concentración en mercado americano:</strong> IAK solo tiene aseguradoras americanas — sin diversificación geográfica. Para exposición global al sector se necesitan ETFs adicionales (Chubb tiene negocio global, pero IAK no incluye aseguradoras europeas como Allianz, AXA o Swiss Re).
+
+<strong>Riesgo 5 — TER 0,39%:</strong> Es más caro que un ETF de mercado amplio (0,07–0,20%), aunque razonable para un ETF sectorial especializado.`,
+    verdict:`El IAK es la forma más eficiente y diversificada de posicionarse en la transformación del sector asegurador por IA, sin tener que elegir una empresa individual. Con Progressive (13%) como exposición al líder tecnológico del sector P&C y Chubb (13%) como exposición a la aseguradora de mayor calidad global, capta los dos mejores nombres del sector en una sola posición.
+
+La tesis de inversión es simple pero poderosa: el mercado sigue valorando al sector asegurador como una industria financiera tradicional (PE 10–12x) cuando en realidad se está convirtiendo en un sector tecnológico de datos con moats digitales, nuevos mercados (cyber, IA, vehículos autónomos) y mejoras estructurales de rentabilidad por IA.
+
+Lo más atractivo del IAK como complemento de cartera: tiene una beta baja (baja correlación con el Nasdaq), ofrece dividendos trimestrales, y actúa como cobertura natural frente a una corrección del sector tech donde está concentrada la mayor parte de tu cartera.
+
+<strong>+20% YTD en 2026 ya demuestra que el mercado está empezando a reconocer la tesis. Pero la mayor parte del re-rating aún no ha ocurrido.</strong>
+
+Estrategia: posición inicial 3–5% del portfolio como contrapeso defensivo a la concentración tecnológica. Mantener indefinidamente. Reinvertir dividendos. Es el complemento ideal para una cartera con 50%+ en semiconductores, cloud y IA.`,
+    ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
+  avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
+  ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
+  constellation:{name:'Constellation Software'
+    meta:'LLY · NYSE · Farmacéutica / GLP-1 / IA Drug Discovery',
+    inCartera:false,
+    badges:[['b-strong','Líder absoluto en GLP-1 — mercado más grande de la historia'],['b-buy','Forward PE 28,9x — 23% por debajo de su media histórica de 10 años'],['b-idea','IA + Nvidia supercomputador farmacéutico'],['b-warn','Precio ~$1.127 — barrera psicológica']],
+    metrics:[
+      {l:'Precio actual',v:'~$1.128',s:'junio 2026'},
+      {l:'Forward PE',v:'28,9x',s:'vs. media 10 años 52x — BARATO históricamente'},
+      {l:'PE sector peers',v:'16,8x mediana',s:'Lilly cotiza 72% por encima — premium justificado'},
+      {l:'Obj. consenso',v:'$1.236',s:'20 analistas Buy'}
+    ],
+    moat:'Mounjaro y Zepbound lideran el mercado GLP-1 con un +56% revenue en Q1 2026. La píldora oral Foundayo (GLP-1 sin restricciones de agua/comida) recién aprobada por FDA amplía masivamente el mercado. Pipeline en 4 áreas terapéuticas. Colaboración con OpenAI para descubrir medicamentos. $409M invertidos en Genetic Leap (RNA drugs con IA). Supercomputador propio con Nvidia — el más potente en farmacia. Plataforma TuneLab abierta a biotechs.',
+    motor:'Guidance 2026: $80.000–83.000M en revenue (+~40% YoY). EPS no-GAAP guidance $33,50–35,00. Orforglipron (píldora GLP-1 para obesidad) en aprobación regulatoria 2027 — el mercado más grande de la historia de la farmacia. Retatrutide para obesidad + osteoartritis de rodilla en Phase 3. Adquisición Kelonia Therapeutics y CNTA para reforzar pipeline.',
+    cats:['GLP-1 oral (orforglipron): si FDA aprueba en 2027, multiplica el mercado potencial por 5x','Supercomputador farmacéutico con Nvidia: compresión de R&D de 12 años a 3–4 años','Deal OpenAI para descubrimiento de medicamentos — catalizador de pipeline a LP','TuneLab: plataforma IA para biotechs — potencial de monetización adicional','Acuerdo con el gobierno EE.UU. para expandir acceso a medicamentos de obesidad'],
+    risks:'Forward PE de 28,9x está por encima de la mediana sectorial (16,8x) aunque muy por debajo de su propia media histórica de 52x. Precio ~$1.128 por acción es barrera psicológica de entrada. Competencia de Novo Nordisk (Ozempic/Wegovy) en GLP-1. Riesgo regulatorio de precios en EE.UU. Pipeline puede decepcionar. Un analista cita riesgo de reducción de bariatric procedures por GLP-1 adoptando función preventiva.',
+    verdict:'Una de las mejores empresas del mundo con dos catalizadores convergentes únicos: el mayor mercado farmacéutico de la historia (GLP-1/obesidad) + aceleración de discovery por IA. Lo más llamativo: a Forward PE de 28,9x cotiza un 44% más barato que su propia media histórica de 52x — el mercado está descontando demasiado conservadoramente el potencial de orforglipron. Precio de entrada: correcciones hacia $950–1.000 (~873–919€). A precios actuales (~$1.128) el riesgo/recompensa sigue siendo atractivo para LP dado el crecimiento proyectado. Posición inicial 2–3%.'},
+  pgr:{name:'Progressive Corporation',
+    meta:'PGR · NYSE · Seguros P&C / "Mathematical Moat" / IA Telemática · Fundada 1937',
+    inCartera:false,
+    badges:[
+      ['b-strong','"Mathematical Moat" — empresa de tecnología que vende seguros'],
+      ['b-buy','PE 10,5x vs. media histórica 24,8x — 58% más barato históricamente'],
+      ['b-buy','Combined ratio 86,4 — doble rentabilidad que la media sectorial'],
+      ['b-hold','Crecimiento moderándose: premios netas +6% vs. +20% en años anteriores'],
+      ['b-warn','Exposición a catástrofes climáticas en segmento Property']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$207',s:'junio 2026'},
+      {l:'Forward PE',v:'12,1x',s:'⭐ vs. 24,8x media 10 años — 51% descuento histórico'},
+      {l:'PE mediana sector',v:'10,7x',s:'Progressive cotiza ligera prima — justificada por calidad'},
+      {l:'Obj. BofA',v:'$331',s:'Buy — +60% upside · GF Value $268 (+29% descuento)'}
+    ],
+    moat:`<strong>El "Mathematical Moat" — una ventaja competitiva única en el mundo asegurador:</strong>
+
+Progressive no es una aseguradora que usa tecnología. Es una empresa de tecnología de datos que vende seguros como producto final. Esta distinción es fundamental para entender su ventaja. La CEO Tricia Griffith, que empezó como agente de siniestros en 1988, describe la filosofía como "pricing to risk" — cobrar exactamente lo que corresponde a cada conductor individual, ni un centavo más ni menos.
+
+<strong>1. Snapshot — casi dos décadas de datos de conducción propietarios:</strong> Progressive fue pionera en telemática de seguros en 2008. Hoy tiene el mayor dataset propietario de comportamiento de conducción del mundo — millones de conductores rastreados, miles de millones de millas de datos. Un competidor que quiera replicarlo necesita empezar desde cero en 2026 y esperar 20 años. Este dataset permite suscribir riesgo a nivel individual con una precisión que ningún modelo actuarial tradicional puede igualar.
+
+<strong>2. IA sobre el dataset — compounding competitivo:</strong> La IA de Progressive no trabaja sobre datos genéricos — trabaja sobre 20 años de datos exclusivos de comportamiento real de conducción correlacionados con siniestros reales. El modelo se retroalimenta continuamente: más pólizas → más datos → mejores modelos → mejor pricing → más clientes rentables → más datos. Es un flywheel que se acelera solo y que un competidor no puede replicar aunque tenga la misma IA, porque no tiene los datos.
+
+<strong>3. Combined ratio de 86,4 — la métrica que lo dice todo:</strong> Por cada 100€ de prima que cobra, Progressive gasta solo 86,4€ en siniestros y gastos operativos. Eso significa 13,6€ de beneficio de suscripción puro — casi el doble de la media del sector P&C, que está en torno a 95–97%. Este margen no es un accidente de un buen año: es el resultado estructural de suscribir mejor riesgo durante décadas.
+
+<strong>4. "Robinsons" — la estrategia de bundling que eleva el lifetime value:</strong> La directiva llama "Robinsons" a los clientes que tienen tanto auto como hogar con Progressive. Este segmento tiene una tasa de retención significativamente mayor y genera más revenue por cliente. La expansión al segmento Property es el siguiente vector de crecimiento inorgánico.`,
+    motor:`<strong>Q1 2026 — solidez operativa en un entorno competitivo:</strong>
+EPS $4,81 (+9,8% YoY). Revenue $22.200M (+8,7% YoY). Net income $2.820M (+9,8%). Primas netas escritas +6%. Policies in force personales +11% YoY (+$1.300M adicionales). Combined ratio 86,4 — excepcional.
+
+<strong>FY 2025 — base extraordinaria:</strong> Comprehensive income $13.000M. ROE del 40% — uno de los más altos del sector financiero americano. EPS creció al 33,6% anualizado en los últimos 3 años. Revenue TTM $87.600M.
+
+<strong>Los tres motores de crecimiento a medio plazo:</strong>
+
+Motor 1 — IA en toda la cadena de valor: Progressive está integrando IA en suscripción (precios más precisos), siniestros (liquidación automática del 70% de interacciones sin humano), detección de fraude (bloqueo antes del pago) y marketing (adquisición de clientes de menor riesgo). Cada mejora en una fase reduce el combined ratio y amplía el margen.
+
+Motor 2 — Expansión commercial trucking: Progressive está aplicando su modelo de telemática al segmento de camiones pesados y logística, replicando la ventaja que ya tiene en auto personal. Es un mercado significativamente mayor y menos eficiente desde el punto de vista del pricing.
+
+Motor 3 — Re-rating del múltiplo: El PE actual de 10,5x está un 58% por debajo de la media histórica de 24,8x. Si el mercado reconoce a Progressive como empresa de tecnología/datos (lo que es) en lugar de como aseguradora tradicional, el re-rating puede ser el mayor driver de retorno, independientemente del crecimiento operativo.`,
+    cats:[
+      'PE 10,5x es 58% más barato que la media histórica 24,8x — cuando el mercado reconozca el moat tecnológico, re-rating brutal',
+      'ROE del 40% — excepcional en cualquier sector, extraordinario en seguros — refleja la calidad del modelo de negocio',
+      'Pólizas en vigor personales +11% YoY — aún está ganando cuota de mercado a pesar de ser ya la mayor aseguradora directa',
+      'Florida tort reform: reducción estructural de litigios fraudulentos que distorsionaban la siniestralidad',
+      'Reforma tarifaria: los aumentos de primas implementados en 2023–2024 siguen fluyendo como earned premium en 2026',
+      'IA en siniestros: 70% de interacciones cerradas sin intervención humana — reducción de costes estructural permanente',
+      'Expansión commercial trucking: replicar el modelo telemático en segmento de camiones — mercado enorme y virgen'
+    ],
+    risks:`<strong>Riesgo 1 — Moderación del crecimiento:</strong> Las primas netas crecen al +6% vs. +20% en años anteriores. Los competidores (Allstate, State Farm, Geico/Berkshire) también están subiendo primas y mejorando sus modelos. La ventaja tecnológica existe pero se reduce con el tiempo.
+
+<strong>Riesgo 2 — Catástrofes climáticas:</strong> El segmento Property (hogar) sigue siendo vulnerable. Los huracanes Helene y Milton de 2024–2025 generaron pérdidas significativas. El cambio climático implica que la frecuencia e intensidad de eventos extremos aumenta estructuralmente, presionando el combined ratio de Property.
+
+<strong>Riesgo 3 — Regulación de telemática:</strong> Algunos estados están considerando legislación que limite el uso de ciertos tipos de datos para pricing. Si se restringen los datos de conducción, el moat de Snapshot se debilita.
+
+<strong>Riesgo 4 — Selección adversa:</strong> Al mantener el combined ratio por disciplina, Progressive puede perder conductores de bajo riesgo a competidores más agresivos en precio. El balance entre rentabilidad y volumen es permanente.`,
+    verdict:`Progressive es la empresa más sofisticada tecnológicamente del sector asegurador — es literalmente una empresa de datos que usa los seguros como vehículo de monetización. El "Mathematical Moat" descrito por los analistas no es metáfora: es un flywheel de datos propietarios + IA + pricing que lleva 20 años construyéndose y que ningún competidor puede replicar rápidamente.
+
+Lo más llamativo es la valoración: a PE de 10,5x cotiza un 58% por debajo de su media histórica de 24,8x, con un ROE del 40%, combined ratio de 86,4 (doble que la media) y policies en vigor creciendo al +11%. El mercado está valorando a Progressive como una aseguradora ordinaria. Cuando el consenso la reconozca como empresa tecnológica de datos — lo que ya es — el re-rating puede ser espectacular.
+
+<strong>BofA mantiene objetivo de $331 (+60% upside). GuruFocus considera la acción "modestamente infravalorada" con valor intrínseco de $268 (+29% sobre precio actual).</strong>
+
+Estrategia: Zona de entrada actual $195–215 (~179–198€) es atractiva para posición inicial del 2–3%. Es la mejor forma de añadir exposición defensiva al portfolio sin sacrificar calidad. Complementa perfectamente la concentración en tech.`,
+    isrg:{name:'Intuitive Surgical',
+    meta:'ISRG · Nasdaq · Monopolio Cirugía Robótica / IA Quirúrgica / MedTech · Fundada 1995',
+    inCartera:false,
+    badges:[
+      ['b-strong','Quasi-monopolio en cirugía robótica de tejido blando — 70–80% cuota global'],
+      ['b-buy','Caída -27% YTD = oportunidad: múltiplo comprimido de 60x a 45x sin deterioro fundamental'],
+      ['b-buy','86% revenue recurrente — visibilidad excepcional de beneficios futuros'],
+      ['b-hold','Forward PE 45x — valoración exigente pero en rango razonable para el moat'],
+      ['b-warn','China: competidores locales reducen placements — 4 unidades en Q1 2026']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$453',s:'junio 2026 — YTD -27%'},
+      {l:'Forward PE',v:'~45x NTM',s:'vs. >60x hace un año — compresión ya realizada'},
+      {l:'PE medtech peers',v:'Stryker 25x · Medtronic 15x',s:'ISRG cotiza prima por moat y crecimiento superior'},
+      {l:'Obj. mediano',v:'$615',s:'44 analistas · Strong Buy 8.2/10 · rango $378–$750'}
+    ],
+    moat:`<strong>El moat más profundo del sector MedTech — construido durante 30 años:</strong>
+
+<strong>1. Base instalada de 11.395 sistemas — switching costs casi infinitos:</strong> Un hospital que instala un da Vinci reestructura su quirófano, forma a sus cirujanos (meses de entrenamiento), crea flujos de trabajo específicos, firma contratos de mantenimiento y construye toda su cadena de suministro de instrumental alrededor del sistema. El coste de cambiar a un competidor no es solo el precio del nuevo robot — es la reconversión de toda la infraestructura clínica. Esto hace que la tasa de retención de clientes sea casi del 100%.
+
+<strong>2. Lock-in del cirujano — la barrera más alta:</strong> Los programas de residencia médica en EE.UU. forman a los cirujanos sobre da Vinci. Cuando un cirujano entra en el mercado laboral ya sabe usar da Vinci. Aprender un sistema diferente requiere recredenciación, reentrenamiento del equipo de quirófano y semanas sin operar. El resultado: los cirujanos "piden" da Vinci en los hospitales donde trabajan. La demanda no viene del marketing de ISRG — viene de los propios médicos.
+
+<strong>3. Modelo razor/blade — recurrencia del 86%:</strong> El sistema da Vinci (el "razor") se vende o arrienda. Pero los instrumentos, accesorios y servicios (las "blades") son de uso único o recurrente y generan el 86% del revenue. Cada procedimiento que se realiza con da Vinci genera revenue automáticamente, independientemente de si se instalan sistemas nuevos. Con 20 millones de procedimientos acumulados y creciendo al 17% anual, la base recurrente se compone sola.
+
+<strong>4. Datos clínicos — 30 años de ventaja:</strong> Más de 20 millones de procedimientos generan el mayor dataset de cirugía robótica del mundo. Cada operación enseña al sistema. Los competidores (Medtronic Hugo, J&J Ottava, CMR Versius) están en fase de acumulación de datos clínicos — llevan años de retraso en evidencia científica publicada que los cirujanos y comités hospitalarios exigen antes de adoptar una plataforma.
+
+<strong>5. "Platform Refresh Wall" — da Vinci 5 bloquea el mercado:</strong> El da Vinci 5 representó el 85% de las instalaciones en EE.UU. en Q1 2026. Esto significa que los hospitales americanos están actualizando sus sistemas ahora, bloqueando sus presupuestos de capital en ISRG por el ciclo de vida completo del sistema (7–10 años). Medtronic y J&J no pueden penetrar esos hospitales hasta que ese ciclo venza.`,
+    motor:`<strong>Q1 2026 — números que refutan la narrativa bajista:</strong>
+Revenue $2.770M (+23% YoY). Procedimientos +17% YoY. Sistemas instalados: 11.395 (+12% YoY). Da Vinci 5 instalados: 1.500+ globalmente. EPS $2,50 (+20% vs. consenso). FCF anual $2.500M (duplicado YoY). Guidance 2026 elevado a 14–16% crecimiento procedimientos.
+
+<strong>Lo más revelador: revenue creció un 23% mientras los procedimientos crecieron solo un 17%.</strong> Esa brecha de 6 puntos es el "innovation-led revenue premium" — el da Vinci 5 genera más revenue por procedimiento gracias a su pricing premium y mayor utilización (11% más alta que generaciones anteriores). El CFO lo confirmó: "Where you can be differentiated and make a meaningful difference for customers, then you get to sharing that value in the form of accretive pricing."
+
+<strong>Tres vectores de crecimiento adicionales más allá del da Vinci estándar:</strong>
+
+Vector 1 — Ion (biopsia pulmonar): +39% de crecimiento en procedimientos en Q1. Es una plataforma completamente diferente al da Vinci, en un mercado nuevo, generando un segundo flywheel independiente.
+
+Vector 2 — SP (Single Port): +68% de crecimiento en procedimientos. Cirugía de puerto único — diferente categoría con adopción acelerándose.
+
+Vector 3 — Internacional: Japón introduce reembolso para 7 nuevos procedimientos robóticos desde junio 2026. Europa: adquisición de red de distribución directa (Italia, España, Portugal) — más margen y control del canal.`,
+    cats:[
+      'Caída -27% YTD = oportunidad real: múltiplo de 60x comprimido a 45x sin ningún deterioro en fundamentales',
+      '"Platform Refresh Wall": 85% de instalaciones en EE.UU. son da Vinci 5 — bloquea presupuestos hospitalarios 7–10 años vs. competidores',
+      'Ion +39% procedimientos — segunda plataforma creciendo independientemente; diversifica riesgo del portfolio de procedimientos',
+      'Japón: reembolso para 7 nuevos procedimientos desde junio 2026 — catalizador internacional concreto e inmediato',
+      'Adquisición distribución directa Europa (Italia, España, Portugal) — control canal + mejora de márgenes',
+      'Penetración global <10% del pool total de procedimientos addressable — el runway de crecimiento es generacional',
+      'TIKR mid-case: $777 por acción en 2030 asumiendo revenue CAGR 12% y márgenes netos 32%'
+    ],
+    risks:`<strong>Riesgo 1 — Valoración que no perdona errores:</strong> A 45x forward PE, cualquier decepción en guidance (procedimientos por debajo del 13,5% guiado, o presión de márgenes por aranceles) puede generar correcciones adicionales. Deutsche Bank tiene Sell con objetivo $366 basado en modelos DCF conservadores.
+
+<strong>Riesgo 2 — GLP-1 y reducción de cirugías bariátricas:</strong> Los fármacos GLP-1 (Ozempic, Mounjaro) reducen la necesidad de cirugía de bypass gástrico. Este segmento era históricamente de alto volumen para da Vinci. La dirección ha señalado que colecistectomía y reparación de hernia están compensando, pero el impacto estructural en bariátrica es permanente.
+
+<strong>Riesgo 3 — China:</strong> Solo 4 sistemas instalados en Q1 2026 en China — competidores locales (MicroPort y otros) están ganando terreno en licitaciones. China era un mercado de alto crecimiento; su pérdida impacta el OUS growth rate que sustenta la tesis.
+
+<strong>Riesgo 4 — Competencia emergente:</strong> Hugo de Medtronic supera los 30.000 procedimientos globales. Ottava de J&J tiene respaldo financiero ilimitado. Versius de CMR Surgical recibió aprobación en EE.UU. Ninguno está cerca de replicar el moat de ISRG, pero la competencia añade presión en precio en mercados internacionales sensibles al coste.
+
+<strong>Riesgo 5 — Aranceles:</strong> Los componentes del da Vinci Xi importados están sujetos a aranceles que comprimen el margen bruto ~100bps. Management ha confirmado que es un headwind para H2 2026.`,
+    verdict:`Intuitive Surgical es el mejor negocio de MedTech del mundo: un quasi-monopolio de 30 años en cirugía robótica de tejido blando, con switching costs casi infinitos, modelo razor/blade con 86% de revenue recurrente, y un runway de penetración global que apenas supera el 10% del mercado addressable.
+
+La caída del -27% YTD no refleja deterioro fundamental — refleja compresión de múltiplo del sector MedTech de alta valoración. El mercado ha pasado de pagar 60x a pagar 45x, pero los números de Q1 2026 (+23% revenue, +17% procedimientos, guidance elevado) siguen siendo extraordinarios. Como dijo un analista: "ISRG es simultáneamente cara respecto al mercado y barata respecto a su propia historia y su crecimiento."
+
+<strong>El consenso de 44 analistas es Strong Buy (8.2/10) con objetivo mediano de $615 — implica +36% de upside. TIKR proyecta $777 en 2030.</strong>
+
+La entrada ideal está en la zona actual o en correcciones adicionales. La penetración global por debajo del 10% del mercado total addressable garantiza un runway de crecimiento de al menos una década más, con Ion y SP como vectores adicionales completamente independientes.
+
+Estrategia: posición inicial 2–3% a precios actuales ~$453 (~416€). Horizonte mínimo 5 años. No es una posición especulativa — es una de las mejores empresas del mundo con un moat estructural que pocos activos del mercado pueden igualar.`,
+    iak:{name:'iShares U.S. Insurance ETF (IAK)',
+    meta:'IAK · NYSE Arca · ETF Seguros EE.UU. · BlackRock iShares · TER 0,39%',
+    inCartera:false,
+    badges:[
+      ['b-strong','Exposición diversificada al sector más infravalorado que se beneficia de la IA'],
+      ['b-buy','+20% YTD · Morningstar Bronze Medal · PE sectorial 10–12x'],
+      ['b-strong','Progressive 13% + Chubb 13% — los dos mejores nombres del sector como top holdings'],
+      ['b-hold','TER 0,39% — ligeramente superior a ETFs de mercado amplio'],
+      ['b-idea','Descorrelación con tech: beta baja — cobertura perfecta vs. corrección Nasdaq']
+    ],
+    metrics:[
+      {l:'AUM',v:'~$1.000M',s:'iShares BlackRock — fondo establecido'},
+      {l:'TER',v:'0,39%',s:'Aceptable para ETF sectorial especializado'},
+      {l:'Rentabilidad YTD',v:'+20%',s:'Batiendo al S&P 500 en 2026'},
+      {l:'Morningstar',v:'Bronze Medal',s:'Reconocimiento calidad del fondo'}
+    ],
+    moat:`<strong>Por qué el sector asegurador es la oportunidad sectorial más ignorada de 2026:</strong>
+
+El mercado tiene una visión anticuada del sector seguros: empresas lentas, reguladas, con márgenes finos y cíclicas. Esa visión era correcta en 2010. En 2026 hay una transformación en curso que el mercado no está valorando correctamente:
+
+<strong>1. IA como multiplicador de rentabilidad estructural:</strong> La IA en seguros no es un proyecto piloto — es implementación masiva que ya está en producción. Progressive cierra el 70% de interacciones de siniestros sin intervención humana. Allstate usa IA para detección de fraude en tiempo real bloqueando pagos fraudulentos antes de que ocurran. Chubb aplica ML para suscripción de riesgos comerciales complejos. El ahorro estructural de costes es permanente y se acumula año a año.
+
+<strong>2. Nuevos riesgos asegurables — mercados completamente nuevos:</strong> La explosión de la economía digital crea categorías de riesgo que no existían hace 5 años: seguros de ciberataques para empresas (mercado $25.000M creciendo al 25% anual), seguros de responsabilidad de modelos de IA, seguros paramétricos de infraestructura de data centers, seguros de flotas de vehículos autónomos. Las aseguradoras que definan y suscriban estos riesgos primero construyen moats de décadas.
+
+<strong>3. Subida de tipos — ingresos de float multiplicados:</strong> Las aseguradoras gestionan enormes reservas de dinero (el "float") que invierten en bonos y renta fija. Con tipos más altos que en la última década, los ingresos financieros del float se han multiplicado — añadiendo rentabilidad adicional sin incrementar el riesgo de suscripción.
+
+<strong>4. Disciplina de suscripción post-catástrofes:</strong> Los años 2022–2024 forzaron subidas de primas masivas en auto, hogar y comercial. Esas primas elevadas se están "ganando" a lo largo de 2025–2026, generando combined ratios extraordinariamente bajos. El sector está en su mejor momento de rentabilidad en 15 años.
+
+<strong>Las 10 principales posiciones del IAK (66% del fondo):</strong>
+Chubb (CB) 13,16% — seguros premium globales, el Warren Buffett de las aseguradoras. Progressive (PGR) 13,04% — el líder tecnológico descrito arriba. Travelers (TRV) 7,29% — líder en seguros comerciales. Allstate (ALL) 6,17% — auto y hogar con IA avanzada. MetLife (MET) 5,24% — vida e institucional global. Aflac (AFL) 4,61% — suplementario con modelo de distribución único. Hartford (HIG) 4,28%. AIG (AIG) 4,27% — turnaround completado, bien posicionado. Prudential (PRU) 4,15%. Arch Capital (ACGL) 3,85% — especialidad y reaseguro.`,
+    motor:`<strong>Los cinco catalizadores estructurales del sector en 2026–2028:</strong>
+
+Catalizador 1 — IA reduciendo el combined ratio: Cada punto de mejora en combined ratio equivale a decenas de millones de euros de beneficio adicional. Las aseguradoras más avanzadas en IA (Progressive, Allstate, Hartford) están reduciendo su combined ratio 1–2 puntos anuales gracias a mejor suscripción y menor fraude. A escala, esto es enorme.
+
+Catalizador 2 — Mercado de seguros digitales y ciberseguridad: El mercado de cyber insurance crece al 25% anual y apenas está siendo suscrito. Las grandes aseguradoras con capacidad de análisis de riesgo y escala financiera son las únicas capaces de asumir este riesgo a escala. Es un mercado nuevo de decenas de miles de millones que no está en los modelos actuales de valoración.
+
+Catalizador 3 — Vehículos autónomos y cambio en el modelo de auto insurance: Los vehículos autónomos cambiarán quién suscribe el riesgo (del conductor individual al fabricante/operador). Las aseguradoras con experiencia en riesgo de producto y escala global son las mejor posicionadas.
+
+Catalizador 4 — Reaseguro de infraestructura IA: Los data centers de $1 billón que se están construyendo necesitan seguro de infraestructura, seguro de interrupción de negocio, seguro de responsabilidad tecnológica. Mercado completamente nuevo.
+
+Catalizador 5 — Re-rating del múltiplo: El sector cotiza a PE de 10–12x cuando el mercado entienda que es un sector tecnológico de datos, no una industria financiera tradicional. El re-rating puede ser el mayor driver de retorno.`,
+    cats:[
+      'IA reduce combined ratio estructuralmente: cada punto menos = decenas de millones en beneficio adicional permanente',
+      'Cyber insurance +25% CAGR: mercado $25.000M que apenas está siendo captado por las grandes aseguradoras',
+      'Float a tipos altos: reservas de miles de millones generando más rentabilidad financiera que en cualquier año post-2008',
+      'Chubb (13%) + Progressive (13%) en top holdings: los dos mejores operadores del sector en una sola posición',
+      'Diversificación real vs. cartera concentrada en tech: beta baja — protección frente a corrección de Nasdaq',
+      'PE sectorial 10–12x vs. S&P 500 ~21x: el mayor descuento relativo del sector en muchos años',
+      'Alternativa más concentrada: KBWP (Invesco KBW P&C Insurance) si quieres solo P&C sin vida'
+    ],
+    risks:`<strong>Riesgo 1 — Catástrofes climáticas:</strong> Un año de huracanes/inundaciones/incendios severo puede destruir la rentabilidad de suscripción trimestral. Es el riesgo más inmediato e impredecible del sector.
+
+<strong>Riesgo 2 — Ciclo de suscripción:</strong> El entorno actual de combined ratios bajos y primas altas es cíclico. Cuando los competidores entren agresivamente en precio para ganar cuota, los combined ratios subirán y los márgenes bajarán.
+
+<strong>Riesgo 3 — Regulación de pricing:</strong> Algunos estados regulan activamente los precios de los seguros, limitando la capacidad de subir primas. California especialmente es un mercado complicado para las aseguradoras de auto y hogar.
+
+<strong>Riesgo 4 — Concentración en mercado americano:</strong> IAK solo tiene aseguradoras americanas — sin diversificación geográfica. Para exposición global al sector se necesitan ETFs adicionales (Chubb tiene negocio global, pero IAK no incluye aseguradoras europeas como Allianz, AXA o Swiss Re).
+
+<strong>Riesgo 5 — TER 0,39%:</strong> Es más caro que un ETF de mercado amplio (0,07–0,20%), aunque razonable para un ETF sectorial especializado.`,
+    verdict:`El IAK es la forma más eficiente y diversificada de posicionarse en la transformación del sector asegurador por IA, sin tener que elegir una empresa individual. Con Progressive (13%) como exposición al líder tecnológico del sector P&C y Chubb (13%) como exposición a la aseguradora de mayor calidad global, capta los dos mejores nombres del sector en una sola posición.
+
+La tesis de inversión es simple pero poderosa: el mercado sigue valorando al sector asegurador como una industria financiera tradicional (PE 10–12x) cuando en realidad se está convirtiendo en un sector tecnológico de datos con moats digitales, nuevos mercados (cyber, IA, vehículos autónomos) y mejoras estructurales de rentabilidad por IA.
+
+Lo más atractivo del IAK como complemento de cartera: tiene una beta baja (baja correlación con el Nasdaq), ofrece dividendos trimestrales, y actúa como cobertura natural frente a una corrección del sector tech donde está concentrada la mayor parte de tu cartera.
+
+<strong>+20% YTD en 2026 ya demuestra que el mercado está empezando a reconocer la tesis. Pero la mayor parte del re-rating aún no ha ocurrido.</strong>
+
+Estrategia: posición inicial 3–5% del portfolio como contrapeso defensivo a la concentración tecnológica. Mantener indefinidamente. Reinvertir dividendos. Es el complemento ideal para una cartera con 50%+ en semiconductores, cloud y IA.`,
+    ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
+  avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
+  ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
+  constellation:{name:'Constellation Software'
+    meta:'PGR · NYSE · Seguros P&C / IA Underwriting / Auto',
+    inCartera:false,
+    badges:[['b-strong','Líder en suscripción por IA — 10 años de ventaja tecnológica'],['b-buy','PE 10,5x — 58% por debajo de su media histórica'],['b-buy','Combined ratio 86,4 — rentabilidad excepcional'],['b-hold','Momentum de crecimiento moderándose']],
+    metrics:[
+      {l:'Precio actual',v:'~$207',s:'junio 2026'},
+      {l:'Forward PE',v:'12,1x',s:'vs. media 10 años 24,8x — 51% más barato históricamente'},
+      {l:'PE sector peers',v:'10,7x mediana',s:'Progressive ligera prima — justificada por calidad'},
+      {l:'Obj. BofA',v:'$331',s:'Buy — upside +60%'}
+    ],
+    moat:'27 millones de pólizas de auto en vigor — la mayor aseguradora de auto directa de EE.UU. Modelo Snapshot de telemetría: usa datos de conducción real para suscribir riesgo con precisión imposible para competidores sin esa base de datos. Combined ratio de 86,4 en Q1 2026 — significa que por cada 100€ de prima recaudada solo gasta 86,4€ en siniestros y gastos, generando 13,6€ de beneficio de suscripción puro. 10+ años de ventaja en uso de datos para pricing.',
+    motor:'Q1 2026: EPS $4,81 (+9,8% YoY). Revenue $22.200M (+8,7% YoY). Net premiums escritas +6%. Inversión en IA para eficiencia de gastos que analistas citan específicamente. Combined ratio 86,4 demuestra disciplina de suscripción excepcional. Reforma tort en Florida reduce exposición a litigios fraudulentos. GF Value intrínseco de $268 — acción cotiza a $207, implicando 29% de descuento según GuruFocus.',
+    cats:['IA en suscripción: sistema de segmentación refinado + modelo de producto personal auto actualizado','Reforma tort Florida: reduce litigios fraudulentos que distorsionaban siniestralidad','Combined ratio 86,4 — mejor del sector P&C — genera FCF masivo para crecer','Distribución directa + independiente: doble canal que ningún competidor replica a la misma escala','Expansión hacia home insurance: diversificación del modelo con menor volatilidad cíclica'],
+    risks:'Crecimiento de primas moderándose a +6% YoY vs. años anteriores con +20%+. Core loss ratio al alza puede presionar márgenes. Competencia intensa de Allstate, State Farm, Geico que también invierten en IA. Exposición a catástrofes climáticas (aunque menor que homeowners puro). Objetivo de precio consenso ~$239 — limitado upside a corto plazo salvo re-rating del múltiplo.',
+    verdict:'Progressive es la aseguradora más inteligente del mundo desde el punto de vista tecnológico. Su ventaja en datos de conducción (Snapshot) y modelos de suscripción por IA lleva más de una década de desarrollo — no se replica fácilmente. A PE de 10,5x cotiza al 58% de descuento respecto a su media histórica de 24,8x, lo que sugiere que el mercado no está valorando el potencial del re-rating cuando el sector sea reconocido como beneficiario de la IA. BofA tiene objetivo de $331 (+60% upside). Ideal como posición defensiva complementaria a la concentración en tech. Entrada: zona actual $195–215 (~179–198€).'},
+  isrg:{name:'Intuitive Surgical',
+    meta:'ISRG · Nasdaq · Monopolio Cirugía Robótica / IA Quirúrgica / MedTech · Fundada 1995',
+    inCartera:false,
+    badges:[
+      ['b-strong','Quasi-monopolio en cirugía robótica de tejido blando — 70–80% cuota global'],
+      ['b-buy','Caída -27% YTD = oportunidad: múltiplo comprimido de 60x a 45x sin deterioro fundamental'],
+      ['b-buy','86% revenue recurrente — visibilidad excepcional de beneficios futuros'],
+      ['b-hold','Forward PE 45x — valoración exigente pero en rango razonable para el moat'],
+      ['b-warn','China: competidores locales reducen placements — 4 unidades en Q1 2026']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$453',s:'junio 2026 — YTD -27%'},
+      {l:'Forward PE',v:'~45x NTM',s:'vs. >60x hace un año — compresión ya realizada'},
+      {l:'PE medtech peers',v:'Stryker 25x · Medtronic 15x',s:'ISRG cotiza prima por moat y crecimiento superior'},
+      {l:'Obj. mediano',v:'$615',s:'44 analistas · Strong Buy 8.2/10 · rango $378–$750'}
+    ],
+    moat:`<strong>El moat más profundo del sector MedTech — construido durante 30 años:</strong>
+
+<strong>1. Base instalada de 11.395 sistemas — switching costs casi infinitos:</strong> Un hospital que instala un da Vinci reestructura su quirófano, forma a sus cirujanos (meses de entrenamiento), crea flujos de trabajo específicos, firma contratos de mantenimiento y construye toda su cadena de suministro de instrumental alrededor del sistema. El coste de cambiar a un competidor no es solo el precio del nuevo robot — es la reconversión de toda la infraestructura clínica. Esto hace que la tasa de retención de clientes sea casi del 100%.
+
+<strong>2. Lock-in del cirujano — la barrera más alta:</strong> Los programas de residencia médica en EE.UU. forman a los cirujanos sobre da Vinci. Cuando un cirujano entra en el mercado laboral ya sabe usar da Vinci. Aprender un sistema diferente requiere recredenciación, reentrenamiento del equipo de quirófano y semanas sin operar. El resultado: los cirujanos "piden" da Vinci en los hospitales donde trabajan. La demanda no viene del marketing de ISRG — viene de los propios médicos.
+
+<strong>3. Modelo razor/blade — recurrencia del 86%:</strong> El sistema da Vinci (el "razor") se vende o arrienda. Pero los instrumentos, accesorios y servicios (las "blades") son de uso único o recurrente y generan el 86% del revenue. Cada procedimiento que se realiza con da Vinci genera revenue automáticamente, independientemente de si se instalan sistemas nuevos. Con 20 millones de procedimientos acumulados y creciendo al 17% anual, la base recurrente se compone sola.
+
+<strong>4. Datos clínicos — 30 años de ventaja:</strong> Más de 20 millones de procedimientos generan el mayor dataset de cirugía robótica del mundo. Cada operación enseña al sistema. Los competidores (Medtronic Hugo, J&J Ottava, CMR Versius) están en fase de acumulación de datos clínicos — llevan años de retraso en evidencia científica publicada que los cirujanos y comités hospitalarios exigen antes de adoptar una plataforma.
+
+<strong>5. "Platform Refresh Wall" — da Vinci 5 bloquea el mercado:</strong> El da Vinci 5 representó el 85% de las instalaciones en EE.UU. en Q1 2026. Esto significa que los hospitales americanos están actualizando sus sistemas ahora, bloqueando sus presupuestos de capital en ISRG por el ciclo de vida completo del sistema (7–10 años). Medtronic y J&J no pueden penetrar esos hospitales hasta que ese ciclo venza.`,
+    motor:`<strong>Q1 2026 — números que refutan la narrativa bajista:</strong>
+Revenue $2.770M (+23% YoY). Procedimientos +17% YoY. Sistemas instalados: 11.395 (+12% YoY). Da Vinci 5 instalados: 1.500+ globalmente. EPS $2,50 (+20% vs. consenso). FCF anual $2.500M (duplicado YoY). Guidance 2026 elevado a 14–16% crecimiento procedimientos.
+
+<strong>Lo más revelador: revenue creció un 23% mientras los procedimientos crecieron solo un 17%.</strong> Esa brecha de 6 puntos es el "innovation-led revenue premium" — el da Vinci 5 genera más revenue por procedimiento gracias a su pricing premium y mayor utilización (11% más alta que generaciones anteriores). El CFO lo confirmó: "Where you can be differentiated and make a meaningful difference for customers, then you get to sharing that value in the form of accretive pricing."
+
+<strong>Tres vectores de crecimiento adicionales más allá del da Vinci estándar:</strong>
+
+Vector 1 — Ion (biopsia pulmonar): +39% de crecimiento en procedimientos en Q1. Es una plataforma completamente diferente al da Vinci, en un mercado nuevo, generando un segundo flywheel independiente.
+
+Vector 2 — SP (Single Port): +68% de crecimiento en procedimientos. Cirugía de puerto único — diferente categoría con adopción acelerándose.
+
+Vector 3 — Internacional: Japón introduce reembolso para 7 nuevos procedimientos robóticos desde junio 2026. Europa: adquisición de red de distribución directa (Italia, España, Portugal) — más margen y control del canal.`,
+    cats:[
+      'Caída -27% YTD = oportunidad real: múltiplo de 60x comprimido a 45x sin ningún deterioro en fundamentales',
+      '"Platform Refresh Wall": 85% de instalaciones en EE.UU. son da Vinci 5 — bloquea presupuestos hospitalarios 7–10 años vs. competidores',
+      'Ion +39% procedimientos — segunda plataforma creciendo independientemente; diversifica riesgo del portfolio de procedimientos',
+      'Japón: reembolso para 7 nuevos procedimientos desde junio 2026 — catalizador internacional concreto e inmediato',
+      'Adquisición distribución directa Europa (Italia, España, Portugal) — control canal + mejora de márgenes',
+      'Penetración global <10% del pool total de procedimientos addressable — el runway de crecimiento es generacional',
+      'TIKR mid-case: $777 por acción en 2030 asumiendo revenue CAGR 12% y márgenes netos 32%'
+    ],
+    risks:`<strong>Riesgo 1 — Valoración que no perdona errores:</strong> A 45x forward PE, cualquier decepción en guidance (procedimientos por debajo del 13,5% guiado, o presión de márgenes por aranceles) puede generar correcciones adicionales. Deutsche Bank tiene Sell con objetivo $366 basado en modelos DCF conservadores.
+
+<strong>Riesgo 2 — GLP-1 y reducción de cirugías bariátricas:</strong> Los fármacos GLP-1 (Ozempic, Mounjaro) reducen la necesidad de cirugía de bypass gástrico. Este segmento era históricamente de alto volumen para da Vinci. La dirección ha señalado que colecistectomía y reparación de hernia están compensando, pero el impacto estructural en bariátrica es permanente.
+
+<strong>Riesgo 3 — China:</strong> Solo 4 sistemas instalados en Q1 2026 en China — competidores locales (MicroPort y otros) están ganando terreno en licitaciones. China era un mercado de alto crecimiento; su pérdida impacta el OUS growth rate que sustenta la tesis.
+
+<strong>Riesgo 4 — Competencia emergente:</strong> Hugo de Medtronic supera los 30.000 procedimientos globales. Ottava de J&J tiene respaldo financiero ilimitado. Versius de CMR Surgical recibió aprobación en EE.UU. Ninguno está cerca de replicar el moat de ISRG, pero la competencia añade presión en precio en mercados internacionales sensibles al coste.
+
+<strong>Riesgo 5 — Aranceles:</strong> Los componentes del da Vinci Xi importados están sujetos a aranceles que comprimen el margen bruto ~100bps. Management ha confirmado que es un headwind para H2 2026.`,
+    verdict:`Intuitive Surgical es el mejor negocio de MedTech del mundo: un quasi-monopolio de 30 años en cirugía robótica de tejido blando, con switching costs casi infinitos, modelo razor/blade con 86% de revenue recurrente, y un runway de penetración global que apenas supera el 10% del mercado addressable.
+
+La caída del -27% YTD no refleja deterioro fundamental — refleja compresión de múltiplo del sector MedTech de alta valoración. El mercado ha pasado de pagar 60x a pagar 45x, pero los números de Q1 2026 (+23% revenue, +17% procedimientos, guidance elevado) siguen siendo extraordinarios. Como dijo un analista: "ISRG es simultáneamente cara respecto al mercado y barata respecto a su propia historia y su crecimiento."
+
+<strong>El consenso de 44 analistas es Strong Buy (8.2/10) con objetivo mediano de $615 — implica +36% de upside. TIKR proyecta $777 en 2030.</strong>
+
+La entrada ideal está en la zona actual o en correcciones adicionales. La penetración global por debajo del 10% del mercado total addressable garantiza un runway de crecimiento de al menos una década más, con Ion y SP como vectores adicionales completamente independientes.
+
+Estrategia: posición inicial 2–3% a precios actuales ~$453 (~416€). Horizonte mínimo 5 años. No es una posición especulativa — es una de las mejores empresas del mundo con un moat estructural que pocos activos del mercado pueden igualar.`,
+    iak:{name:'iShares U.S. Insurance ETF (IAK)',
+    meta:'IAK · NYSE Arca · ETF Seguros EE.UU. · BlackRock iShares · TER 0,39%',
+    inCartera:false,
+    badges:[
+      ['b-strong','Exposición diversificada al sector más infravalorado que se beneficia de la IA'],
+      ['b-buy','+20% YTD · Morningstar Bronze Medal · PE sectorial 10–12x'],
+      ['b-strong','Progressive 13% + Chubb 13% — los dos mejores nombres del sector como top holdings'],
+      ['b-hold','TER 0,39% — ligeramente superior a ETFs de mercado amplio'],
+      ['b-idea','Descorrelación con tech: beta baja — cobertura perfecta vs. corrección Nasdaq']
+    ],
+    metrics:[
+      {l:'AUM',v:'~$1.000M',s:'iShares BlackRock — fondo establecido'},
+      {l:'TER',v:'0,39%',s:'Aceptable para ETF sectorial especializado'},
+      {l:'Rentabilidad YTD',v:'+20%',s:'Batiendo al S&P 500 en 2026'},
+      {l:'Morningstar',v:'Bronze Medal',s:'Reconocimiento calidad del fondo'}
+    ],
+    moat:`<strong>Por qué el sector asegurador es la oportunidad sectorial más ignorada de 2026:</strong>
+
+El mercado tiene una visión anticuada del sector seguros: empresas lentas, reguladas, con márgenes finos y cíclicas. Esa visión era correcta en 2010. En 2026 hay una transformación en curso que el mercado no está valorando correctamente:
+
+<strong>1. IA como multiplicador de rentabilidad estructural:</strong> La IA en seguros no es un proyecto piloto — es implementación masiva que ya está en producción. Progressive cierra el 70% de interacciones de siniestros sin intervención humana. Allstate usa IA para detección de fraude en tiempo real bloqueando pagos fraudulentos antes de que ocurran. Chubb aplica ML para suscripción de riesgos comerciales complejos. El ahorro estructural de costes es permanente y se acumula año a año.
+
+<strong>2. Nuevos riesgos asegurables — mercados completamente nuevos:</strong> La explosión de la economía digital crea categorías de riesgo que no existían hace 5 años: seguros de ciberataques para empresas (mercado $25.000M creciendo al 25% anual), seguros de responsabilidad de modelos de IA, seguros paramétricos de infraestructura de data centers, seguros de flotas de vehículos autónomos. Las aseguradoras que definan y suscriban estos riesgos primero construyen moats de décadas.
+
+<strong>3. Subida de tipos — ingresos de float multiplicados:</strong> Las aseguradoras gestionan enormes reservas de dinero (el "float") que invierten en bonos y renta fija. Con tipos más altos que en la última década, los ingresos financieros del float se han multiplicado — añadiendo rentabilidad adicional sin incrementar el riesgo de suscripción.
+
+<strong>4. Disciplina de suscripción post-catástrofes:</strong> Los años 2022–2024 forzaron subidas de primas masivas en auto, hogar y comercial. Esas primas elevadas se están "ganando" a lo largo de 2025–2026, generando combined ratios extraordinariamente bajos. El sector está en su mejor momento de rentabilidad en 15 años.
+
+<strong>Las 10 principales posiciones del IAK (66% del fondo):</strong>
+Chubb (CB) 13,16% — seguros premium globales, el Warren Buffett de las aseguradoras. Progressive (PGR) 13,04% — el líder tecnológico descrito arriba. Travelers (TRV) 7,29% — líder en seguros comerciales. Allstate (ALL) 6,17% — auto y hogar con IA avanzada. MetLife (MET) 5,24% — vida e institucional global. Aflac (AFL) 4,61% — suplementario con modelo de distribución único. Hartford (HIG) 4,28%. AIG (AIG) 4,27% — turnaround completado, bien posicionado. Prudential (PRU) 4,15%. Arch Capital (ACGL) 3,85% — especialidad y reaseguro.`,
+    motor:`<strong>Los cinco catalizadores estructurales del sector en 2026–2028:</strong>
+
+Catalizador 1 — IA reduciendo el combined ratio: Cada punto de mejora en combined ratio equivale a decenas de millones de euros de beneficio adicional. Las aseguradoras más avanzadas en IA (Progressive, Allstate, Hartford) están reduciendo su combined ratio 1–2 puntos anuales gracias a mejor suscripción y menor fraude. A escala, esto es enorme.
+
+Catalizador 2 — Mercado de seguros digitales y ciberseguridad: El mercado de cyber insurance crece al 25% anual y apenas está siendo suscrito. Las grandes aseguradoras con capacidad de análisis de riesgo y escala financiera son las únicas capaces de asumir este riesgo a escala. Es un mercado nuevo de decenas de miles de millones que no está en los modelos actuales de valoración.
+
+Catalizador 3 — Vehículos autónomos y cambio en el modelo de auto insurance: Los vehículos autónomos cambiarán quién suscribe el riesgo (del conductor individual al fabricante/operador). Las aseguradoras con experiencia en riesgo de producto y escala global son las mejor posicionadas.
+
+Catalizador 4 — Reaseguro de infraestructura IA: Los data centers de $1 billón que se están construyendo necesitan seguro de infraestructura, seguro de interrupción de negocio, seguro de responsabilidad tecnológica. Mercado completamente nuevo.
+
+Catalizador 5 — Re-rating del múltiplo: El sector cotiza a PE de 10–12x cuando el mercado entienda que es un sector tecnológico de datos, no una industria financiera tradicional. El re-rating puede ser el mayor driver de retorno.`,
+    cats:[
+      'IA reduce combined ratio estructuralmente: cada punto menos = decenas de millones en beneficio adicional permanente',
+      'Cyber insurance +25% CAGR: mercado $25.000M que apenas está siendo captado por las grandes aseguradoras',
+      'Float a tipos altos: reservas de miles de millones generando más rentabilidad financiera que en cualquier año post-2008',
+      'Chubb (13%) + Progressive (13%) en top holdings: los dos mejores operadores del sector en una sola posición',
+      'Diversificación real vs. cartera concentrada en tech: beta baja — protección frente a corrección de Nasdaq',
+      'PE sectorial 10–12x vs. S&P 500 ~21x: el mayor descuento relativo del sector en muchos años',
+      'Alternativa más concentrada: KBWP (Invesco KBW P&C Insurance) si quieres solo P&C sin vida'
+    ],
+    risks:`<strong>Riesgo 1 — Catástrofes climáticas:</strong> Un año de huracanes/inundaciones/incendios severo puede destruir la rentabilidad de suscripción trimestral. Es el riesgo más inmediato e impredecible del sector.
+
+<strong>Riesgo 2 — Ciclo de suscripción:</strong> El entorno actual de combined ratios bajos y primas altas es cíclico. Cuando los competidores entren agresivamente en precio para ganar cuota, los combined ratios subirán y los márgenes bajarán.
+
+<strong>Riesgo 3 — Regulación de pricing:</strong> Algunos estados regulan activamente los precios de los seguros, limitando la capacidad de subir primas. California especialmente es un mercado complicado para las aseguradoras de auto y hogar.
+
+<strong>Riesgo 4 — Concentración en mercado americano:</strong> IAK solo tiene aseguradoras americanas — sin diversificación geográfica. Para exposición global al sector se necesitan ETFs adicionales (Chubb tiene negocio global, pero IAK no incluye aseguradoras europeas como Allianz, AXA o Swiss Re).
+
+<strong>Riesgo 5 — TER 0,39%:</strong> Es más caro que un ETF de mercado amplio (0,07–0,20%), aunque razonable para un ETF sectorial especializado.`,
+    verdict:`El IAK es la forma más eficiente y diversificada de posicionarse en la transformación del sector asegurador por IA, sin tener que elegir una empresa individual. Con Progressive (13%) como exposición al líder tecnológico del sector P&C y Chubb (13%) como exposición a la aseguradora de mayor calidad global, capta los dos mejores nombres del sector en una sola posición.
+
+La tesis de inversión es simple pero poderosa: el mercado sigue valorando al sector asegurador como una industria financiera tradicional (PE 10–12x) cuando en realidad se está convirtiendo en un sector tecnológico de datos con moats digitales, nuevos mercados (cyber, IA, vehículos autónomos) y mejoras estructurales de rentabilidad por IA.
+
+Lo más atractivo del IAK como complemento de cartera: tiene una beta baja (baja correlación con el Nasdaq), ofrece dividendos trimestrales, y actúa como cobertura natural frente a una corrección del sector tech donde está concentrada la mayor parte de tu cartera.
+
+<strong>+20% YTD en 2026 ya demuestra que el mercado está empezando a reconocer la tesis. Pero la mayor parte del re-rating aún no ha ocurrido.</strong>
+
+Estrategia: posición inicial 3–5% del portfolio como contrapeso defensivo a la concentración tecnológica. Mantener indefinidamente. Reinvertir dividendos. Es el complemento ideal para una cartera con 50%+ en semiconductores, cloud y IA.`,
+    ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
+  avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
+  ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
+  constellation:{name:'Constellation Software'
+    meta:'ISRG · Nasdaq · Cirugía robótica / IA quirúrgica / MedTech',
+    inCartera:false,
+    badges:[['b-strong','Monopolio en cirugía robótica — 20 años de foso'],['b-hold','Forward PE 45x — valoración exigente pero justificada'],['b-buy','36% upside — consenso 44 analistas Strong Buy'],['b-warn','Presión GLP-1 en procedimientos bariátricos']],
+    metrics:[
+      {l:'Precio actual',v:'~$453',s:'junio 2026 — YTD -27%'},
+      {l:'Forward PE',v:'~45x NTM',s:'vs. >60x hace un año — compresión ya realizada'},
+      {l:'PE sector peers',v:'MedTech líderes ~40–55x',s:'ISRG en rango razonable del sector'},
+      {l:'Obj. mediano',v:'$615',s:'44 analistas — Strong Buy 8.2/10'}
+    ],
+    moat:'11.395 sistemas da Vinci instalados globalmente — base de instalaciones que genera recurring revenue predecible (instruments + services = 70%+ del revenue). 20+ millones de procedimientos acumulados desde fundación. Switching costs extremos: un hospital que forma a sus cirujanos en da Vinci no cambia de sistema. Red de distribución en 70+ países. Ion (biopsia pulmonar) y SP (puerto único) como vectores adicionales de crecimiento.',
+    motor:'Q1 2026: revenue $2.770M (+23% YoY). Procedimientos +17% YoY. 432 sistemas da Vinci instalados (232 de nueva generación da Vinci 5). EPS $2,50 — +20% vs. estimados. FCF anual duplicado a $2.500M. Da Vinci 5 tiene 11% más de utilización que generación anterior — revenue crece más rápido que procedimientos (revenue +23% vs. procedimientos +17%). Guidance 2026 elevado a 14–16% crecimiento de procedimientos. Japón: reembolso para 7 nuevos procedimientos robóticos desde junio 2026.',
+    cats:['Da Vinci 5: genera "innovation-led revenue" — pricing premium que mercado aún no valora completamente','Japón: reembolso para 7 nuevos procedimientos desde junio 2026 — catalizador internacional inmediato','Ion: biopsia pulmonar creciendo — nuevo mercado independiente de cirugía abdominal','Adquisición distribución Europa (Italia, España, Portugal) — control directo de canal','TIKR modelo mid-case: $777 por acción en 2030 con revenue CAGR 12% y márgenes 32%'],
+    risks:'Forward PE 45x permite poco margen de error. Caída -27% YTD sugiere que el mercado ya ha penalizado la valoración. GLP-1 (Ozempic, Mounjaro) reduce procedimientos bariátricos que eran alto volumen para da Vinci. Competencia creciente de Medtronic (Hugo) y J&J (Ottava) en robótica quirúrgica. Aranceles sobre componentes da Vinci Xi comprimen márgenes brutos -100bps. China: competidores locales ganando terreno en licitaciones.',
+    verdict:'La mejor empresa de robótica quirúrgica del mundo con un moat construido durante 20 años que ningún competidor puede replicar a corto plazo. La caída del -27% YTD ha creado una oportunidad de entrada mucho más atractiva que hace un año (cuando cotizaba a 60x). A 45x forward PE el precio descuenta el crecimiento pero no la optionalidad de nuevas plataformas (Ion, SP) ni la expansión internacional. El consenso de 44 analistas con objetivo $615 implica +36% de upside. TIKR proyecta $777 en 2030. Entrada ideal: zona $420–460 (~386–423€) en correcciones. Posición inicial 2–3%.'},
+  iak:{name:'iShares U.S. Insurance ETF (IAK)',
+    meta:'IAK · NYSE Arca · ETF Seguros EE.UU. · BlackRock iShares · TER 0,39%',
+    inCartera:false,
+    badges:[
+      ['b-strong','Exposición diversificada al sector más infravalorado que se beneficia de la IA'],
+      ['b-buy','+20% YTD · Morningstar Bronze Medal · PE sectorial 10–12x'],
+      ['b-strong','Progressive 13% + Chubb 13% — los dos mejores nombres del sector como top holdings'],
+      ['b-hold','TER 0,39% — ligeramente superior a ETFs de mercado amplio'],
+      ['b-idea','Descorrelación con tech: beta baja — cobertura perfecta vs. corrección Nasdaq']
+    ],
+    metrics:[
+      {l:'AUM',v:'~$1.000M',s:'iShares BlackRock — fondo establecido'},
+      {l:'TER',v:'0,39%',s:'Aceptable para ETF sectorial especializado'},
+      {l:'Rentabilidad YTD',v:'+20%',s:'Batiendo al S&P 500 en 2026'},
+      {l:'Morningstar',v:'Bronze Medal',s:'Reconocimiento calidad del fondo'}
+    ],
+    moat:`<strong>Por qué el sector asegurador es la oportunidad sectorial más ignorada de 2026:</strong>
+
+El mercado tiene una visión anticuada del sector seguros: empresas lentas, reguladas, con márgenes finos y cíclicas. Esa visión era correcta en 2010. En 2026 hay una transformación en curso que el mercado no está valorando correctamente:
+
+<strong>1. IA como multiplicador de rentabilidad estructural:</strong> La IA en seguros no es un proyecto piloto — es implementación masiva que ya está en producción. Progressive cierra el 70% de interacciones de siniestros sin intervención humana. Allstate usa IA para detección de fraude en tiempo real bloqueando pagos fraudulentos antes de que ocurran. Chubb aplica ML para suscripción de riesgos comerciales complejos. El ahorro estructural de costes es permanente y se acumula año a año.
+
+<strong>2. Nuevos riesgos asegurables — mercados completamente nuevos:</strong> La explosión de la economía digital crea categorías de riesgo que no existían hace 5 años: seguros de ciberataques para empresas (mercado $25.000M creciendo al 25% anual), seguros de responsabilidad de modelos de IA, seguros paramétricos de infraestructura de data centers, seguros de flotas de vehículos autónomos. Las aseguradoras que definan y suscriban estos riesgos primero construyen moats de décadas.
+
+<strong>3. Subida de tipos — ingresos de float multiplicados:</strong> Las aseguradoras gestionan enormes reservas de dinero (el "float") que invierten en bonos y renta fija. Con tipos más altos que en la última década, los ingresos financieros del float se han multiplicado — añadiendo rentabilidad adicional sin incrementar el riesgo de suscripción.
+
+<strong>4. Disciplina de suscripción post-catástrofes:</strong> Los años 2022–2024 forzaron subidas de primas masivas en auto, hogar y comercial. Esas primas elevadas se están "ganando" a lo largo de 2025–2026, generando combined ratios extraordinariamente bajos. El sector está en su mejor momento de rentabilidad en 15 años.
+
+<strong>Las 10 principales posiciones del IAK (66% del fondo):</strong>
+Chubb (CB) 13,16% — seguros premium globales, el Warren Buffett de las aseguradoras. Progressive (PGR) 13,04% — el líder tecnológico descrito arriba. Travelers (TRV) 7,29% — líder en seguros comerciales. Allstate (ALL) 6,17% — auto y hogar con IA avanzada. MetLife (MET) 5,24% — vida e institucional global. Aflac (AFL) 4,61% — suplementario con modelo de distribución único. Hartford (HIG) 4,28%. AIG (AIG) 4,27% — turnaround completado, bien posicionado. Prudential (PRU) 4,15%. Arch Capital (ACGL) 3,85% — especialidad y reaseguro.`,
+    motor:`<strong>Los cinco catalizadores estructurales del sector en 2026–2028:</strong>
+
+Catalizador 1 — IA reduciendo el combined ratio: Cada punto de mejora en combined ratio equivale a decenas de millones de euros de beneficio adicional. Las aseguradoras más avanzadas en IA (Progressive, Allstate, Hartford) están reduciendo su combined ratio 1–2 puntos anuales gracias a mejor suscripción y menor fraude. A escala, esto es enorme.
+
+Catalizador 2 — Mercado de seguros digitales y ciberseguridad: El mercado de cyber insurance crece al 25% anual y apenas está siendo suscrito. Las grandes aseguradoras con capacidad de análisis de riesgo y escala financiera son las únicas capaces de asumir este riesgo a escala. Es un mercado nuevo de decenas de miles de millones que no está en los modelos actuales de valoración.
+
+Catalizador 3 — Vehículos autónomos y cambio en el modelo de auto insurance: Los vehículos autónomos cambiarán quién suscribe el riesgo (del conductor individual al fabricante/operador). Las aseguradoras con experiencia en riesgo de producto y escala global son las mejor posicionadas.
+
+Catalizador 4 — Reaseguro de infraestructura IA: Los data centers de $1 billón que se están construyendo necesitan seguro de infraestructura, seguro de interrupción de negocio, seguro de responsabilidad tecnológica. Mercado completamente nuevo.
+
+Catalizador 5 — Re-rating del múltiplo: El sector cotiza a PE de 10–12x cuando el mercado entienda que es un sector tecnológico de datos, no una industria financiera tradicional. El re-rating puede ser el mayor driver de retorno.`,
+    cats:[
+      'IA reduce combined ratio estructuralmente: cada punto menos = decenas de millones en beneficio adicional permanente',
+      'Cyber insurance +25% CAGR: mercado $25.000M que apenas está siendo captado por las grandes aseguradoras',
+      'Float a tipos altos: reservas de miles de millones generando más rentabilidad financiera que en cualquier año post-2008',
+      'Chubb (13%) + Progressive (13%) en top holdings: los dos mejores operadores del sector en una sola posición',
+      'Diversificación real vs. cartera concentrada en tech: beta baja — protección frente a corrección de Nasdaq',
+      'PE sectorial 10–12x vs. S&P 500 ~21x: el mayor descuento relativo del sector en muchos años',
+      'Alternativa más concentrada: KBWP (Invesco KBW P&C Insurance) si quieres solo P&C sin vida'
+    ],
+    risks:`<strong>Riesgo 1 — Catástrofes climáticas:</strong> Un año de huracanes/inundaciones/incendios severo puede destruir la rentabilidad de suscripción trimestral. Es el riesgo más inmediato e impredecible del sector.
+
+<strong>Riesgo 2 — Ciclo de suscripción:</strong> El entorno actual de combined ratios bajos y primas altas es cíclico. Cuando los competidores entren agresivamente en precio para ganar cuota, los combined ratios subirán y los márgenes bajarán.
+
+<strong>Riesgo 3 — Regulación de pricing:</strong> Algunos estados regulan activamente los precios de los seguros, limitando la capacidad de subir primas. California especialmente es un mercado complicado para las aseguradoras de auto y hogar.
+
+<strong>Riesgo 4 — Concentración en mercado americano:</strong> IAK solo tiene aseguradoras americanas — sin diversificación geográfica. Para exposición global al sector se necesitan ETFs adicionales (Chubb tiene negocio global, pero IAK no incluye aseguradoras europeas como Allianz, AXA o Swiss Re).
+
+<strong>Riesgo 5 — TER 0,39%:</strong> Es más caro que un ETF de mercado amplio (0,07–0,20%), aunque razonable para un ETF sectorial especializado.`,
+    verdict:`El IAK es la forma más eficiente y diversificada de posicionarse en la transformación del sector asegurador por IA, sin tener que elegir una empresa individual. Con Progressive (13%) como exposición al líder tecnológico del sector P&C y Chubb (13%) como exposición a la aseguradora de mayor calidad global, capta los dos mejores nombres del sector en una sola posición.
+
+La tesis de inversión es simple pero poderosa: el mercado sigue valorando al sector asegurador como una industria financiera tradicional (PE 10–12x) cuando en realidad se está convirtiendo en un sector tecnológico de datos con moats digitales, nuevos mercados (cyber, IA, vehículos autónomos) y mejoras estructurales de rentabilidad por IA.
+
+Lo más atractivo del IAK como complemento de cartera: tiene una beta baja (baja correlación con el Nasdaq), ofrece dividendos trimestrales, y actúa como cobertura natural frente a una corrección del sector tech donde está concentrada la mayor parte de tu cartera.
+
+<strong>+20% YTD en 2026 ya demuestra que el mercado está empezando a reconocer la tesis. Pero la mayor parte del re-rating aún no ha ocurrido.</strong>
+
+Estrategia: posición inicial 3–5% del portfolio como contrapeso defensivo a la concentración tecnológica. Mantener indefinidamente. Reinvertir dividendos. Es el complemento ideal para una cartera con 50%+ en semiconductores, cloud y IA.`,
+    ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
+  avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
+  ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
+  constellation:{name:'Constellation Software'
+    meta:'IAK · NYSE · ETF Seguros EE.UU. / IA Underwriting / P&C + Vida',
+    inCartera:false,
+    badges:[['b-strong','Exposición diversificada al sector más transformado por IA fuera de tech'],['b-buy','+20% YTD — Morningstar Bronze Medal'],['b-hold','TER 0,39% — algo elevado para un ETF sectorial'],['b-idea','Descorrelación con tech — cobertura ideal']],
+    metrics:[
+      {l:'Precio actual',v:'~ETF sectorial',s:'iShares BlackRock'},
+      {l:'TER (comisión)',v:'0,39%',s:'aceptable para ETF sectorial'},
+      {l:'Rentabilidad YTD',v:'+20%',s:'batiendo S&P 500 en 2026'},
+      {l:'Top holdings',v:'Chubb 13% · PGR 13%',s:'Travelers, Allstate, MetLife, Aflac'}
+    ],
+    moat:'Cartera de 52 empresas aseguradoras americanas diversificadas: P&C (auto, hogar, comercial), vida, reaseguro y especialidad. Top 10 representan el 66% del fondo. Dominado por líderes con décadas de datos y escala: Chubb (seguros premium globales), Progressive (auto por IA), Travelers (comercial), Allstate, MetLife, Aflac, Hartford, AIG, Prudential, Arch Capital.',
+    motor:'El sector seguros EE.UU. entra 2026 con combined ratios históricamentne bajos y primas altas. Las principales tenencias ya tienen implementados sistemas de IA de primera línea. AI en seguros crece al 35,7% CAGR hasta 2034 ($154.000M mercado). Los nuevos riesgos asegurables (ciberseguridad, infraestructura IA, riesgos climáticos paramétricos) crean nuevas líneas de revenue. Valuación sectorial a PE 10–12x — muy por debajo del S&P 500.',
+    cats:['IA en suscripción: reducción de costes estructural permanente para quien implemente primero (PGR, ALL, TRV ya van adelantados)','Nuevos riesgos asegurables: cyber, IA liability, data center, infraestructura digital — mercado nuevo de billones','Subida de tipos: float de inversión genera más rendimiento — ingresos financieros creciendo','Reforma tort Florida y otros estados: reduce litigios fraudulentos que distorsionaban siniestralidad','Descorrelación con tech: beta baja — cobertura perfecta frente a corrección Nasdaq'],
+    risks:'Exposición a catástrofes climáticas (huracanes, inundaciones, incendios) puede generar trimestres de pérdidas severas. Regulación de precios en algunos estados limita capacidad de subir primas. Ciclo de suscripción: el actual entorno favorable puede deteriorarse. Concentración en mercado americano — sin diversificación geográfica.',
+    verdict:'El ETF ideal para capturar la transformación del sector seguros por IA con diversificación real. Con Progressive (13%) y Chubb (13%) como principales posiciones, capta tanto el líder tecnológico del sector P&C como el seguro premium global de mayor calidad. A PE sectorial de 10–12x cotiza con descuento significativo respecto al mercado. La descorrelación con tech lo hace perfecto como complemento defensivo de una cartera concentrada en Nasdaq. Posición sugerida: 3–5% del portfolio como contrapeso a la concentración tecnológica. Alternativa más concentrada en P&C: KBWP (Invesco KBW Property & Casualty Insurance ETF).'},
+  ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
+  avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
+  ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
   constellation:{name:'Constellation Software',meta:'CSU · TSX Toronto · Software vertical',inCartera:false,badges:[['b-strong','Mejor allocator de capital'],['b-buy','Value + Growth híbrido'],['b-hold','Precio muy elevado']],metrics:[{l:'Precio actual',v:'~$4.800 CAD',s:'junio 2026'},{l:'Obj. analistas',v:'$5.500–6.500 CAD',s:'consenso'},{l:'Upside',v:'+15–35%',s:'—'},{l:'ROIC histórico',v:'>30%',s:'sostenido años'}],moat:'Adquiere y mejora software vertical de nicho. 500+ empresas en cartera. Switching costs altísimos. ROIC >30% histórico.',motor:'Reinvierte 100% FCF en adquisiciones. Topicus replicando modelo en Europa. Mercado de targets ilimitado.',cats:['Pipeline de adquisiciones global enorme','Topicus en Europa con éxito','Barreras de entrada imposibles de replicar','Favorito de Fernando Sánchez (IdC)'],risks:'Precio elevado en CAD. Dependencia de Mark Leonard. Riesgo escasez de targets.',verdict:'Compounder perfecto a LP. Favorito de Invertir desde Cero. Entrar en correcciones con posición inicial 2–3%.'},
 };
 
@@ -993,6 +1793,12 @@ function showT(key,btn){
   else{document.querySelectorAll('.ttab').forEach(t=>{if(t.onclick&&t.onclick.toString().includes("'"+key+"'"))t.classList.add('active');else t.classList.remove('active');});}
   const t=TH[key];if(!t)return;
   const isIdea=!t.inCartera;
+  // Filter metrics: hide BEP/shares info in public mode
+  const visibleMetrics=t.metrics.filter(m=>{
+    if(isUnlocked)return true;
+    const priv=['Tu BEP','Tus acciones','Tu entrada','BEP','Broker','Posición'];
+    return !priv.some(p=>m.l.includes(p));
+  });
   document.getElementById('thesis-content').innerHTML=`
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:.35rem">
       <div style="font-size:20px;font-weight:700;letter-spacing:-.4px">${t.name}</div>
@@ -1000,13 +1806,24 @@ function showT(key,btn){
     </div>
     <div style="font-size:12px;color:var(--text3);margin-bottom:1rem">${t.meta}</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.1rem">${t.badges.map(b=>`<span class="badge ${b[0]}">${b[1]}</span>`).join('')}</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.1rem">${t.metrics.map(m=>`<div class="m"><div class="ml">${m.l}</div><div style="font-size:15px;font-weight:700">${m.v}</div><div class="ms">${m.s}</div></div>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1.1rem">${visibleMetrics.map(m=>`<div class="m"><div class="ml">${m.l}</div><div style="font-size:15px;font-weight:700">${m.v}</div><div class="ms">${m.s}</div></div>`).join('')}</div>
     <div class="sl">Tesis central</div>
     <div class="t2"><div class="tb"><h4>Foso competitivo</h4><p>${t.moat}</p></div><div class="tb"><h4>Motor de crecimiento</h4><p>${t.motor}</p></div></div>
     <div class="sl">Catalizadores clave</div>
     <ul class="cl">${t.cats.map(c=>`<li><span class="cd"></span>${c}</li>`).join('')}</ul>
     <div class="rb"><h4>Riesgos principales</h4><p>${t.risks}</p></div>
     <div class="vd"><strong>Veredicto:</strong> ${t.verdict}</div>`;
+}
+
+// ── SECTOR FILTER ─────────────────────────────────────────────────────
+function filterSector(sector,btn){
+  document.querySelectorAll('.sfil').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('#thesis-tab-list .ttab').forEach(t=>{
+    if(sector==='all')t.style.display='';
+    else if(sector==='cartera')t.style.display=t.classList.contains('in-cartera')?'':'none';
+    else t.style.display=(t.dataset.sector===sector)?'':'none';
+  });
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────────
@@ -1024,6 +1841,10 @@ function showPage(id,btn){
   if(id==='ajustes')renderSTable();
   if(id==='alertas')renderCustomAlerts();
   if(id==='calc')calcCompound();
+  if(id==='tesis'){
+    const cs=document.getElementById('cartera-section');
+    if(cs)cs.style.display=isUnlocked?'block':'none';
+  }
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────
@@ -1032,9 +1853,51 @@ function showToast(msg,type='ok'){
   setTimeout(()=>el.className='toast',3500);
 }
 
+// ── BUY ZONE CHECKER ─────────────────────────────────────────────────
+const TESIS_ENTRIES={
+  meta:{sym:'META',entryLow:520,entryHigh:540},
+  asml:{sym:'ASML',entryLow:1400,entryHigh:1600},
+  alphabet:{sym:'GOOGL',entryLow:285,entryHigh:320},
+  amazon:{sym:'AMZN',entryLow:185,entryHigh:195},
+  oracle:{sym:'ORCL',entryLow:138,entryHigh:152},
+  broadcom:{sym:'AVGO',entryLow:340,entryHigh:400},
+  marvell:{sym:'MRVL',entryLow:130,entryHigh:145},
+  visa:{sym:'V',entryLow:295,entryHigh:313},
+  lly:{sym:'LLY',entryLow:873,entryHigh:919},
+  pgr:{sym:'PGR',entryLow:179,entryHigh:215},
+  isrg:{sym:'ISRG',entryLow:386,entryHigh:460},
+  amba:{sym:'AMBA',entryLow:55,entryHigh:70},
+  ktos:{sym:'KTOS',entryLow:50,entryHigh:70},
+  stm:{sym:'STM',entryLow:26,entryHigh:32},
+  ibe:{sym:'IBE.MC',entryLow:19,entryHigh:20},
+};
+async function checkBuyZones(){
+  for(const[key,entry]of Object.entries(TESIS_ENTRIES)){
+    try{
+      const d=await fetchPrice(entry.sym);
+      if(!d?.price)continue;
+      const price=d.price;
+      const inZone=price>=entry.entryLow&&price<=entry.entryHigh;
+      // Update all tabs matching this key
+      document.querySelectorAll('#thesis-tab-list .ttab').forEach(btn=>{
+        if(btn.onclick&&btn.onclick.toString().includes("'"+key+"'")){
+          if(inZone)btn.classList.add('buy-zone');
+          else btn.classList.remove('buy-zone');
+        }
+      });
+    }catch(e){}
+  }
+}
+// Check buy zones on load and every 5 minutes
+setTimeout(checkBuyZones,3000);
+setInterval(checkBuyZones,5*60*1000);
+
 // ── INIT ──────────────────────────────────────────────────────────────
 try{emailjs.init('ZlnmkMaIyjypUaDmY');}catch(e){}
 showT('meta',document.querySelector('.ttab.active'));
+// Hide cartera section if not unlocked
+const _cs=document.getElementById('cartera-section');
+if(_cs)_cs.style.display=isUnlocked?'block':'none';
 calcCompound();
 setInterval(checkCustomAlerts,5*60*1000);
 </script>
