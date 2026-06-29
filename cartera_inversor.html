@@ -313,8 +313,15 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <div style="font-size:13px;color:var(--text2);margin-bottom:1.25rem">Introduce cualquier ticker y tu email. Recibirás una notificación cuando el precio alcance el nivel que establezcas.</div>
     <div class="form-grid">
       <div class="form-group">
-        <label>Ticker / Símbolo</label>
-        <input type="text" id="new-sym" placeholder="NVDA, AAPL, GOOGL..." oninput="this.value=this.value.toUpperCase()" onblur="fetchTickerPrice()">
+        <label>Empresa o Ticker</label>
+        <div style="position:relative">
+          <input type="text" id="new-sym-search" placeholder="Escribe empresa o ticker (ej: nvidia, broadcom, AAPL...)" 
+            oninput="debounceTickerSearch(this.value)"
+            style="width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:13px;font-family:'Inter',sans-serif;box-sizing:border-box">
+          <input type="hidden" id="new-sym">
+          <div id="ticker-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--accent);border-radius:var(--r);z-index:100;max-height:200px;overflow-y:auto;margin-top:2px"></div>
+          <div id="ticker-resolved" style="display:none;margin-top:4px;font-size:11px;color:var(--green);font-weight:600"></div>
+        </div>
       </div>
       <div class="form-group">
         <label>Empresa</label>
@@ -768,6 +775,140 @@ function saveEmailConfig(){ejsConfig={service:document.getElementById('cfg-servi
 function resetData(){localStorage.clear();stocks=DS.map(s=>({...s}));cash=7117.93;note='TR + DeGiro';userPin='1234';customAlerts=[];alertHistory=[];subscribers=[];renderSTable();renderPortfolio();showToast('Datos restablecidos','ok');}
 
 // ── ALERTS ────────────────────────────────────────────────────────────
+// ── SMART TICKER SEARCH ───────────────────────────────────────────────
+// Known ticker map (instant resolution without API call)
+const KNOWN_TICKERS={
+  'nvidia':'NVDA','nvda':'NVDA','meta':'META','facebook':'META',
+  'apple':'AAPL','aapl':'AAPL','google':'GOOGL','alphabet':'GOOGL','googl':'GOOGL',
+  'amazon':'AMZN','amzn':'AMZN','microsoft':'MSFT','msft':'MSFT',
+  'broadcom':'AVGO','avgo':'AVGO','oracle':'ORCL','orcl':'ORCL',
+  'asml':'ASML','ambarella':'AMBA','amba':'AMBA','ouster':'OUST','oust':'OUST',
+  'kratos':'KTOS','ktos':'KTOS','aerovironment':'AVAV','avav':'AVAV',
+  'iberdrola':'IBE.MC','ibe':'IBE.MC','progressive':'PGR','pgr':'PGR',
+  'intuitive':'ISRG','isrg':'ISRG','eli lilly':'LLY','lilly':'LLY','lly':'LLY',
+  'marvell':'MRVL','mrvl':'MRVL','visa':'V','stmicroelectronics':'STM','stm':'STM',
+  'micron':'MU','mu':'MU','amd':'AMD','intel':'INTC','intc':'INTC',
+  'qualcomm':'QCOM','qcom':'QCOM','tsmc':'TSM','tsm':'TSM',
+  'acs':'ACS.MC','zegona':'ZEG.L','sandoz':'SDZ.SW','calme':'CALM','calm':'CALM',
+  'agnico':'AEM','aem':'AEM','first majestic':'AG','ag':'AG',
+  'gold':'GLD','oro':'IGLN.L','cobre':'COPA.L','copper':'COPA.L',
+  'tesla':'TSLA','tsla':'TSLA','palantir':'PLTR','pltr':'PLTR',
+  'shopify':'SHOP','shop':'SHOP','coinbase':'COIN','coin':'COIN',
+  'netflix':'NFLX','nflx':'NFLX','spotify':'SPOT','spot':'SPOT',
+  'uber':'UBER','airbnb':'ABNB','abnb':'ABNB','arm':'ARM',
+  'constellation':'CSU.TO','csu':'CSU.TO',
+  'besi':'BESI.AS','asmi':'ASM.AS','asm':'ASM.AS',
+};
+
+let tickerSearchTimeout=null;
+let lastSearchQuery='';
+
+function debounceTickerSearch(val){
+  clearTimeout(tickerSearchTimeout);
+  if(!val||val.length<2){
+    hideSuggestions();
+    return;
+  }
+  tickerSearchTimeout=setTimeout(()=>smartTickerSearch(val),400);
+}
+
+async function smartTickerSearch(query){
+  if(query===lastSearchQuery)return;
+  lastSearchQuery=query;
+  const q=query.toLowerCase().trim();
+  
+  // 1. Check known map first (instant)
+  const known=KNOWN_TICKERS[q];
+  if(known){
+    resolveToTicker(known, query);
+    return;
+  }
+  
+  // 2. Check partial match in known map
+  const partials=Object.entries(KNOWN_TICKERS).filter(([k])=>k.startsWith(q)||k.includes(q));
+  if(partials.length>0&&partials.length<=5){
+    showSuggestions(partials.map(([name,ticker])=>({name,ticker})));
+    return;
+  }
+  
+  // 3. If looks like a ticker (short, uppercase-ish), try Yahoo directly
+  if(query.length<=6&&query===query.toUpperCase()){
+    const info=await fetchPrice(query.toUpperCase());
+    if(info?.price){
+      resolveToTicker(query.toUpperCase(), info.name||query.toUpperCase());
+      return;
+    }
+  }
+  
+  // 4. Use Claude API to resolve company name to ticker
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:150,
+        system:'You are a financial data assistant. Given a company name or partial name, return ONLY a JSON array of up to 4 objects with fields: ticker (string, stock exchange ticker symbol), name (string, full company name), exchange (string, e.g. NYSE, NASDAQ, BME). Return ONLY the JSON array, no other text. Examples: [{"ticker":"NVDA","name":"NVIDIA Corporation","exchange":"NASDAQ"}]',
+        messages:[{role:'user',content:'Find ticker(s) for: '+query}]
+      })
+    });
+    const data=await resp.json();
+    const text=data?.content?.[0]?.text||'[]';
+    const clean=text.replace(/```json|```/g,'').trim();
+    const results=JSON.parse(clean);
+    if(Array.isArray(results)&&results.length>0){
+      if(results.length===1){
+        resolveToTicker(results[0].ticker, results[0].name);
+      } else {
+        showSuggestions(results.map(r=>({name:r.name+' ('+r.exchange+')',ticker:r.ticker})));
+      }
+    }
+  }catch(e){
+    // Fallback: show generic message
+    showSuggestions([{name:'Escribe el ticker directamente (ej: NVDA)',ticker:''}]);
+  }
+}
+
+function showSuggestions(items){
+  const el=document.getElementById('ticker-suggestions');
+  el.style.display='block';
+  el.innerHTML=items.map(item=>
+    item.ticker?
+    `<div onclick="resolveToTicker('${item.ticker}','${item.name.replace(/'/g,"\'")}')" 
+      style="padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"
+      onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">
+      <span>${item.name}</span>
+      <span style="font-weight:700;color:var(--accent);font-size:12px">${item.ticker}</span>
+    </div>`:
+    `<div style="padding:8px 12px;font-size:12px;color:var(--text3)">${item.name}</div>`
+  ).join('');
+}
+
+function hideSuggestions(){
+  const el=document.getElementById('ticker-suggestions');
+  if(el)el.style.display='none';
+}
+
+function resolveToTicker(ticker, displayName){
+  hideSuggestions();
+  document.getElementById('new-sym').value=ticker;
+  const searchEl=document.getElementById('new-sym-search');
+  if(searchEl)searchEl.value=ticker;
+  const resolved=document.getElementById('ticker-resolved');
+  if(resolved){
+    resolved.style.display='block';
+    resolved.textContent='✓ '+displayName+' → '+ticker;
+  }
+  fetchTickerPrice();
+}
+
+// Close suggestions when clicking outside
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#ticker-suggestions')&&!e.target.closest('#new-sym-search')){
+    hideSuggestions();
+  }
+});
+
 async function fetchTickerPrice(){
   const sym=document.getElementById('new-sym').value.trim().toUpperCase();
   if(!sym)return;
@@ -1053,14 +1194,446 @@ const TH={
   gold:{name:'Oro Físico — iShares Physical Gold',meta:'IGLN · Materia prima / Reserva de valor',inCartera:true,badges:[['b-strong','Refugio estructural'],['b-buy','Mantener'],['b-warn','Corrección 26% desde máximos']],metrics:[{l:'Precio actual',v:'~$4.114/oz',s:'junio 2026'},{l:'Máximo',v:'$5.595/oz',s:'enero 2026'},{l:'Obj. J.P.Morgan',v:'$6.000/oz',s:'Q4 2026'},{l:'Obj. 2027',v:'$6.300/oz',s:'—'}],moat:'Bancos centrales emergentes diversifican fuera del dólar. Reserva de valor permanente.',motor:'J.P.Morgan Q4 2026: $6.000/oz. BNP Paribas: $6.250.',cats:['Bajada tipos Fed 2H 2026','Escalada conflicto Irán/Israel','Debilitamiento estructural del dólar'],risks:'Caída 26% desde máximos. Si Fed sube tipos, más presión.',verdict:'Mantener (6,4% cartera adecuado). Zona de compra: $3.800–4.000.'},
   copper:{name:'Cobre — WisdomTree Copper Hedged EUR',meta:'COPA · Materia prima / Electrificación / IA',inCartera:true,badges:[['b-strong','Metal de la transición energética'],['b-buy','Posición pequeña — ampliar'],['b-warn','Volatilidad aranceles']],metrics:[{l:'Precio LME',v:'~$9.500/t',s:'junio 2026'},{l:'Obj. Goldman',v:'$11.200/t',s:'Q4 2026'},{l:'Obj. TD Sec.',v:'$13.000/t',s:'2026'},{l:'Déficit proyectado',v:'~3M t',s:'hasta 2036'}],moat:'Data centers IA consumen 10x más cobre. No hay sustituto viable.',motor:'S&P Global: déficit ~3M t hasta 2036. Rearme europeo.',cats:['Rearme europeo: cables y redes','Cada MW solar/eólica requiere 4–5 t','Resolución arancel 232 EE.UU.'],risks:'Posible superávit 300kt 2026 si China sigue débil.',verdict:'Tesis estructural 5–10 años. Posición pequeña — ampliar en correcciones.'},
   calme:{name:'Cal-Maine Foods',meta:'CALM · Nasdaq · Producción de huevo EE.UU.',inCartera:true,badges:[['b-hold','Mantener — no ampliar'],['b-warn','Riesgo DOJ antimonopolio'],['b-buy','Dividendo 6,2%']],metrics:[{l:'Precio actual',v:'~$82',s:'junio 2026'},{l:'Tu BEP',v:'$66',s:'4 acciones'},{l:'Obj. consenso',v:'$88–92',s:'4 analistas'},{l:'Dividendo',v:'6,2%',s:'cubierto FCF'}],moat:'Mayor productor de huevo de EE.UU. Huevos especiales 50%+ de ventas. Alimentos preparados 9,5%.',motor:'Q3 FY2026: EPS $1.06 vs $0.78 estimado (+36% beat). Dividendo cubierto por beneficios.',cats:['Huevos especiales 50%+ — mayor margen','Alimentos preparados 9,5% — diversificación','Dividendo variable generoso','Baja correlación con tech'],risks:'DOJ preparando demanda antimonopolio. Normalización precios huevo.',verdict:'Mantener con convicción moderada. No ampliar hasta resolver situación DOJ.'},
-  oracle:{name:'Oracle Corporation',meta:'ORCL · NYSE · Cloud / IA / ERP — Nueva idea',inCartera:false,badges:[['b-strong','Alta convicción'],['b-buy','−50% desde máximos'],['b-warn','Deuda $124B']],metrics:[{l:'Precio actual',v:'~$157',s:'junio 2026'},{l:'Obj. analistas',v:'$252–268',s:'consenso'},{l:'Upside',v:'+60–70%',s:'12–18 meses'},{l:'RPO Backlog',v:'$553B',s:'contratos prepagados'}],moat:'Backlog récord de $553.000M. OCI creciendo al 84% en IaaS. OpenAI, Meta y Nvidia eligieron OCI. Partner oficial de Stargate ($500B IA).',motor:'FY2026: $67.360M (+17% YoY). Deal $300B con OpenAI. FY2027 guidance: $90B en ingresos.',cats:['$553B en RPO — el mercado no lo valora','IaaS proyectado al 80–100% en Q4','21.000 despidos = márgenes mejorando','Partner oficial Stargate $500B'],risks:'Deuda de $124.700M. FCF negativo por capex $50B. Demanda colectiva de accionistas.',verdict:'Alta convicción LP. Cotiza 50% por debajo de máximos sep 2025. Entrada: $150–165 (138–152€).'},
-  broadcom:{name:'Broadcom Inc.',meta:'AVGO · Nasdaq · Semiconductores IA / Software',inCartera:false,badges:[['b-strong','Custom AI chips hyperscalers'],['b-buy','Caída 15% post-earnings'],['b-warn','Concentración pocos clientes']],metrics:[{l:'Precio actual',v:'~$406',s:'junio 2026'},{l:'Obj. analistas',v:'$490–630',s:'consenso'},{l:'Upside',v:'+21–55%',s:'12 meses'},{l:'AI Revenue',v:'+143% YoY',s:'Q2 FY2026'}],moat:'Diseña XPUs para Google, Meta, OpenAI y Anthropic. Único con capacidad para los 4 mayores hyperscalers. Software post-VMware con FCF recurrente.',motor:'Q2 FY2026: $22.200M (+48%). AI revenue $10.800M (+143%). OpenAI "Jalapeño" chip. FY2027: >$100B AI revenue.',cats:['FY2027 >$100B AI revenue','Google TPU partnership hasta 2031','OpenAI Jalapeño: nueva vertical','Recompra $10B + dividendo creciente'],risks:'Caída 15% tras batir estimaciones. Concentración en Google, Meta, Anthropic. Insiders vendiendo.',verdict:'La caída del 15% es oportunidad. Entrada: $370–390 (~340–359€). Objetivo 12m: $490–530.'},
-  marvell:{name:'Marvell Technology',meta:'MRVL · Nasdaq · Semiconductores IA',inCartera:false,badges:[['b-strong','XPUs + fotónica óptica'],['b-buy','S&P 500 recién incluida'],['b-warn','Valoración P/E 85x']],metrics:[{l:'Precio actual',v:'~$169',s:'junio 2026'},{l:'Obj. analistas',v:'$226–385',s:'B.Riley, KeyBanc'},{l:'Upside',v:'+34–128%',s:'—'},{l:'Data Center YoY',v:'+76%',s:'Q1 FY2026'}],moat:'Líder en fotónica de silicio para centros de datos IA. Custom AI chips para Google, Amazon y Microsoft. Inversión Nvidia $2.000M.',motor:'B.Riley objetivo $345, KeyBanc $385. Optical business ~90%. Acaba de entrar en S&P 500.',cats:['Google colaboración chips IA','Nvidia $2B inversión estratégica','Optical interconnects doblando capacidad','Flujos S&P 500 entrantes'],risks:'Forward P/E 85x muy exigente. Insiders vendiendo. EPS cayó 81% por restructuración.',verdict:'Alto potencial pero valoración estirada. Esperar corrección hacia $130–145 (~120–134€).'},
-  asmi:{name:'ASM International',meta:'ASMI · Euronext Amsterdam · Litografía ALD',inCartera:false,badges:[['b-strong','Líder ALD >55% cuota'],['b-hold','Cerca del objetivo consenso'],['b-warn','Beta 2.13 — muy volátil']],metrics:[{l:'Precio actual',v:'~€1.067',s:'junio 2026'},{l:'Obj. analistas',v:'€925–1.300',s:'consenso'},{l:'Upside',v:'-3% a +22%',s:'—'},{l:'Pedidos Q1 2026',v:'+47% YoY',s:'segundo mayor histórico'}],moat:'Líder en deposición de capa atómica (ALD) con >55% cuota global. Crítico para chips GAA sub-2nm.',motor:'Q1 2026: pedidos +47% YoY. Ventas récord 2025: €3.200M. Objetivo 2030: €5.700M.',cats:['Nodo 1,4nm en piloto H2 2026','Chips GAA son el futuro','Cartera pedidos en máximos históricos','Complemento natural a ASML'],risks:'Precio actual por encima del objetivo consenso. Beta 2.13. Ciclo capex cíclico.',verdict:'Empresa excelente pero cara. Vigilar corrección hacia €750–850 para margen de seguridad.'},
-  visa:{name:'Visa Inc.',meta:'V · NYSE · Pagos digitales globales',inCartera:false,badges:[['b-strong','Foso casi indestructible'],['b-hold','Valoración justa'],['b-buy','Defensiva con crecimiento']],metrics:[{l:'Precio actual',v:'~$370',s:'junio 2026'},{l:'Obj. analistas',v:'$390–420',s:'consenso'},{l:'Upside',v:'+5–14%',s:'—'},{l:'Margen operativo',v:'66–67%',s:'entre los más altos del mundo'}],moat:'Red de pagos global con 4.400M tarjetas activas en 200 países. No asume riesgo de crédito. Márgenes operativos 66–67%.',motor:'Ingresos creciendo 10–12% anual. Pagos cross-border como motor. Expansión en mercados emergentes.',cats:['Migración de efectivo a digital — cada pago es upside','Ecommerce global +15% anual','Expansión India, África, Latinoamérica','Tokenización y pagos B2B'],risks:'Riesgo regulatorio sobre interchange fees. Competencia sistemas de pago instantáneo. Upside limitado.',verdict:'Altísima calidad con foso indestructible. Interesante en correcciones hacia $320–340 (~295–313€).'},
-  besi:{name:'BE Semiconductor (Besi)',meta:'BESI · Euronext Amsterdam · Packaging IA',inCartera:false,badges:[['b-strong','Dominante hybrid bonding'],['b-warn','Valoración estirada'],['b-idea','Tesis IA directa']],metrics:[{l:'Precio actual',v:'~€90',s:'junio 2026'},{l:'Obj. analistas',v:'€95–130',s:'consenso'},{l:'Upside',v:'+5–44%',s:'—'},{l:'Hybrid Bonding',v:'Dominante',s:'>70% cuota estimada'}],moat:'Dominante en hybrid bonding. Crítico para GPUs de IA y memorias HBM. Sin Besi no hay packaging avanzado para Nvidia.',motor:'Demanda hybrid bonding creciendo exponencialmente por AI chips. GPUs H100/H200/B200 usan HBM.',cats:['Ciclo IA requiere más HBM','GPUs próxima gen requieren más stacking','Expansión hacia chips lógicos','TSMC rearme en packaging'],risks:'Ciclicidad del sector. Competencia ASE y Amkor. Valoración exigente.',verdict:'Fascinante tesis IA. Precio actual elevado. Vigilar correcciones hacia €65–75.'},
-  oust:{name:'Ouster Inc.',meta:'OUST · Nasdaq · LiDAR / Physical AI / Robótica / Defensa',inCartera:false,badges:[['b-warn','⚠️ Ya subió +130% — DAN LA CITÓ A $27, HOY ~$47'],['b-strong','13 trimestres consecutivos de crecimiento'],['b-buy','Moat regulatorio: ley bloquea LiDAR chino desde 30 jun 2026'],['b-idea','Vigilar corrección hacia $32–36']],metrics:[{l:'Precio actual',v:'~$47',s:'⚠️ Dan la citó a $27'},{l:'Obj. Roth Capital',v:'$75',s:'Buy — iniciación reciente'},{l:'Obj. Rosenblatt',v:'$53',s:'Buy — deal defensa'},{l:'Entrada ideal',v:'$32–36 (~29–33€)',s:'si corrige desde máximos'}],moat:'Único LiDAR americano certificado por el Departamento de Defensa bajo el Blue UAS Framework. Ley efectiva 30 jun 2026 bloquea LiDAR chino de toda contratación federal. Con Stereolabs (adq. feb 2026): plataforma unificada LiDAR + cámaras ZED + edge AI + software. 700+ sitios BlueCity. Cero deuda, $175M en caja.',motor:'Q1 2026: $48,58M (+49% YoY), 13 trimestres consecutivos de crecimiento. Partnership Nvidia DRIVE Hyperion. Deal defensa ARGUS Interception (counter-drones). Rev8: primer LiDAR nativo color del mundo.',cats:["⚠️ DAN FUENTES LA CITÓ A $27 — hoy ~$47, parte del potencial ya en precio",'Ley 30 jun 2026: LiDAR chino (Hesai) excluido de contratación federal — Ouster única alternativa','Rev8: primer LiDAR nativo color — ya en NVIDIA DRIVE Hyperion, FieldAI, Gecko Robotics','Defensa: deal ARGUS anti-drones + aprobación DoD Blue UAS Framework','Infraestructura: 40+ sites New Jersey DOT para Mundial FIFA 2026','Roth Capital Buy $75: camino a FCF breakeven finales 2027'],risks:'Ya subió +130% en un año. Empresa aún en pérdidas. Insiders vendieron $2,5M más de lo que compraron. Alta volatilidad: puede volver a $33. Competencia Aeva (AEVA) con tecnología FMCW.',verdict:'Tesis estructural muy sólida con catalizador regulatorio real (30 jun 2026). Dan la identificó correctamente a $27 — quien entró tiene ya +70%. A $47 el riesgo/recompensa es menos favorable. ESTRATEGIA: esperar corrección hacia $32–36 (~29–33€). Horizonte 2030. Posición pequeña (1–2% cartera).'},
-  amba:{name:'Ambarella Inc.',meta:'AMBA · Nasdaq · Edge AI SoCs / Robótica / Automoción / Drones',inCartera:false,badges:[['b-strong','El cerebro de robots, drones y vehículos autónomos'],['b-buy','14 analistas Buy · obj. medio $95 · cotiza ~$62'],['b-idea','Posible adquisición: +21% en un día con la noticia'],['b-warn','Aún en pérdidas — horizonte LP requerido']],metrics:[{l:'Precio actual',v:'~$62',s:'Market cap $3.100M'},{l:'Obj. consenso',v:'$95–120',s:'14 analistas Buy'},{l:'Revenue FY2026',v:'$390,7M',s:'+37% YoY'},{l:'Deal Hanwha',v:'$800M+',s:'contrato 10 años'}],moat:'Integra percepción, fusión, aceleración IA, CPU y codificación en UN SOLO chip de bajo consumo. 46M+ SoCs edge AI embarcados. 200+ arquitecturas de modelos IA en producción. 15 design wins en robótica con revenue vitalicio >$100M. Único chip que hace todo on-device sin nube — crítico para robots humanoides, drones y vehículos autónomos.',motor:'Q1 FY2027: $100,4M (+16,9% YoY) — record automotive. Deal Hanwha $800M+ a 10 años. CV3-AD (L2+ autónomo) empieza revenue en 2026. Chip 2nm proyectado 2028. 30+ clientes en pipeline robótica. Recompra acciones $50M autorizada.',cats:['Deal Hanwha $800M+ a 10 años: visibilidad de ingresos excepcional en robótica e industria','CV3-AD para vehículos autónomos L2+: inicio de revenue en calendario 2026','Drones: management los cita como mercado de MAYOR crecimiento en 2026','Posible adquisición: acciones subieron 21% con noticias — opción alcista adicional','Chip 2nm proyectado 2028: ventaja tecnológica generacional','Rosenblatt $120 Buy · Stifel $106 Buy · Susquehanna $110 Positivo'],risks:'Aún en pérdidas (-$75,9M netos TTM). Summit Insights degradó a Hold citando riesgos cadena suministro H2 2026. Alta dependencia de un solo segmento. Exposición a restricciones comerciales China. Competencia Qualcomm y Nvidia.',verdict:'La más interesante de las dos ideas del vídeo. A ~$62 cotiza muy por debajo del objetivo consenso de $95 (14 analistas Buy). Deal $800M con Hanwha ya firmado. Posible adquisición como catalizador adicional. Entrada: zona $60–70 (~55–64€) con posición inicial 1–2% cartera y horizonte 2027–2030.'},
+  oracle:{name:'Oracle Corporation',
+    meta:'ORCL · NYSE · Cloud Infrastructure / IA / Base de datos · Fundada 1977',
+    inCartera:false,
+    badges:[
+      ['b-strong','RPO $553.000M (+325% YoY) — el mayor backlog de la historia del software empresarial'],
+      ['b-buy','OCI +84% YoY — compitiendo directamente con AWS y Azure en IA'],
+      ['b-buy','FY2027 guidance: $90.000M revenue — el mayor salto en la historia de Oracle'],
+      ['b-warn','Deuda $135.000M · FCF negativo · capex $50.000M FY2026 — fase de inversión intensa']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$248',s:'jun 2026 — +9,9% en un día tras FY2026'},
+      {l:'RPO (backlog)',v:'$553.000M',s:'+325% YoY — visibilidad sin precedentes'},
+      {l:'FY2026 revenue',v:'$67.400M',s:'+17% YoY · EPS $5,94 (+33%)'},
+      {l:'Obj. consenso',v:'~$263',s:'34 analistas · Moderate Buy'}
+    ],
+    moat:`<strong>El giro más dramático en tecnología empresarial: de base de datos legacy a infraestructura IA de primera línea</strong>
+
+<strong>1. OCI — la infraestructura cloud que los gigantes de IA prefieren para entrenamiento:</strong> Oracle Cloud Infrastructure tiene una arquitectura de segunda generación que resultó ser superior para workloads de IA de gran escala. Sus clusters de GPU llegan a 65.536 GPU H100 interconectados con RDMA (Remote Direct Memory Access) a velocidades de 3,2 Tbps por nodo — algo que AWS y Azure aún no pueden replicar en esa escala. Esto es exactamente lo que necesita OpenAI para entrenar GPT-5 y GPT-6. El resultado: OpenAI firmó con Oracle un contrato que representa la mayor parte del RPO actual.
+
+<strong>2. El RPO de $553.000M — la métrica que lo cambia todo:</strong> Las Remaining Performance Obligations son ingresos ya contratados pendientes de reconocimiento. Un RPO de $553.000M equivale a 8,2 años del revenue actual de Oracle. Ninguna empresa de software en la historia había tenido un backlog tan grande relativo a su tamaño. Esto convierte a Oracle de una empresa de crecimiento incierto en una empresa con visibilidad de ingresos sin precedentes.
+
+<strong>3. Base de datos y ERP — el negocio que nadie deja:</strong> La mitad del revenue de Oracle sigue viniendo de bases de datos y software ERP (Fusion, NetSuite). Estos productos tienen switching costs casi infinitos — las empresas que migran a Oracle Fusion tardan 3–5 años y gastan decenas de millones. Una vez dentro, no salen. Este negocio genera márgenes del 80%+ y FCF predecible que financia la expansión de OCI.
+
+<strong>4. Larry Ellison — el visionario que nadie anticipó:</strong> Larry Ellison, a los 81 años, prometió públicamente un roadmap de OCI: $18.000M en FY2026, $32.000M en FY2027, $73.000M en FY2028, $114.000M en FY2029 y $144.000M en FY2030. Este roadmap, si se cumple, implicaría que Oracle sería la segunda mayor infraestructura cloud del mundo antes de 2030, superando a Azure.`,
+    motor:`<strong>FY2026 (mayo 2026) — resultados que superaron todas las expectativas:</strong>
+Revenue $67.400M (+17% YoY). EPS $5,94 (+33% YoY). Net income $17.000M. Margen neto 25% (vs. 22% año anterior). OCI revenue: +84% YoY. RPO: $553.000M (+325% YoY). FY2027 guidance elevado a $90.000M — el mayor salto de revenue en la historia de Oracle.
+
+<strong>Los tres motores convergentes:</strong>
+
+Motor 1 — OCI hipercrecimiento: Q4 FY2026 guidance de crecimiento 19–21% en revenue total, con OCI creciendo >80%. Larry Ellison comprometió un roadmap hasta $144.000M en OCI para FY2030 — si se cumple un 50%, Oracle dobla su tamaño actual.
+
+Motor 2 — OpenAI como cliente ancla: OpenAI es el cliente principal del RPO. Tras su ronda de financiación de $40.000M, tiene capital suficiente para cumplir el contrato durante al menos 3 años según Wedbush. Cuando OpenAI salga a bolsa (Q3–Q4 2026) y capte capital adicional, el gasto en OCI se acelera.
+
+Motor 3 — EPS +85% en 3 años proyectado: los analistas proyectan un crecimiento del EPS del 85% en los próximos 3 años. A los precios actuales, Oracle cotiza a un P/E forward razonable para ese nivel de crecimiento.`,
+    cats:[
+      'RPO $553.000M (+325% YoY): backlog más grande de la historia del software — 8,2 años de revenue actual ya contratado',
+      'OCI +84% YoY: arquitectura de segunda generación preferida para clusters de GPU masivos (65.536 H100 interconectados)',
+      'FY2027 guidance $90.000M: +34% sobre FY2026 — el mayor salto de revenue en la historia de Oracle',
+      'OpenAI como cliente ancla: tras ronda $40.000M, tiene capital para cumplir contrato 3+ años (Wedbush)',
+      'Larry Ellison roadmap: $18B→$32B→$73B→$114B→$144B en OCI FY2026–2030 — el roadmap más ambicioso del cloud',
+      'EPS proyectado +85% en 3 años: base sólida de negocio legacy que genera FCF para financiar la expansión'
+    ],
+    risks:`<strong>Riesgo 1 — Concentración en OpenAI:</strong> Una fracción significativa del RPO proviene de OpenAI. Si OpenAI reduce su gasto (evidenciado por el artículo del WSJ sobre métricas de usuarios por debajo de expectativas), el backlog se erosiona. Es el mayor riesgo individual.
+
+<strong>Riesgo 2 — Deuda y FCF negativo:</strong> Oracle tiene $135.000M en deuda long-term, FCF negativo, y capex de $50.000M en FY2026. La empresa está en una fase de inversión masiva. Si el crecimiento de OCI no se materializa en el timeline previsto, la situación financiera se complica.
+
+<strong>Riesgo 3 — Valoración post-rally:</strong> Tras subir +9,9% en un día a $248 y con guía optimista, el mercado ya descuenta gran parte del crecimiento. GuruFocus estima la acción un 45% por encima de su GF Value intrínseco. A corto plazo hay poca asimetría.
+
+<strong>Riesgo 4 — Ejecución del roadmap:</strong> Larry Ellison ha hecho promesas muy específicas. Si OCI no crece según el roadmap (actualmente en $18.000M vs. objetivo $32.000M en FY2027), la reacción del mercado sería severa.`,
+    verdict:`Oracle es una de las historias de transformación más extraordinarias del sector tecnológico. Una empresa fundada en 1977, asociada durante décadas con bases de datos legacy y burocracia corporativa, que de repente se convierte en la infraestructura cloud preferida por OpenAI para entrenar los modelos de IA más avanzados del mundo. El RPO de $553.000M es la prueba más objetiva de que esa transformación es real.
+
+El riesgo principal es la concentración en OpenAI y la fase de inversión con FCF negativo. La entrada óptima sería en correcciones hacia $150–165 (~138–152€), zona que ya validó como soporte antes del rally. A $248 el riesgo/recompensa es menos favorable, aunque para un horizonte de 5+ años el potencial sigue siendo enorme si el roadmap de Ellison se cumple.
+
+<strong>Estrategia: establecer alerta en la app a $165 y esperar corrección. Si no corrige, posición inicial pequeña (1–2%) a precios actuales para no perder el tren si el momentum continúa. Horizonte 5 años.</strong>`},
+  broadcom:{name:'Broadcom Inc.',
+    meta:'AVGO · Nasdaq · Custom AI Silicon / Networking / Software Infrastructure · Fundada 1961',
+    inCartera:false,
+    badges:[
+      ['b-strong','Único proveedor de XPUs para los 4 mayores hyperscalers simultáneamente'],
+      ['b-buy','AI revenue +143% YoY · Forward P/E 33x vs. ARM 163x, Intel 108x'],
+      ['b-buy','JP Morgan Overweight $580 · acumulador agresivo a precios actuales'],
+      ['b-warn','Caída -20% post-earnings por guía conservadora — oportunidad de entrada']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$392–406',s:'junio 2026 — -20% desde máximos'},
+      {l:'Forward P/E 2027',v:'33x',s:'vs. ARM 163x, Intel 108x, AMD 59x'},
+      {l:'AI Revenue YoY',v:'+143%',s:'Q2 FY2026 — crecimiento estructural'},
+      {l:'Obj. JP Morgan',v:'$580',s:'Overweight — upside +43–48%'}
+    ],
+    moat:`<strong>El moat más difícil de replicar del sector semiconductores: co-diseño exclusivo con los 4 hyperscalers</strong>
+
+<strong>1. Diseño co-exclusivo de XPUs — ventaja que tarda 5–7 años en construirse:</strong> Broadcom no fabrica chips genéricos — co-diseña XPUs (Accelerators de Propósito Específico) con cada cliente por separado: TPUs con Google, chips de inferencia con Meta, "Jalapeño" con OpenAI, y chips para Anthropic en colaboración con Google. Cada proyecto requiere 2–4 años de ingeniería conjunta, integración profunda en los data centers del cliente, y optimización para su arquitectura específica. Ningún competidor puede entrar en ese proceso a mitad de camino.
+
+<strong>2. Dominancia en networking de IA — el cuello de botella que nadie ve:</strong> Broadcom fabrica los switches de networking (Tomahawk, Jericho) y los ASICs de interconexión que permiten que miles de chips de IA se comuniquen entre sí a velocidades de terabit. Sin esa infraestructura de red, los GPUs de Nvidia no pueden funcionar en clúster. Microsoft, Google y Meta compran estos switches solo a Broadcom. Es un negocio recurrente que crece con cada data center que se construye.
+
+<strong>3. Software post-VMware — FCF recurrente sin competencia:</strong> La adquisición de VMware ($69.000M) añadió un negocio de software con márgenes del 70%+ y switching costs casi infinitos. Las empresas que virtualizan su infraestructura en VMware no cambian a otro sistema — el coste de migración es prohibitivo. Este negocio genera $4.000–5.000M de FCF anual prácticamente garantizado.
+
+<strong>4. Escala de ingeniería sin parangón — 20.000+ ingenieros de semiconductores:</strong> Broadcom tiene la mayor plantilla de ingenieros de chips personalizado del mundo. Para un hyperscaler, co-diseñar con Broadcom es más eficiente que construir ese equipo internamente. Google tardó 7 años en desarrollar sus TPUs con Broadcom. Amazon intentó diseñar sus propios chips y sigue comprando a Broadcom para networking.`,
+    motor:`<strong>Q2 FY2026 — el trimestre que el mercado malinterpretó:</strong>
+Revenue $22.200M (+48% YoY). AI revenue $10.800M (+143% YoY). EBITDA $13.100M (margen 59%). EPS $1,24. Se batieron TODAS las métricas operativas. La caída del -20% post-earnings se debió únicamente a que la guía fue conservadora — el management mantuvo el guidance anual en lugar de subirlo, lo que los analistas interpretaron como desaceleración.
+
+<strong>Por qué la caída es una oportunidad:</strong> La dirección de Broadcom tiene un historial documentado de guiar conservadoramente y superar consistentemente. En los últimos 8 trimestres, superaron el guidance en todas las métricas en 7 de ellos. El CEO Hock Tan explicó explícitamente que la demanda de XPUs y networking es "simplemente insaciable" y que preferían ser conservadores para no overhypear la acción.
+
+<strong>Los tres motores de crecimiento 2026–2028:</strong>
+
+Motor 1 — OpenAI Jalapeño: el nuevo cliente más importante. Broadcom y OpenAI tienen un contrato multianual para co-desarrollar el chip "Jalapeño" que dará a OpenAI capacidad de 10 GW de cómputo para 2029. Cuando OpenAI salga a bolsa (Q3–Q4 2026) y capte capital, gran parte irá directo a Broadcom.
+
+Motor 2 — Anthropic TPUs: contrato con Google+Anthropic para desarrollar los TPUs que necesita Anthropic. Revenue proyectado de solo Anthropic: ~$40.000M anuales para 2027–28.
+
+Motor 3 — Expansión de clientes de XPUs: Broadcom gestiona actualmente 3 hyperscalers en XPUs. El CEO ha indicado que para 2027 habrá 2 nuevos clientes XPU adicionales aún no anunciados públicamente.`,
+    cats:[
+      'Forward P/E 33x es el MÁS BAJO de todos los semis relevantes: ARM 163x, Intel 108x, AMD 59x, Marvell 45x — creciendo más pero pagando menos múltiplo',
+      'OpenAI Jalapeño: nuevo cliente multi-anual con contrato de 10 GW — cuando salga a bolsa en Q3 2026 el capital captado fluirá directamente a Broadcom',
+      'Anthropic revenue proyectado ~$40.000M anuales en 2027: solo este cliente superaría el revenue total actual de Broadcom',
+      'JP Morgan: compradores agresivos a niveles actuales con objetivo $580 (+43–48% upside) — respaldo institucional de primer nivel',
+      'Software VMware: FCF recurrente $4.000–5.000M/año con switching costs casi infinitos — negocio independiente del ciclo IA',
+      'CEO Hock Tan: "demanda de XPUs y networking simplemente insaciable" — el management es credible y tiene track record de under-promise/over-deliver'
+    ],
+    risks:`<strong>Riesgo 1 — Concentración en pocos clientes (Google, Meta, OpenAI, Anthropic):</strong> Si cualquiera de estos decide internalizar el desarrollo de chips (como Amazon con Trainium), el impacto sería severo. Google representa actualmente el 20%+ del revenue total.
+
+<strong>Riesgo 2 — Nvidia como competidor potencial en networking:</strong> Nvidia está desarrollando switches NVLink que podrían reducir la dependencia de los switches Tomahawk de Broadcom. Si los data centers Nvidia-first adoptan NVLink nativo, Broadcom pierde cuota en networking.
+
+<strong>Riesgo 3 — Integración VMware:</strong> La integración es compleja y hay clientes que están explorando alternativas (Nutanix, Hyper-V). Si el churn de VMware supera las estimaciones, el FCF recurrente se ve afectado.
+
+<strong>Riesgo 4 — Valoración con poco margen de error:</strong> A 33x forward P/E, cualquier decepción en guidance puede generar correcciones del -15–20% como ya ocurrió. No es una acción para inversores de corto plazo.`,
+    verdict:`Broadcom es probablemente el activo más infravalorado del sector semiconductores dado su crecimiento: el único proveedor que co-diseña XPUs para los 4 hyperscalers más importantes del mundo, dominante en networking de IA (el cuello de botella invisible), con un negocio de software VMware que genera FCF predecible, y con los IPOs de OpenAI y Anthropic como catalizadores explícitos de ingresos adicionales de decenas de miles de millones.
+
+A Forward P/E de 33x cotiza significativamente por debajo de peers con menor crecimiento (ARM 163x, AMD 59x). La caída del -20% post-earnings por una guía conservadora — en una empresa con track record de superar consistentemente su guidance — es exactamente el tipo de oportunidad que busca un inversor de largo plazo.
+
+<strong>JP Morgan tiene objetivo $580 con compras activas a precios actuales. Dan Fuentes considera entrar en su reto 100K. Estrategia: entrada escalonada, posición inicial 2–3% a precios actuales ~$392–406, ampliable en correcciones hacia $350. Horizonte 3 años mínimo.</strong>`},
+  marvell:{name:'Marvell Technology',
+    meta:'MRVL · Nasdaq · Custom Silicon / Fotónica / AI Networking · Fundada 1997 · S&P 500 desde jun 2026',
+    inCartera:false,
+    badges:[
+      ['b-strong','Nvidia invirtió $2.000M y Jensen Huang la llamó "próxima empresa de un billón de dólares"'],
+      ['b-buy','Revenue FY2026 $8.195M (+42% YoY) · FY2028 target $15.000M'],
+      ['b-buy','18 proyectos custom silicon activos — Amazon Trainium, Google Axion, Microsoft Maia'],
+      ['b-warn','Forward P/E alto (~85x) · valoración estirada — paciencia para entrada']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$136',s:'jun 2026 — +50% YTD'},
+      {l:'Revenue FY2026',v:'$8.195M',s:'+42% YoY — récord'},
+      {l:'Obj. Barclays',v:'$150',s:'Overweight — "primera empresa de óptica"'},
+      {l:'Target FY2028',v:'$15.000M',s:'+83% sobre FY2026'}
+    ],
+    moat:`<strong>El "tercer pilar" del AI silicon que los inversores ignoran: custom chips + fotónica + networking en uno</strong>
+
+<strong>1. La posición única entre Nvidia y Broadcom — sin solapamiento directo:</strong> Nvidia domina GPUs de propósito general. Broadcom co-diseña XPUs para los 4 hyperscalers más grandes. Marvell ocupa el espacio entre ambos: custom silicon para Amazon (Trainium3), Microsoft (Maia) y Google (Axion CPU), más toda la capa de conectividad óptica y switching que rodea a cualquier cluster de GPUs o XPUs. Es el tejido conectivo de la infraestructura IA.
+
+<strong>2. La apuesta de Nvidia — $2.000M y NVLink Fusion:</strong> Nvidia invirtió $2.000M en Marvell en marzo 2026 e integró MRVL en su ecosistema NVLink Fusion. Esto permite que los XPUs custom de Marvell operen nativamente dentro de clusters dominados por GPUs Nvidia. El resultado: Marvell ya no compite con Nvidia — la complementa. Jensen Huang llamó públicamente a Marvell la "próxima empresa de un billón de dólares". Cuando el CEO de Nvidia hace esa declaración sobre un competidor/socio, el mercado lo toma en serio.
+
+<strong>3. Fotónica — la ventaja que Barclays calificó como transformacional:</strong> Barclays proyecta que los puertos ópticos en hyperscalers se duplicarán en 2026 y se duplicarán de nuevo en 2027 — un crecimiento de 4x en dos años. Marvell, tras adquirir Celestial AI (fotónica) y XConn Technologies (switching), es el único proveedor que ofrece custom XPUs + óptica + switching en un único stack. Barclays la llamó "first and foremost an optical company" — cambio de narrativa que aún no ha calado en el mercado.
+
+<strong>4. S&P 500 desde junio 2026 — flujos pasivos acelerando:</strong> La inclusión en el S&P 500 el 22 de junio 2026 generó compras forzadas de fondos indexados estimadas en $8.000–10.000M. Esto es un catalizador técnico que añade presión alcista mecánica al precio, independientemente de los fundamentales.`,
+    motor:`<strong>Q1 FY2027 (mayo 2026) — aceleración confirmada:</strong>
+Revenue récord $2.420M — data center el 76% de ventas. Revenue FY2026: $8.195M (+42% YoY). FY2027 proyectado: $11.500M (+40% YoY). FY2028 target management: ~$15.000M (+30% YoY).
+
+<strong>Los cuatro motores específicos:</strong>
+
+Motor 1 — Amazon Trainium3: el programa más grande de custom silicon de Marvell. La visibilidad se extiende a través de Trainium3 en 2026 y más allá. Amazon también compra IP de silicon y servicios de diseño para Microsoft Maia (inferencia Azure y OpenAI).
+
+Motor 2 — Fotónica óptica: Barclays proyecta crecimiento óptico del 90% YoY durante dos años consecutivos. Celestial AI y XConn añaden tecnología Co-Packaged Optics (CPO) — la integración del I/O óptico directamente en el chip, eliminando señales eléctricas de larga distancia. Dramáticamente menor consumo, menor latencia, mayor ancho de banda.
+
+Motor 3 — Teralynx T100 switch: el switch AI de 102,4 Tbps que compite directamente con los switches Tomahawk de Broadcom. Si captura cuota en switching de AI data centers, añade un tercer pilar de revenue independiente.
+
+Motor 4 — 6 clientes emergentes en pipeline (sovereign clouds, AI startups): además de Amazon, Google y Microsoft, Marvell tiene 6 proyectos de custom silicon para clientes emergentes. Diversificación del riesgo de concentración.`,
+    cats:[
+      'Nvidia invirtió $2.000M + NVLink Fusion: XPUs de Marvell operan nativa dentro de clusters Nvidia — de competidor a complementario',
+      'Jensen Huang: "próxima empresa de un billón de dólares" — declaración pública del CEO de Nvidia sobre Marvell',
+      'S&P 500 desde 22 jun 2026: flujos pasivos forzados de $8.000–10.000M — catalizador técnico mecánico',
+      'Barclays $150 Overweight: fotónica duplicándose dos años consecutivos — "first and foremost an optical company"',
+      'FY2028 target $15.000M: +83% sobre FY2026 — crecimiento secular sostenido en 3 años',
+      '18 proyectos custom silicon activos incluyendo 6 clientes emergentes — diversificación del riesgo de concentración'
+    ],
+    risks:`<strong>Riesgo 1 — Valoración muy estirada:</strong> A Forward P/E de ~85x (FY2027) y tras subir +50% YTD, Marvell cotiza con muy poco margen de error. Cualquier decepción en guidance puede generar una corrección del -20–30%.
+
+<strong>Riesgo 2 — Concentración en Amazon:</strong> El programa Trainium es el mayor contribuidor de revenue. Si Amazon reduce su inversión en custom silicon (riesgo bajo pero real), el impacto es significativo.
+
+<strong>Riesgo 3 — Ejecución de integraciones:</strong> Marvell acaba de adquirir Celestial AI y XConn. Integrar tecnología de fotónica en su stack mientras mantiene el crecimiento operativo es un desafío de ejecución real.
+
+<strong>Riesgo 4 — Insider selling:</strong> Mark Casper (ejecutivo) vendió ~10.000 acciones a ~$136 en abril 2026 (18% de su posición directa). Las ventas de insiders en máximos son una señal que vigilar.`,
+    verdict:`Marvell es la empresa de semiconductores con el momentum más fuerte del sector después de Nvidia, y la inversión de $2.000M de Nvidia + la declaración de Jensen Huang la convierten en una apuesta con respaldo institucional del más alto nivel. La fotónica es el catalizador que el mercado no ha valorado completamente — si Barclays tiene razón en que los puertos ópticos se cuadruplican en dos años, Marvell como "empresa de óptica" tiene un upside significativo desde el precio actual.
+
+El problema es la valoración: a 85x P/E forward no hay margen de error. La estrategia es esperar correcciones hacia $130–145 (~119–133€) para una entrada con mejor riesgo/recompensa. No es una empresa para comprar en máximos.
+
+<strong>Estrategia: alerta en la app a $130. Posición inicial 1–2% si corrige a esa zona. Horizonte 3–5 años para capturar el ciclo completo de fotónica + custom silicon.</strong>`},
+  asmi:{name:'ASM International N.V.',
+    meta:'ASMI · ASM · Euronext Amsterdam · ALD / Deposición atómica / Front-end semis · Fundada 1968',
+    inCartera:false,
+    badges:[
+      ['b-strong','Líder mundial en ALD (Atomic Layer Deposition) con >55% de cuota de mercado global'],
+      ['b-buy','20 analistas Buy · obj. medio €925–1.018 · cotiza €957 — upside moderado pero sólido'],
+      ['b-strong','Tecnología indispensable para chips de 3nm, 2nm y GAA — cada nodo avanzado la necesita más'],
+      ['b-hold','Ya en máximos — punto de entrada en correcciones hacia €750–850']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'€957',s:'jun 2026 — 52-week range €400–1.092'},
+      {l:'Revenue FY2025',v:'€3.170M',s:'+8,2% YoY'},
+      {l:'Obj. consenso',v:'€925–1.018',s:'20 analistas Buy'},
+      {l:'P/E actual',v:'~32x',s:'razonable para el crecimiento proyectado'}
+    ],
+    moat:`<strong>El monopolio invisible: la tecnología que hace posible el chip avanzado y que nadie más puede fabricar igual</strong>
+
+<strong>1. ALD — la tecnología más crítica del semiconductor que nadie conoce:</strong> Atomic Layer Deposition es el proceso que deposita materiales con precisión de átomo individual sobre una oblea de silicio. Sin ALD no hay transistores Gate-All-Around (GAA) de 3nm o 2nm. Sin GAA no hay chips avanzados para IA. TSMC, Intel y Samsung necesitan ALD en decenas de pasos críticos de cada proceso. ASM International tiene más del 55% de cuota global en esta tecnología. Applied Materials y Lam Research compiten pero con cuotas menores y especializaciones diferentes.
+
+<strong>2. Barrera de entrada estructural — 50+ años de I+D y know-how acumulado:</strong> ASM Internacional fue fundada en 1968 y lleva más de 50 años perfeccionando la deposición de capas atómicas. El know-how acumulado en materiales, química de proceso, diseño de cámara y control de temperatura es prácticamente irreproducible. Applied Materials pagó $500M por comprar el negocio ALD de ASM en 2008 — y lo rechazó. Hoy ese negocio vale más de €40.000M de capitalización.
+
+<strong>3. Escalado obligatorio con cada nodo avanzado:</strong> En cada nueva generación de chips (de 5nm a 3nm a 2nm), el número de pasos de ALD en el proceso de fabricación aumenta. Los chips GAA (Gate-All-Around) de 2nm que TSMC está rampeando en 2025–2026 requieren el doble de pasos de ALD que los chips FinFET de 5nm. Esto significa que la demanda de equipos ASM crece no solo con el volumen de chips sino con la complejidad de cada proceso.
+
+<strong>4. Diversificación en SiC y CMP — nuevos mercados que el mercado no valora:</strong> ASM está expandiendo hacia epitaxia de carburo de silicio (SiC) para vehículos eléctricos y pulido mecánico-químico (CMP) para compound semiconductors. Estos mercados añaden un segundo y tercer pilar de crecimiento independiente del ciclo de IA.`,
+    motor:`<strong>FY2025 y outlook 2026:</strong>
+Revenue FY2025: €3.170M (+8,2% YoY). Earnings €723,7M (+5,5%). Morgan Stanley elevó objetivo a €850 (Overweight). Citi elevó a €840 (Buy). Deutsche Bank a €825 (Buy).
+
+<strong>Los catalizadores de 2026–2027:</strong>
+
+Catalizador 1 — Ramp de TSMC 2nm: TSMC está iniciando producción en masa de chips de 2nm en 2025–2026. Cada wafer de 2nm requiere más pasos de ALD que generaciones anteriores. El revenue de ASM sigue al gasto de capital de TSMC con un lag de 6–12 meses.
+
+Catalizador 2 — Intel Foundry Services: Intel está invirtiendo masivamente en sus fábricas americanas y europeas con tecnología Ribbon FET (GAA). Cada nueva fábrica de Intel es un cliente significativo para ASM.
+
+Catalizador 3 — Samsung 2nm GAA: Samsung también está rampeando su proceso GAA de 2nm. Junto con TSMC e Intel, los tres grandes foundries están incrementando capex simultáneamente, creando un superciclo de demanda de ALD.`,
+    cats:[
+      '>55% cuota mundial en ALD: monopolio de facto en la tecnología más crítica para chips avanzados de IA',
+      'Cada nodo avanzado requiere MÁS pasos de ALD: el revenue crece con la complejidad, no solo con el volumen',
+      'TSMC 2nm + Intel GAA + Samsung GAA: ramp simultáneo de los 3 grandes foundries en 2025–2026',
+      'Morgan Stanley Overweight €850 · Citi Buy €840 · Deutsche Bank Buy €825 — consenso institucional sólido',
+      '50+ años de I+D acumulado: barrera de entrada prácticamente insuperable para nuevos competidores',
+      'SiC epitaxia: nuevo mercado EV independiente del ciclo de IA — diversificación del riesgo'
+    ],
+    risks:`<strong>Riesgo 1 — Ciclo de inversión en capex de foundries:</strong> El negocio de equipos semiconductores es inherentemente cíclico. Cuando TSMC/Intel/Samsung reducen capex (como en 2022–2023), los ingresos de ASM caen significativamente.
+
+<strong>Riesgo 2 — Restricciones de exportación a China:</strong> Parte del revenue de ASM proviene de China. Las restricciones de exportación adicionales (similares a las que afectaron a ASML) podrían impactar ese segmento.
+
+<strong>Riesgo 3 — Valoración en máximos:</strong> A €957 cotiza por encima del precio hace un año. Con objetivo consenso de €925, hay poco upside inmediato desde precios actuales. La entrada óptima sería en correcciones hacia €750–850.
+
+<strong>Riesgo 4 — Competencia de Applied Materials y Lam:</strong> Aunque ASM domina ALD, Applied Materials y Lam Research tienen más recursos para I+D. Si desarrollan tecnología ALD competitiva en segmentos clave, podrían erosionar la cuota.`,
+    verdict:`ASM International es uno de los activos de mayor calidad del ecosistema de semiconductores europeo. Su posición en ALD es estructuralmente inatacable — cada chip avanzado necesita más ALD, no menos, y nadie tiene la experiencia acumulada de 50 años de ASM. La tesis no depende de la IA específicamente: depende de que el mundo siga fabricando chips cada vez más avanzados, lo cual es una certeza.
+
+El problema es que el mercado ya lo sabe — cotiza en máximos históricos con upside limitado desde los precios actuales. La estrategia inteligente es crear una alerta y esperar una corrección del -20–25% hacia €750–850 para construir una posición de largo plazo en uno de los mejores negocios de la industria.
+
+<strong>Estrategia: alerta en la app a €800. Posición inicial 2–3% si corrige a esa zona. Mantener indefinidamente — es un compounder de alta calidad para horizonte de 10 años.</strong>`},
+  visa:{name:'Visa Inc.',
+    meta:'V · NYSE · Pagos digitales globales / IA Commerce / Stablecoins · Fundada 1958',
+    inCartera:false,
+    badges:[
+      ['b-strong','4.500M tarjetas · 80M+ comercios · el negocio de mayor margen del planeta (~55% neto)'],
+      ['b-buy','20 analistas Buy · obj. mediano $400 · Forward P/E 24x — valoración razonable'],
+      ['b-idea','ChatGPT + Visa: integración para AI-powered shopping — nuevo mercado de agentes IA'],
+      ['b-warn','Stablecoins como riesgo disruptivo real — el mercado empieza a pricear el riesgo']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$320–341',s:'jun 2026 — 52W: $293–$370'},
+      {l:'Forward P/E',v:'24,35x',s:'TTM P/E 28,1x — razonable para calidad'},
+      {l:'Obj. consenso',v:'$390–400',s:'20 analistas Buy — upside +17–25%'},
+      {l:'Margen neto',v:'~55%',s:'uno de los más altos de cualquier empresa pública'}
+    ],
+    moat:`<strong>El negocio más cercano a un monopolio natural en finanzas: la red de pagos que conecta todo el planeta</strong>
+
+<strong>1. Network effects puros — el moat más difícil de atacar en cualquier industria:</strong> Visa no fabrica nada, no asume riesgo de crédito y no procesa directamente las transacciones. Opera la red que conecta a los bancos emisores con los bancos adquirentes. Su valor viene exclusivamente de los network effects: más comercios aceptan Visa porque más personas tienen Visa; más personas tienen Visa porque más comercios la aceptan. Este flywheel lleva 65 años construyéndose. Para un competidor, romperlo requeriría convencer simultáneamente a millones de comercios y miles de millones de consumidores de cambiar — algo que no ha conseguido ninguna empresa en la historia moderna.
+
+<strong>2. Los números del negocio más eficiente del planeta:</strong> Visa cobra un porcentaje de cada transacción (típicamente 0,05–0,14% solo para Visa, el resto va al banco) por proporcionar autorización, compensación y liquidación. Su coste marginal de añadir una transacción es prácticamente cero — los costes fijos de mantener la red ya están pagados. El resultado: un margen neto de ~55% sobre $35.000M de revenue, lo que equivale a $19.000M de beneficio neto con inversión mínima de capital. Warren Buffett la llamó "la empresa más perfecta del mundo".
+
+<strong>3. La integración con ChatGPT — el mayor catalizador de crecimiento inesperado:</strong> En junio 2026, Visa anunció una asociación con OpenAI que integra su red de pagos directamente en ChatGPT y el ecosistema de agentes IA. Los agentes de IA podrán realizar transacciones de forma autónoma en nombre de usuarios, con tokenización, controles programables y autorización dinámica. Si los agentes de IA se convierten en compradores frecuentes (algo que muchos analistas proyectan), Visa se convierte en la infraestructura de pagos de la economía IA — un mercado completamente nuevo sobre el que ya existe infraestructura.
+
+<strong>4. Presencia en mercados emergentes — el último gran runway de crecimiento:</strong> Con 4.500M tarjetas en circulación, Visa tiene ~40% de penetración en pagos digitales globales. En economías emergentes (India, Sudeste Asiático, África, Latinoamérica) la penetración es mucho menor. La digitalización de pagos en estos mercados es uno de los trends más predecibles de los próximos 20 años — y Visa está en la pole position.`,
+    motor:`<strong>Fundamentales sólidos en un entorno difícil:</strong>
+TTM P/E 28,1x. Forward P/E 24,35x. Revenue creciendo a ~10% anual. Margen neto ~55%. Recompras de acciones agresivas: $17.000M autorizados en FY2026. Dividendo creciente con yield ~0,82%.
+
+<strong>Los tres catalizadores de crecimiento 2026–2030:</strong>
+
+Catalizador 1 — AI Agents: la integración con ChatGPT crea un mercado completamente nuevo. Si solo el 10% de las transacciones actuales de e-commerce se automatizan vía agentes IA en los próximos 5 años, el volumen de transacciones de Visa crece significativamente sin ningún gasto de marketing adicional.
+
+Catalizador 2 — B2B Payments (Visa B2B Connect): los pagos entre empresas son 4x el mercado de pagos de consumo y están mucho menos digitalizados. Visa B2B Connect está atacando este mercado con soluciones de cross-border payments que reducen costes de hasta el 3% a menos del 0,5%.
+
+Catalizador 3 — Stablecoin settlement: en lugar de ignorar las stablecoins, Visa las está adoptando. Su framework de liquidación de stablecoins permite a bancos y fintechs liquidar transacciones 7 días a la semana (vs. 5 días tradicionales) con mayor velocidad y liquidez. Visa convierte una amenaza en una oportunidad de negocio.`,
+    cats:[
+      'ChatGPT + Visa junio 2026: agentes IA pueden comprar de forma autónoma — mercado nuevo de AI commerce',
+      'Stablecoin settlement framework: 7 días/semana, liquidez automática — Visa adopta el rival en lugar de ignorarlo',
+      '4.500M tarjetas en circulación: network effect que lleva 65 años construyéndose — prácticamente imposible de replicar',
+      'Forward P/E 24x con margen neto 55%: calidad excepcional a valoración razonable — "lo barato de comprar caro"',
+      'Recompra $17.000M FY2026: management devuelve capital agresivamente — señal de confianza en la valoración',
+      'Mercados emergentes: 60%+ del mundo aún infrautiliza pagos digitales — el mayor runway de crecimiento secular'
+    ],
+    risks:`<strong>Riesgo 1 — Stablecoins y cripto (el más serio a largo plazo):</strong> Las stablecoins permiten transferencias instantáneas, globales y de coste casi cero sin necesidad de la red Visa. Si el mercado de pagos migra masivamente a stablecoins, el modelo de cobro por porcentaje de transacción de Visa se erosiona. Seeking Alpha tiene analistas que han degradado a Sell específicamente por este riesgo.
+
+<strong>Riesgo 2 — Regulación antimonopolio:</strong> El DOJ americano tiene a Visa bajo escrutinio por prácticas anticompetitivas en débito (caso vigente desde 2024). Si prospera, puede obligar a cambios en el modelo de red exclusiva.
+
+<strong>Riesgo 3 — Recesión global:</strong> El volumen de transacciones de Visa cae con el gasto del consumidor. Una recesión severa impactaría directamente los ingresos.
+
+<strong>Riesgo 4 — Competencia de Mastercard y nuevos entrantes fintech:</strong> Mastercard está siguiendo una estrategia muy similar. Los fintechs (Stripe, Adyen) capturan cuota en segmentos específicos aunque siguen dependiendo de la red Visa/MC para la liquidación final.`,
+    verdict:`Visa es el activo de mayor calidad del sector financiero mundial: el negocio con mayor margen neto de cualquier empresa del S&P 500, protegido por 65 años de network effects que ningún competidor ha podido replicar. A Forward P/E de 24x con crecimiento del ~10% anual y margen del 55%, ofrece la combinación de calidad y valoración razonable que busca cualquier inversor de largo plazo.
+
+El riesgo de stablecoins es real y merece ser vigilado — si el volumen de pagos internacionales migra masivamente a rails de stablecoin, el modelo de negocio de Visa se comprime. Pero la propia Visa está adoptando stablecoins y la integración con ChatGPT añade un catalizador de crecimiento completamente nuevo.
+
+<strong>Estrategia: la zona de $320–340 (~295–313€) donde Visa ha dado soporte múltiples veces es la entrada ideal. A $335 cotiza ~17% por debajo del objetivo consenso de $390. Posición inicial 2–3% cartera como activo de calidad defensivo y compounder de largo plazo.</strong>`},
+  besi:{name:'BE Semiconductor Industries N.V. (Besi)',
+    meta:'BESI · BESIY (ADR) · Euronext Amsterdam · Hybrid Bonding / Advanced Packaging / HBM · Fundada 1995',
+    inCartera:false,
+    badges:[
+      ['b-strong','Dominante en hybrid bonding — la tecnología que permite los chips AI de próxima generación'],
+      ['b-buy','Órdenes Q1 2026 +104,5% YoY · LT revenue target elevado a €1.700–2.200M'],
+      ['b-buy','JP Morgan Overweight €266 · margen operativo objetivo 45–55% — empresa de margen altísimo'],
+      ['b-warn','Valoración exigente: precio actual €309 vs. obj. medio analistas €260 — ya en precio']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~€309',s:'jun 2026 — +58,1% retorno 1 año'},
+      {l:'Órdenes Q1 2026',v:'+104,5% YoY',s:'€269,7M — indicador adelantado key'},
+      {l:'LT revenue target',v:'€1.700–2.200M',s:'elevado en Investor Day jun 2026'},
+      {l:'Obj. JP Morgan',v:'€266',s:'Overweight — precio actual por encima'}
+    ],
+    moat:`<strong>El cuello de botella del packaging de chips de IA: sin Besi no hay HBM ni chiplets avanzados</strong>
+
+<strong>1. Hybrid Bonding — la tecnología más transformacional del packaging de chips desde la invención del flip-chip:</strong> El hybrid bonding es el proceso que une dos chips con conexiones metálicas de cobre de dimensiones menores a un micrón — sin las balls de soldadura tradicionales. El resultado: 100x más conexiones por mm², latencia 10x menor y consumo de energía radicalmente inferior. Es el proceso que permite apilar HBM (High Bandwidth Memory) directamente sobre GPUs de IA, y el que hace posible los chiplets de próxima generación que Nvidia, AMD e Intel están adoptando. Besi tiene >90% de cuota de mercado en herramientas de hybrid bonding de producción.
+
+<strong>2. La posición de chokepoint crítico de la cadena de valor IA:</strong> Nvidia y Broadcom, los dos diseñadores de chips de IA más importantes del planeta, usan procesos de TSMC que dependen de hybrid bonding. Cuando Nvidia escala producción del H100 al H200 al Blackwell, los pedidos de herramientas de hybrid bonding a Besi aumentan automáticamente. Besi no necesita vender — sus clientes necesitan comprar.
+
+<strong>3. Márgenes operativos 45–55% en fabricación de equipos — una anomalía estructural:</strong> Para una empresa que fabrica equipos físicos, un margen operativo del 45–55% es extraordinario. Esto refleja el poder de pricing de Besi: cuando eres el único proveedor de una tecnología crítica que sus clientes no pueden sustituir, tienes un pricing power casi ilimitado. El CEO Richard Blickman elevó el target de margen mínimo al 45% en junio 2026.
+
+<strong>4. Co-Packaged Optics (CPO) — el siguiente gran mercado:</strong> Besi está entrando en Co-Packaged Optics, donde el I/O óptico se integra directamente en el mismo paquete que el chip de IA. CPO eliminará los cables de cobre que conectan chips con switches en los data centers actuales — reduciendo consumo y latencia dramáticamente. Si CPO se convierte en estándar (algo que Broadcom y Marvell también están apostando), Besi tendrá una segunda curva de crecimiento independiente del ciclo HBM.`,
+    motor:`<strong>Q1 2026 — números que confirman la narrativa:</strong>
+Revenue €184,9M (+28,3% YoY). Net income €51,6M (+63,8% YoY). Órdenes €269,7M (+104,5% YoY) — el indicador más importante porque órdenes de hoy son revenue de mañana.
+Q2 2026 guidance: crecimiento secuencial +30–40%. Margen bruto objetivo: 64–66%.
+
+<strong>Investor Day junio 2026 — el pivote estratégico más importante en años:</strong>
+Besi elevó su LT revenue target de €1.500–1.900M a €1.700–2.200M. Elevó el floor de margen operativo del 40% al 45%. Citó: mayor demanda de 2.5D AI data centers, fotónica, nuevos casos de hybrid bonding en lógica, memoria y co-packaged optics.
+
+<strong>Samsung y SK Hynix HBM — el catalizador de 2026–2027:</strong>
+Samsung está evaluando adoptar hybrid bonding para producción HBM de próxima generación. Una decisión positiva de Samsung sería transformacional para Besi — Samsung es el mayor productor de memoria del mundo.`,
+    cats:[
+      'Órdenes Q1 2026 +104,5% YoY: el mejor indicador adelantado — lo que se ordena hoy es revenue en 2–3 trimestres',
+      'LT revenue target elevado a €2.200M: management incrementa confianza en la tesis con números concretos',
+      'Samsung HBM decision pendiente: si adopta hybrid bonding, Besi añade el mayor cliente de memoria del mundo',
+      'JP Morgan Overweight €266: a pesar de que precio actual supera el objetivo, respaldo institucional sólido',
+      'CPO (Co-Packaged Optics): segundo mercado emergente independiente del ciclo HBM — optionalidad no en precio',
+      'Márgenes 45–55% en fabricación física: poder de pricing excepcional que refleja la irreemplazabilidad del producto'
+    ],
+    risks:`<strong>Riesgo 1 — Valoración por encima del objetivo de analistas:</strong> Con precio actual ~€309 y objetivo medio de analistas ~€260, Besi cotiza ~19% por encima del consenso. El mercado ha pricedo el optimismo del Investor Day de junio antes que los analistas hayan actualizado sus modelos. El upside desde aquí es limitado a corto plazo.
+
+<strong>Riesgo 2 — Retraso en adopción HBM de Samsung:</strong> Si Samsung retrasa la adopción de hybrid bonding en HBM (algo que ocurrió con cambios en estándares de grosor en Q1 2026 que causaron una caída del -17,5% en una semana), el timing de revenue se desplaza.
+
+<strong>Riesgo 3 — Ciclicidad del equipo semiconductor:</strong> El negocio de equipos semiconductores es cíclico. Cuando los foundries y fabricantes de memoria reducen capex (como en 2022–2023), los ingresos de Besi pueden caer un 30–40% en pocos trimestres.
+
+<strong>Riesgo 4 — Concentración en hybrid bonding:</strong> Casi todo el upside de Besi depende de que hybrid bonding se convierta en el estándar de packaging. Si la industria adopta un método alternativo (como thermo-compression bonding mejorado de ASE), Besi pierde la posición central.`,
+    verdict:`Besi es la empresa de equipo semiconductor con el mejor posicionamiento estratégico en el ciclo de IA: ocupa el chokepoint crítico del packaging de chips avanzados, tiene un monopolio de facto en hybrid bonding, márgenes operativos que rivalizan con los de software, y catalizadores concretos en HBM (Samsung), data centers (2.5D packaging) y fotónica (CPO).
+
+El único problema es el precio. A €309 cotiza por encima del objetivo medio de analistas (~€260) y el Investor Day de junio ya ha sido celebrado por el mercado. La estrategia óptima es esperar una corrección hacia €180–220 (~zona de soporte técnico) donde el riesgo/recompensa se vuelve muy atractivo.
+
+<strong>Estrategia: alerta en la app a €200. Posición inicial 2–3% si corrige a esa zona. La tesis de hybrid bonding como estándar de packaging AI tiene un horizonte de 5–10 años — es una de las tesis más estructurales de todo el ecosistema de semiconductores.</strong>`},
+  oust:{name:'Ouster Inc.',
+    meta:'OUST · Nasdaq · LiDAR digital / Physical AI / Defensa / Smart Infrastructure · Fundada 2015',
+    inCartera:false,
+    badges:[
+      ['b-warn','⚠️ Dan Fuentes la citó a $27 — hoy ~$47 (+74%) — parte del upside ya capturado'],
+      ['b-strong','13 trimestres consecutivos de crecimiento · 0 deuda · $175M caja'],
+      ['b-buy','Ley 30 jun 2026: LiDAR chino excluido de contratos federales — Ouster única alternativa americana'],
+      ['b-idea','Vigilar corrección hacia $32–36 para entrada con margen de seguridad']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$47',s:'jun 2026 — +74% desde $27 citado por Dan'},
+      {l:'Revenue Q1 2026',v:'$48,58M',s:'+49% YoY — 13 trimestres consecutivos'},
+      {l:'Obj. Roth Capital',v:'$75',s:'Buy — iniciación reciente'},
+      {l:'Caja neta',v:'$175M',s:'0 deuda — balance sólido'}
+    ],
+    moat:`<strong>El proveedor de LiDAR que convierte una ley federal en un moat de facto</strong>
+
+<strong>1. La ley SAFE — el catalizador regulatorio más potente de 2026:</strong> A partir del 30 de junio de 2026, la ley SAFE (Securing American Futures from Emerging Adversaries) prohíbe a cualquier empresa con contratos federales americanos usar LiDAR fabricado por empresas de "países adversarios" (China). Los fabricantes chinos (Hesai, RoboSense, Livox/DJI) dominan el mercado global con precios un 40–60% más baratos que los americanos. La ley los excluye del mercado federal de un plumazo. La única empresa americana con capacidad de suministrar LiDAR de alto rendimiento a escala es Ouster.
+
+<strong>2. Rev8 — el primer LiDAR nativo a color del mundo:</strong> El sensor Rev8 de Ouster genera una imagen en color usando solo láseres, sin cámara adicional. La precisión es equivalente a una cámara RGB pero con la capacidad de mapeo 3D del LiDAR. Ya está integrado en NVIDIA DRIVE Hyperion, FieldAI y Gecko Robotics. Esta diferenciación tecnológica es difícil de replicar — los competidores americanos (Luminar, Velodyne) no tienen algo equivalente.
+
+<strong>3. Adquisición StereoLabs — transformación de sensor a plataforma de percepción completa:</strong> Con la adquisición de StereoLabs (cámaras ZED + software de percepción) en febrero 2026, Ouster se convierte en una plataforma completa de percepción: LiDAR + cámara + edge AI + software. Esto aumenta el valor por unidad vendida y crea switching costs que los competidores no pueden igualar.
+
+<strong>4. Posición en defensa — primer LiDAR certificado bajo Blue UAS Framework del DoD:</strong> Ouster es el único LiDAR de alta resolución 3D aprobado por el Departamento de Defensa bajo el Blue UAS Framework para sistemas aéreos no tripulados. Con el gasto del Pentágono en drones autónomos creciendo exponencialmente (de $225M a $55.000M para 2027), cada drone militar necesita LiDAR certificado.`,
+    motor:`<strong>Q1 2026 — aceleración consistente:</strong>
+Revenue $48,58M (+49% YoY). EPS -$0,25 (mejorando). 13 trimestres consecutivos de crecimiento. Guidance Q2 2026: $49,5–52,5M (+~50% YoY). Objetivo margen bruto 35–40%. Camino a rentabilidad en FCF para finales de 2027.
+
+<strong>Catalizadores inmediatos:</strong>
+
+Deal defensa ARGUS Interception: Ouster firmó un contrato con ARGUS Interception para sistemas de interceptores anti-drones A1-Falke. La noticia envió la acción +9% antes de apertura. Rosenblatt elevó objetivo a $53.
+
+Infraestructura FIFA Mundial 2026: Ouster está instalando sensores en 40+ sitios del New Jersey DOT para gestión de tráfico y multitudes para el Mundial de Fútbol 2026. Primera demostración a escala de su capacidad en smart cities.
+
+Partnership Nvidia DRIVE Hyperion: integración oficial en la plataforma de referencia de Nvidia para vehículos autónomos.`,
+    cats:[
+      'Ley SAFE 30 jun 2026: LiDAR chino excluido de contratos federales — Ouster única alternativa americana certificada',
+      'Rev8 primer LiDAR a color: diferenciación tecnológica sin equivalente — ya integrado en NVIDIA DRIVE Hyperion',
+      'Defensa DoD Blue UAS: único LiDAR certificado para drones militares — catalizador del presupuesto $55.000M en 2027',
+      '13 trimestres crecimiento consecutivo + 0 deuda + $175M caja: base financiera sólida para resistir la volatilidad',
+      'Roth Capital Buy $75: camino a FCF breakeven finales 2027 — empresa aún en pérdidas pero con visibilidad de rentabilidad',
+      'FIFA Mundial 2026 + 40 sites NJ DOT: primera demostración de smart city a escala global — caso de uso real'
+    ],
+    risks:`<strong>Riesgo 1 — Precio ya no es el de la tesis original:</strong> Dan Fuentes la identificó a $27. A $47 el upside es menor y el riesgo/recompensa menos favorable. La entrada óptima quedó atrás.
+
+<strong>Riesgo 2 — Empresa aún en pérdidas:</strong> Net loss negativo (-$60M TTM) y FCF negativo. Si el mercado se vuelve risk-off, las empresas sin beneficios sufren correcciones severas.
+
+<strong>Riesgo 3 — Insiders vendiendo más que comprando:</strong> Los insiders han vendido neto $2,5M más de lo que han comprado en los últimos 12 meses. No es alarmante pero es una señal a vigilar.
+
+<strong>Riesgo 4 — Alta volatilidad:</strong> Ouster puede volver a $33 en cualquier corrección de mercado o decepción en guidance. Para un inversor de largo plazo que entra a $47, eso sería un -30% temporal pero real.`,
+    verdict:`La tesis de Ouster es genuinamente buena — ley regulatoria que crea un moat, tecnología diferenciada, posición en defensa, y plataforma completa de percepción tras StereoLabs. El problema es el timing: la tesis era extraordinaria a $27, buena a $35 y razonable a $47.
+
+Para un inversor que no tiene posición, la estrategia es crear una alerta en la app a $32–36 y esperar una corrección que seguramente llegará dado que la acción ha subido +74% en pocos meses. Entrar en correcciones es la forma de preservar el margen de seguridad que hace buena a una buena tesis.
+
+<strong>Estrategia: alerta a $32–36 (~29–33€). Si corrige a esa zona, posición inicial 1–2% cartera con horizonte 2030. La ley SAFE y el presupuesto de defensa son catalizadores de largo plazo que no desaparecen.</strong>`},
+  amba:{name:'Ambarella Inc.',
+    meta:'AMBA · Nasdaq · Edge AI SoCs / Robótica Humanoide / Automoción Autónoma / Drones · Fundada 2004',
+    inCartera:false,
+    badges:[
+      ['b-strong','El "cerebro" de robots, drones y vehículos autónomos — procesamiento IA on-device'],
+      ['b-buy','14 analistas Buy · obj. consenso $95–120 · cotiza ~$62 — 53% upside potencial'],
+      ['b-idea','Deal Hanwha $800M+ a 10 años ya firmado — visibilidad de ingresos excepcional'],
+      ['b-warn','Aún en pérdidas operativas — horizonte LP mínimo 3 años requerido']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'~$62',s:'Market cap ~$3.100M'},
+      {l:'Forward P/E',v:'N/A (pérdidas)',s:'margen bruto 62% y expandiendo'},
+      {l:'Revenue FY2026',v:'$390,7M',s:'+37% YoY — aceleración'},
+      {l:'Deal Hanwha',v:'$800M+ / 10 años',s:'contrato firmado — visibilidad real'}
+    ],
+    moat:`<strong>El moat más diferencial del sector edge AI: arquitectura de chip all-in-one para IA física</strong>
+
+<strong>1. El problema que Ambarella resuelve — y por qué nadie más lo hace igual:</strong> Un robot humanoide, un drone autónomo, o un vehículo de Nivel 3 necesita procesar visión por computador, fusión de sensores, inferencia de IA y toma de decisiones en tiempo real, TODO ello sin conexión a la nube, con menos de 5 vatios de consumo y en un chip del tamaño de un sello. Nvidia puede hacer esto con una GPU Orin de $1.000+. Ambarella lo hace con un SoC de $30–80.
+
+<strong>2. La plataforma CVflow — 15 años de ventaja acumulada:</strong> Ambarella lleva desde 2009 desarrollando arquitecturas de procesamiento de vídeo embebido. Cuando la IA entró en el edge en 2018, ya tenían 15 años de optimización de hardware específico para ese caso de uso. Su arquitectura CVflow procesa redes neuronales convolucionales con una eficiencia energética 10–20x superior a una GPU de propósito general para la misma tarea. Esa ventaja no se puede comprar — se construye durante años.
+
+<strong>3. La plataforma de software — el verdadero switching cost:</strong> El ecosistema de software de Ambarella (CNNGen, OpenOD, herramientas de calibración) convierte el desarrollo en sus chips en el estándar de facto para el sector de vigilancia inteligente y automoción de nivel medio. Continental ya ha diseñado toda su plataforma de ADAS L2+ sobre el CV3-AD de Ambarella, con producción en serie desde 2026. Ese diseño win no se cambia — tiene un ciclo de vida de 7–10 años en automoción.
+
+<strong>4. Market positioning único — ni Qualcomm ni Nvidia pueden competir directamente:</strong> Qualcomm domina smartphones y algunos sistemas infotainment. Nvidia domina data centers y vehículos premium (Orin). Ambarella ocupa el espacio que queda: edge AI de alto rendimiento y bajo consumo para volúmenes medios-altos. El Hanwha deal ($800M a 10 años en robótica e industria) confirma que hay un mercado de cientos de miles de millones donde nadie más puede competir en precio/rendimiento.`,
+    motor:`<strong>Q1 FY2027 (mayo 2026) — aceleración confirmada:</strong>
+Revenue $100,4M (+16,9% YoY) — record automotriz histórico. Margen bruto 62,1% (expandiendo). EPS no-GAAP: -$0,09 (mejorando consistentemente). Guía Q2 FY2027: $108–112M (+21–25% YoY).
+
+<strong>Los cuatro vectores de crecimiento convergentes:</strong>
+
+Vector 1 — Automoción L2+/L3 (CV3-AD): Continental firmó para usar el CV3-AD en producción serie desde 2026. El chip soporta cámaras frontales, surround-view y fusión con radar en un solo die. El TAM de automoción ADAS es $15.000M creciendo al 25% anual. Ambarella tiene ya 15 design wins en automoción con revenue vitalicio >$100M.
+
+Vector 2 — Robótica humanoide (el mayor catalizador): Dan Fuentes la identificó como "el cerebro de los robots humanoides." Cada robot humanoide necesita un chip que procese la visión del robot (las cámaras + LiDAR) y tome decisiones en tiempo real sin latencia de red. El CV3 es el único chip comercial que puede hacer esto en el factor de forma y consumo requerido. Con Tesla Optimus y Figure AI próximos a producción masiva, el potencial es exponencial.
+
+Vector 3 — Deal Hanwha $800M+: co-desarrollo y despliegue de SoCs edge AI en seguridad, robótica e industria. $800M en 10 años = $80M/año adicional sobre la base actual — un 20% del revenue total solo de este cliente. Ya firmado.
+
+Vector 4 — Chips 2nm proyectados para FY2028: ventaja tecnológica generacional que reducirá consumo un 40% y aumentará rendimiento un 60% para la misma tarea. Cuando salga, ningún competidor tendrá algo comparable en edge AI para 2 años.`,
+    cats:[
+      'CV3-AD en producción Continental 2026: diseño win de 7–10 años con el mayor proveedor de ADAS de Europa',
+      'Deal Hanwha $800M+ firmado: $80M/año adicional — 20% del revenue actual solo de un cliente de robótica',
+      'Robots humanoides: Tesla Optimus, Figure AI, 1X — todos necesitan un "cerebro" on-device — Ambarella es el único candidato en precio/potencia',
+      'Drones management: cita como mercado de MAYOR crecimiento en 2026 — Level 3–4 autonomía requiere edge AI on-board',
+      'Chip 2nm proyectado FY2028: ventaja tecnológica generacional vs. competidores',
+      'Posible adquisición: acciones +21% en un día con la noticia — premium sobre precio actual si se materializa',
+      'Revenue CAGR 37% YoY en FY2026 — aceleración consistente trimestre a trimestre'
+    ],
+    risks:`<strong>Riesgo 1 — Aún en pérdidas operativas:</strong> AMBA no es rentable a nivel GAAP. El FCF operativo fue positivo en $73,5M TTM, pero el net loss fue -$75,9M. Para inversores que requieren empresas rentables, no es el momento. Horizonte mínimo 3 años para ver rentabilidad plena.
+
+<strong>Riesgo 2 — Summit Insights Hold:</strong> Summit Insights degradó a Hold citando riesgos en cadena de suministro para H2 2026. Si hay problemas de inventario en automoción (ciclo ADAS puede ser lumpy), los trimestres de guía pueden decepcionar puntualmente.
+
+<strong>Riesgo 3 — Competencia Qualcomm en automoción:</strong> Qualcomm con Snapdragon Ride está intentando entrar en ADAS de nivel medio. Su presupuesto de R&D es 20x el de Ambarella. Si logra paridad en eficiencia energética, el pricing power de Ambarella se reduce.
+
+<strong>Riesgo 4 — Concentración geográfica China:</strong> Ambarella tiene exposición significativa a fabricantes de cámaras de seguridad chinos. Las restricciones comerciales adicionales podrían impactar ese segmento.
+
+<strong>Riesgo 5 — Posible adquisición como riesgo de premium excesivo:</strong> Si la adquisición se produce a un múltiplo alto (>$100/acción), los compradores quedan bien. Si no se produce, los que compraron a $80–90 esperando el M&A sufren.`,
+    verdict:`Ambarella es la empresa más interesante del universo edge AI para un inversor con horizonte de 3–5 años y tolerancia al riesgo. Tiene el chip más eficiente del mundo para IA física (robots, drones, vehículos), un deal ya firmado de $800M con Hanwha, producción en serie con Continental desde 2026, y está en la intersección exacta de los dos sectores de mayor crecimiento del hardware tecnológico: automoción autónoma y robótica humanoide.
+
+Lo más llamativo: cotiza a ~$62 con un consenso de 14 analistas que la sitúan en $95–120 (+53–94% upside). El mercado está descontando los riesgos de pérdidas operativas actuales pero no está valorando el potencial de los motores de crecimiento convergentes.
+
+<strong>Estrategia: posición inicial 1–2% cartera en zona actual $60–70 (~55–64€). Es una apuesta de alta convicción con alta volatilidad — usar posición pequeña. Si la adquisición se produce antes del target, recoger el premium. Si no, mantener hasta 2028 cuando el chip 2nm genere re-rating. Horizonte mínimo 3 años.</strong>`},
   stm:{name:'STMicroelectronics',meta:'STM · NYSE · Semiconductores / SpaceX / AWS / SiC / IA',inCartera:false,badges:[['b-stop','⚠️ PRECIO ACTUAL NO ES PUNTO DE ENTRADA'],['b-warn','Cotiza 38% por encima del valor DCF'],['b-strong','SpaceX 90% cuota · AWS · SiC líder'],['b-idea','Vigilar — alerta a $32']],metrics:[{l:'Precio actual',v:'~$44',s:'⚠️ NO ES ZONA DE COMPRA'},{l:'Obj. mediano analistas',v:'$32,40',s:'18 analistas'},{l:'Valor DCF',v:'~$32',s:'38% por encima actualmente'},{l:'Alerta de entrada',v:'$28–32',s:'zona con margen de seguridad'}],moat:'90% cuota de mercado en chips RF para Starlink. 10 años de co-diseño con SpaceX. Líder global en SiC con 32,6% de cuota para inversores de VE. Deal multianual con AWS para data centers IA. Presente en SpaceX, AWS, Nvidia robotics y SiC simultáneamente.',motor:'5.000M chips enviados a SpaceX en 10 años — volumen a duplicarse en 2027. Data center revenue: de $500M a $1.000M en 2026 y doble en 2027. Q2 2026: $3.450M (+25% YoY). FCF: de -$702M actuales a +$3.470M en 2030.',cats:["⚠️ PRECIO ACTUAL ~$44 ESTÁ UN 38% POR ENCIMA DEL DCF — NO ENTRAR AHORA",'Starlink: 20.000 terminales/día — STM suministra 5M chips/día y dobla en 2027','AWS deal multianual: chips para conectividad y gestión de potencia en hiperescala','SiC líder global (32,6% cuota) para vehículos eléctricos — estructura oligopolística','Adquisición MEMS de NXP cerrada feb 2026: refuerza automoción y sensores','Craig-Hallum Buy $58, Mizuho Outperform $48 — optimismo en recuperación'],risks:'VALORACIÓN ES EL RIESGO PRINCIPAL: precio ~$44 con objetivo mediano analistas $32,40 (18 analistas: 6 Buy, 9 Hold). DCF intrínseco ~$32 — prima del 38%. La acción ha subido +168% desde mínimos. FCF aún negativo (-$702M). Competencia Infineon, Onsemi y China en SiC.',verdict:'⚠️ ESPERAR. Tesis estructural extraordinaria — SpaceX + AWS + SiC + IA en una sola empresa europea. PERO el precio actual ($44) descuenta demasiado futuro. El objetivo mediano de 18 analistas es $32,40. ESTRATEGIA: alerta en la app a $28–32 (~26–29€) y esperar corrección con margen de seguridad real. La tesis es válida — la paciencia es la clave.'},
   lly:{name:'Eli Lilly and Company',
     meta:'LLY · NYSE · Farmacéutica Global / GLP-1 / IA Drug Discovery · Fundada 1876',
