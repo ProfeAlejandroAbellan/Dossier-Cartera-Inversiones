@@ -1956,7 +1956,6 @@ const TV_RANGES={
 
 function setChartRange(range){
   _tvRange=range;
-  // Update active button style
   document.querySelectorAll('.chart-range-btn').forEach(b=>{
     b.style.background = b.dataset.range===range ? 'var(--accent)' : 'var(--bg3)';
     b.style.color = b.dataset.range===range ? '#fff' : 'var(--text2)';
@@ -1965,20 +1964,88 @@ function setChartRange(range){
   if(_tvKey) buildChart(_tvKey, range);
 }
 
+function checkChartLoaded(key, attempt){
+  const inner = document.querySelector('.tradingview-widget-container__widget');
+  if(!inner) return;
+  // If TradingView injected its iframe, it's loaded
+  if(inner.querySelector('iframe')) return;
+  // After 8 seconds still no iframe → show fallback
+  if(attempt > 16) {
+    const wrap = document.getElementById('tv-chart-wrap');
+    const ticker = TV_TICKERS[key]||'';
+    if(wrap && ticker) {
+      wrap.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:460px;gap:16px">
+        <div style="color:var(--text3);font-size:13px">El gráfico no pudo cargarse en la app.</div>
+        <a href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent(ticker)}" target="_blank"
+           style="padding:10px 20px;border-radius:var(--r);background:var(--accent);color:#fff;text-decoration:none;font-size:13px;font-weight:600">
+          📈 Ver gráfico en TradingView ↗
+        </a>
+      </div>`;
+    }
+    return;
+  }
+  setTimeout(()=>checkChartLoaded(key, attempt+1), 500);
+}
+
 function buildChart(key, range){
   const wrap=document.getElementById('tv-chart-wrap');
   if(!wrap)return;
   const ticker=TV_TICKERS[key];
   if(!ticker){
-    wrap.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text3);font-size:13px">Gráfico no disponible para este activo</div>';
+    wrap.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:460px;color:var(--text3);font-size:13px">Gráfico no disponible para este activo</div>';
     return;
   }
   const {interval, range:tvRange} = TV_RANGES[range]||TV_RANGES['6M'];
-  wrap.innerHTML=`<iframe
-    src="https://s.tradingview.com/widgetembed/?frameElementId=tv_${key}_${range}&symbol=${encodeURIComponent(ticker)}&interval=${interval}&range=${tvRange}&hidesidetoolbar=0&symboledit=0&saveimage=0&toolbarbg=1f2937&theme=dark&style=1&timezone=Europe%2FMadrid&withdateranges=1&showpopupbutton=0&locale=es&hide_top_toolbar=0&hide_legend=0&allow_symbol_change=0&details=0&hotlist=0&calendar=0&overrides=%7B%22mainSeriesProperties.candleStyle.upColor%22%3A%2222c55e%22%2C%22mainSeriesProperties.candleStyle.downColor%22%3A%22ef4444%22%2C%22mainSeriesProperties.candleStyle.borderUpColor%22%3A%2222c55e%22%2C%22mainSeriesProperties.candleStyle.borderDownColor%22%3A%22ef4444%22%2C%22mainSeriesProperties.candleStyle.wickUpColor%22%3A%2222c55e%22%2C%22mainSeriesProperties.candleStyle.wickDownColor%22%3A%22ef4444%22%7D&enabled_features=scroll_past_end,side_toolbar_in_fullscreen_mode&disabled_features=header_symbol_search,header_compare"
-    style="width:100%;height:460px;border:none;display:block"
-    allowtransparency="true" allowfullscreen="" scrolling="no"></iframe>`;
+
+  // Clear wrap completely
+  while(wrap.firstChild) wrap.removeChild(wrap.firstChild);
+
+  // Build container
+  const container = document.createElement('div');
+  container.className = 'tradingview-widget-container';
+  container.style.cssText = 'height:460px;width:100%';
+
+  const inner = document.createElement('div');
+  inner.className = 'tradingview-widget-container__widget';
+  inner.style.cssText = 'height:calc(100% - 28px);width:100%';
+  container.appendChild(inner);
+
+  const credit = document.createElement('div');
+  credit.className = 'tradingview-widget-copyright';
+  credit.innerHTML = '<a href="https://www.tradingview.com/" target="_blank" rel="noopener"><span style="color:var(--text3);font-size:10px">Datos por TradingView</span></a>';
+  container.appendChild(credit);
+
+  wrap.appendChild(container);
+
+  // Config object for the widget
+  const cfg = {
+    autosize: true,
+    symbol: ticker,
+    interval: interval,
+    range: tvRange,
+    timezone: 'Europe/Madrid',
+    theme: 'dark',
+    style: '1',
+    locale: 'es',
+    backgroundColor: 'rgba(17,24,39,0)',
+    gridColor: 'rgba(55,65,81,0.3)',
+    hide_top_toolbar: false,
+    hide_legend: false,
+    allow_symbol_change: false,
+    save_image: false,
+    calendar: false,
+    support_host: 'https://www.tradingview.com'
+  };
+
+  // Create script with config as text content (TradingView reads it)
+  const s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+  s.async = true;
+  s.textContent = JSON.stringify(cfg);
+  inner.appendChild(s);
 }
+
 
 function loadTVChart(key){
   const wrap=document.getElementById('tv-chart-wrap');
@@ -2014,8 +2081,7 @@ function loadTVChart(key){
   }
 
   buildChart(key, _tvRange);
-  // dummy to satisfy parser — iframe built in buildChart
-  // chart built above
+  setTimeout(()=>checkChartLoaded(key,0), 500);
 }
 
 // ── SECTOR FILTER ─────────────────────────────────────────────────────
