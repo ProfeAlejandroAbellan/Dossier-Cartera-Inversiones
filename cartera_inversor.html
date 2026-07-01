@@ -29,6 +29,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .nav-title{font-size:15px;font-weight:700;letter-spacing:-.3px}
 .nav-sub{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase}
 .nav-tabs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:2px;flex:1}
+@media(max-width:640px){
+  .nav-tabs{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(11,17,32,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-direction:column;gap:0;z-index:199;padding:6px 0}
+  .nav-tabs.open{display:flex}
+  .nav-tabs .nt{padding:13px 20px;font-size:14px;border-radius:0;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05)}
+  .nav-tabs .nt:last-child{border-bottom:none}
+  .nav-ham{display:flex!important}
+  .nav-brand .nav-sub{display:none}
+  .nav-r .upd{display:none}
+}
+@media(min-width:641px){.nav-ham{display:none!important}}
 .nt{padding:.45rem .9rem;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;border-radius:var(--r);white-space:nowrap;background:none;border:none;transition:all .15s}
 .nt:hover{color:var(--text);background:var(--bg3)}
 .nt.active{color:var(--gold);background:var(--gold-bg);font-weight:600}
@@ -243,6 +253,8 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <button class="nt locked" id="tab-portfolio" onclick="showPage('portfolio',this)">Portfolio</button>
     <button class="nt locked" id="tab-ajustes" onclick="showPage('ajustes',this)">Ajustes</button>
   </div>
+  <button class="nav-ham btn" id="nav-ham-btn" onclick="toggleMobileNav()" 
+  style="display:none;padding:6px 10px;font-size:18px;background:transparent;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--text)">☰</button>
   <div class="nav-r">
     <span class="upd" id="upd">—</span>
     <button class="btn" id="btn-refresh" onclick="loadAll()" style="display:none">↻</button>
@@ -294,6 +306,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       <button class="ttab" data-sector="energia" onclick="showT('ibe',this)">💡 Iberdrola</button>
       <!-- SEGUROS -->
       <button class="ttab" data-sector="seguros" onclick="showT('pgr',this)">💡 Progressive</button>
+      <button class="ttab" data-sector="seguros" onclick="showT('allianz',this)">💡 Allianz</button>
       <button class="ttab" data-sector="seguros" onclick="showT('iak',this)">💡 IAK ETF</button>
       <button class="ttab" data-sector="seguros" onclick="showT('visa',this)">💡 Visa</button>
       <!-- COMMODITIES -->
@@ -531,7 +544,10 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <div style="font-size:15px;font-weight:700;margin-bottom:.5rem">📋 Posiciones en acciones</div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:1rem">Edita acciones, BEP (€) y alertas.</div>
     <div class="tw"><table><thead><tr><th>Empresa</th><th>Ticker</th><th>Acciones</th><th>BEP €</th><th>Alerta € (compra)</th><th>Stop %</th></tr></thead><tbody id="s-table"></tbody></table></div>
-    <button class="btn-gold" onclick="savePos()" style="margin-top:1rem">Guardar posiciones</button>
+    <div style="display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap">
+    <button class="btn" onclick="addNewPosition()" style="background:var(--bg3);border:1px solid var(--accent);color:var(--accent);font-weight:600">+ Añadir posición</button>
+    <button class="btn-gold" onclick="savePos()">Guardar posiciones</button>
+  </div>
   </div>
   <div class="card">
     <div style="font-size:15px;font-weight:700;margin-bottom:.5rem">⚙️ EmailJS</div>
@@ -560,6 +576,8 @@ const DS=[
   {name:'Central G&P',sym:'CENTA',shares:2,bepEur:30.41,buyAlert:null,stopPct:null,broker:'DG'},
   {name:'Auto Partner',sym:'APR.WA',shares:3,bepEur:5.81,buyAlert:null,stopPct:null,broker:'DG'},
   {name:'SAGE Therap.',sym:'SAGE',shares:3,bepEur:0.01,buyAlert:null,stopPct:null,broker:'DG'},
+  {name:'Broadcom',sym:'AVGO',shares:2,bepEur:320.90,buyAlert:300,stopPct:20,broker:'TR'},
+  {name:'AeroVironment',sym:'AVAV',shares:2,bepEur:163.00,buyAlert:145,stopPct:20,broker:'TR'},
 ];
 const DE=[
   {name:'MSCI ACWI USD',sym:'SSAC.L',shares:15.28,bepEur:83.58,gbx:true},
@@ -639,8 +657,8 @@ function changePin(){
   userPin=nw;localStorage.setItem('userPin',userPin);showToast('PIN cambiado correctamente','ok');
 }
 function showCarteraBanner(){
-  const carteraSyms=['META','ASML','GOOGL','AMZN','MSFT','ACS.MC','ZEG.L','CALM','SDZ.SW'];
-  const carteraNames={'META':'Meta','ASML':'ASML','GOOGL':'Alphabet','AMZN':'Amazon','MSFT':'Microsoft','ACS.MC':'ACS','ZEG.L':'Zegona','CALM':'Cal-Maine','SDZ.SW':'Sandoz'};
+  const carteraSyms=['META','ASML','GOOGL','AMZN','MSFT','ACS.MC','ZEG.L','CALM','SDZ.SW','AVGO','AVAV'];
+  const carteraNames={'META':'Meta','ASML':'ASML','GOOGL':'Alphabet','AMZN':'Amazon','MSFT':'Microsoft','ACS.MC':'ACS','ZEG.L':'Zegona','CALM':'Cal-Maine','SDZ.SW':'Sandoz','AVGO':'Broadcom','AVAV':'AeroVironment'};
   const thesisMap={'META':'meta','ASML':'asml','GOOGL':'alphabet','AMZN':'amazon','MSFT':'msci'};
   document.getElementById('cartera-banner').style.display='block';
   document.getElementById('cartera-chips').innerHTML=carteraSyms.map(s=>`<span class="cartera-chip" onclick="showT('${thesisMap[s]||s.toLowerCase()}',null)">${carteraNames[s]}</span>`).join('');
@@ -766,9 +784,32 @@ function renderSTable(){
   const cfgt=document.getElementById('cfg-template');if(cfgt)cfgt.value=ejsConfig.template||'';
   const cfgp=document.getElementById('cfg-pubkey');if(cfgp)cfgp.value=ejsConfig.pubkey||'';
   const st=document.getElementById('s-table');
-  if(st)st.innerHTML=stocks.map((s,i)=>`<tr><td style="font-weight:600">${s.name}</td><td><code style="font-size:10px;color:var(--text3)">${s.sym}</code></td><td><input type="number" value="${s.shares}" onchange="stocks[${i}].shares=parseFloat(this.value)||0" style="width:60px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.bepEur.toFixed(2)}" onchange="stocks[${i}].bepEur=parseFloat(this.value)||0" style="width:80px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.buyAlert||''}" placeholder="—" onchange="stocks[${i}].buyAlert=parseFloat(this.value)||null" style="width:80px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.stopPct||''}" placeholder="—" onchange="stocks[${i}].stopPct=parseFloat(this.value)||null" style="width:55px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td></tr>`).join('');
+  if(st)st.innerHTML=stocks.map((s,i)=>`<tr>
+    <td><input type="text" value="${s.name}" onchange="stocks[${i}].name=this.value" style="width:110px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;font-weight:600"></td>
+    <td><input type="text" value="${s.sym}" onchange="stocks[${i}].sym=this.value.toUpperCase();this.value=this.value.toUpperCase()" style="width:80px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text3);font-size:11px;font-family:'Inter',sans-serif;text-transform:uppercase"></td><td><input type="number" value="${s.shares}" onchange="stocks[${i}].shares=parseFloat(this.value)||0" style="width:60px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.bepEur.toFixed(2)}" onchange="stocks[${i}].bepEur=parseFloat(this.value)||0" style="width:80px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.buyAlert||''}" placeholder="—" onchange="stocks[${i}].buyAlert=parseFloat(this.value)||null" style="width:80px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td><td><input type="number" value="${s.stopPct||''}" placeholder="—" onchange="stocks[${i}].stopPct=parseFloat(this.value)||null" style="width:55px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);color:var(--text);font-size:12px;font-family:'Inter',sans-serif"></td>
+    <td><button onclick="deletePosition(${i})" style="padding:4px 8px;border-radius:var(--r);border:1px solid rgba(239,68,68,0.3);background:transparent;color:var(--red-text);cursor:pointer;font-size:11px">✕</button></td></tr>`).join('');
 }
 function saveCash(){cash=parseFloat(document.getElementById('s-cash').value)||0;note=document.getElementById('s-note').value;localStorage.setItem('cash',cash);localStorage.setItem('note',note);renderPortfolio();showToast('Cash guardado','ok');}
+function deletePosition(idx){
+  if(stocks.length<=1){showToast('Debe haber al menos una posición','error');return;}
+  if(!confirm('¿Eliminar esta posición de la tabla?'))return;
+  stocks.splice(idx,1);
+  renderSTable();
+  showToast('Posición eliminada','info');
+}
+
+function addNewPosition(){
+  stocks.push({name:'Nueva empresa',sym:'TICKER',shares:1,bepEur:0,buyAlert:null,stopPct:20,broker:'TR'});
+  renderSTable();
+  const rows=document.querySelectorAll('#s-table tr');
+  if(rows.length>0){
+    rows[rows.length-1].scrollIntoView({behavior:'smooth',block:'center'});
+    const firstInput=rows[rows.length-1].querySelector('input');
+    if(firstInput)setTimeout(()=>firstInput.focus(),300);
+  }
+  showToast('Nueva posición añadida — edita los campos y guarda','info');
+}
+
 function savePos(){localStorage.setItem('stocks',JSON.stringify(stocks));renderPortfolio();showToast('Posiciones guardadas','ok');}
 function saveEmailConfig(){ejsConfig={service:document.getElementById('cfg-service')?.value||ejsConfig.service,template:document.getElementById('cfg-template')?.value||ejsConfig.template,pubkey:document.getElementById('cfg-pubkey')?.value||ejsConfig.pubkey,email:ejsConfig.email};localStorage.setItem('ejsConfig',JSON.stringify(ejsConfig));if(ejsConfig.pubkey)try{emailjs.init(ejsConfig.pubkey);}catch(e){}}
 function resetData(){localStorage.clear();stocks=DS.map(s=>({...s}));cash=7117.93;note='TR + DeGiro';userPin='1234';customAlerts=[];alertHistory=[];subscribers=[];renderSTable();renderPortfolio();showToast('Datos restablecidos','ok');}
@@ -1689,67 +1730,67 @@ El único riesgo serio a vigilar es la guerra de precios GLP-1 con Novo Nordisk 
 
 <strong>Estrategia:</strong> Posición inicial 2–3% en correcciones hacia $950–1.000 (~873–919€). A precios actuales (~$1.128) la entrada sigue siendo razonable para un horizonte de 5–10 años dado el crecimiento proyectado. No es una posición para buscar un 20% rápido — es una empresa para mantener 10 años.`},
   pgr:{name:'Progressive Corporation',
-    meta:'PGR · NYSE · Seguros P&C / "Mathematical Moat" / IA Telemática · Fundada 1937',
+    meta:'PGR · NYSE · P&C Insurance / Telemática IA / Auto · Fundada 1937',
     inCartera:false,
     badges:[
-      ['b-strong','"Mathematical Moat" — empresa de tecnología que vende seguros'],
-      ['b-buy','PE 10,5x vs. media histórica 24,8x — 58% más barato históricamente'],
-      ['b-buy','Combined ratio 86,4 — doble rentabilidad que la media sectorial'],
-      ['b-hold','Crecimiento moderándose: premios netas +6% vs. +20% en años anteriores'],
-      ['b-warn','Exposición a catástrofes climáticas en segmento Property']
+      ['b-strong','"Mathematical Moat" — empresa de datos que vende seguros, no aseguradora que usa datos'],
+      ['b-buy','PE TTM 10,51x vs. media 10 años 24,83x — 58% más barato que su propia historia'],
+      ['b-buy','ROE 40,45% · Combined ratio 86,4 · FCF récord — los mejores fundamentales del sector'],
+      ['b-warn','Precio YTD -25,85% desde máximos — compresión por desaceleración de crecimiento de primas']
     ],
     metrics:[
-      {l:'Precio actual',v:'~$207',s:'junio 2026'},
-      {l:'Forward PE',v:'12,1x',s:'⭐ vs. 24,8x media 10 años — 51% descuento histórico'},
-      {l:'PE mediana sector',v:'10,7x',s:'Progressive cotiza ligera prima — justificada por calidad'},
-      {l:'Obj. BofA',v:'$331',s:'Buy — +60% upside · GF Value $268 (+29% descuento)'}
+      {l:'Precio actual',v:'$224',s:'jun 2026 — GF Value $272 (+21% upside)'},
+      {l:'PE TTM',v:'10,51x',s:'vs. 24,83x media 10 años — 58% descuento histórico'},
+      {l:'Forward PE',v:'12,99x',s:'vs. industria 11,68x — ligera prima justificada'},
+      {l:'ROE',v:'40,45%',s:'uno de los más altos del sector financiero americano'}
     ],
-    moat:`<strong>El "Mathematical Moat" — una ventaja competitiva única en el mundo asegurador:</strong>
+    moat:`<strong>El "Mathematical Moat": 20 años de datos propietarios de conducción que ningún competidor puede replicar</strong>
 
-Progressive no es una aseguradora que usa tecnología. Es una empresa de tecnología de datos que vende seguros como producto final. Esta distinción es fundamental para entender su ventaja. La CEO Tricia Griffith, que empezó como agente de siniestros en 1988, describe la filosofía como "pricing to risk" — cobrar exactamente lo que corresponde a cada conductor individual, ni un centavo más ni menos.
+<strong>1. Snapshot — el dataset más valioso del sector seguros americano:</strong> Progressive fue pionera en telemática en 2008. Hoy tiene más de 20 años de datos de comportamiento real de conducción de millones de conductores, correlacionados con siniestros reales. Este dataset crece cada día con cada nuevo asegurado. Un competidor que quisiera replicarlo hoy tendría que esperar 20 años para tener la misma calidad de datos — y durante esos 20 años, Progressive habrá mejorado su ventaja. La IA no elimina este moat: lo acelera. Progressive aplica modelos de machine learning sobre su dataset propietario, lo que significa que sus modelos mejoran más rápido que los de cualquier competidor porque tienen mejores datos de entrada.
 
-<strong>1. Snapshot — casi dos décadas de datos de conducción propietarios:</strong> Progressive fue pionera en telemática de seguros en 2008. Hoy tiene el mayor dataset propietario de comportamiento de conducción del mundo — millones de conductores rastreados, miles de millones de millas de datos. Un competidor que quiera replicarlo necesita empezar desde cero en 2026 y esperar 20 años. Este dataset permite suscribir riesgo a nivel individual con una precisión que ningún modelo actuarial tradicional puede igualar.
+<strong>2. El modelo de suscripción más preciso del mundo en auto:</strong> El combined ratio de 86,4 en Q1 2026 no es casualidad ni suerte climática. Refleja que Progressive suscribe riesgo individual con una precisión imposible para competidores que no tienen los datos. Por cada 100€ de prima recaudada, solo gasta 86,4€ en siniestros y gastos, generando 13,6€ de beneficio de suscripción puro. La media del sector P&C americano está en 95–97%. Esa diferencia de 10 puntos es el "Mathematical Moat" en números.
 
-<strong>2. IA sobre el dataset — compounding competitivo:</strong> La IA de Progressive no trabaja sobre datos genéricos — trabaja sobre 20 años de datos exclusivos de comportamiento real de conducción correlacionados con siniestros reales. El modelo se retroalimenta continuamente: más pólizas → más datos → mejores modelos → mejor pricing → más clientes rentables → más datos. Es un flywheel que se acelera solo y que un competidor no puede replicar aunque tenga la misma IA, porque no tiene los datos.
+<strong>3. ROE del 40% — la prueba de que es un negocio de software, no de seguros:</strong> Un ROE del 40,45% en una aseguradora es como un margen neto del 40% en una empresa de software. Es estructuralmente imposible en una aseguradora convencional porque el capital asignado es enorme. Progressive lo consigue porque su modelo de suscripción tan preciso requiere menos capital de reserva regulatoria por dólar de prima, y su eficiencia operativa por IA reduce costes por debajo de cualquier competidor.
 
-<strong>3. Combined ratio de 86,4 — la métrica que lo dice todo:</strong> Por cada 100€ de prima que cobra, Progressive gasta solo 86,4€ en siniestros y gastos operativos. Eso significa 13,6€ de beneficio de suscripción puro — casi el doble de la media del sector P&C, que está en torno a 95–97%. Este margen no es un accidente de un buen año: es el resultado estructural de suscribir mejor riesgo durante décadas.
+<strong>4. Conversión al máximo nivel en 20 años:</strong> La propia carta a accionistas Q1 2026 de la CEO Tricia Griffith confirma que la conversión (ratio de cotizaciones que se convierten en pólizas) está "en el nivel más alto en más de 20 años". Cuando una empresa con precios premium tiene la mayor tasa de conversión en dos décadas, está demostrando que el mercado valida su proposición de valor.`,
+    motor:`<strong>Q1 2026 — directamente de la carta a accionistas al SEC:</strong>
+Combined ratio companywide: 86,4. NPW crecimiento: +6% YoY. PIF crecimiento: +9% YoY. Personal Lines auto PIFs: +11% YoY sobre un +22% del año anterior. Non-acquisition expense ratio mejoró 0,4 puntos. Revenue FY2025: $87.640M (+16,3% YoY). Net income FY2025: $11.310M (+33,6% YoY). EPS FY2025: $19,29. ROE 40,45%. ROIC 28,98%.
 
-<strong>4. "Robinsons" — la estrategia de bundling que eleva el lifetime value:</strong> La directiva llama "Robinsons" a los clientes que tienen tanto auto como hogar con Progressive. Este segmento tiene una tasa de retención significativamente mayor y genera más revenue por cliente. La expansión al segmento Property es el siguiente vector de crecimiento inorgánico.`,
-    motor:`<strong>Q1 2026 — solidez operativa en un entorno competitivo:</strong>
-EPS $4,81 (+9,8% YoY). Revenue $22.200M (+8,7% YoY). Net income $2.820M (+9,8%). Primas netas escritas +6%. Policies in force personales +11% YoY (+$1.300M adicionales). Combined ratio 86,4 — excepcional.
+<strong>Comparativa con competidores directos:</strong>
 
-<strong>FY 2025 — base extraordinaria:</strong> Comprehensive income $13.000M. ROE del 40% — uno de los más altos del sector financiero americano. EPS creció al 33,6% anualizado en los últimos 3 años. Revenue TTM $87.600M.
+vs. Allstate (ALL): Combined ratio Q1 2026 de ~92 vs. 86,4 de Progressive. ROE ~15% vs. 40%. Progressive tiene 6 puntos de ventaja en combined ratio que equivalen a miles de millones en beneficio adicional anual.
 
-<strong>Los tres motores de crecimiento a medio plazo:</strong>
+vs. Geico (Berkshire): Geico ha tenido años de combined ratios superiores a 100 (pérdidas de suscripción). Buffett reconoció en su carta 2024 que Geico tiene una "desventaja competitiva" en telemetría frente a Progressive.
 
-Motor 1 — IA en toda la cadena de valor: Progressive está integrando IA en suscripción (precios más precisos), siniestros (liquidación automática del 70% de interacciones sin humano), detección de fraude (bloqueo antes del pago) y marketing (adquisición de clientes de menor riesgo). Cada mejora en una fase reduce el combined ratio y amplía el margen.
+vs. State Farm: No cotiza, pero sus resultados públicos muestran combined ratios consistentemente peores que Progressive.
 
-Motor 2 — Expansión commercial trucking: Progressive está aplicando su modelo de telemática al segmento de camiones pesados y logística, replicando la ventaja que ya tiene en auto personal. Es un mercado significativamente mayor y menos eficiente desde el punto de vista del pricing.
+<strong>Los tres catalizadores a corto, medio y largo plazo:</strong>
 
-Motor 3 — Re-rating del múltiplo: El PE actual de 10,5x está un 58% por debajo de la media histórica de 24,8x. Si el mercado reconoce a Progressive como empresa de tecnología/datos (lo que es) en lugar de como aseguradora tradicional, el re-rating puede ser el mayor driver de retorno, independientemente del crecimiento operativo.`,
+CORTO PLAZO (6–18 meses): Florida tort reform ya está reduciendo la siniestralidad fraudulenta en el estado con más litigios del país. Las primas subidas en 2023–2024 se están "ganando" a lo largo de 2026 generando márgenes excepcionales. La expansión del modelo auto 9.0 a 14 estados adicionales en Q1 2026 (44% del NPW nacional) mejorará la precisión de suscripción en esas geografías.
+
+MEDIO PLAZO (18–48 meses): Commercial trucking — Progressive está aplicando su modelo telemático al segmento de camiones pesados. Es un mercado 4x mayor que auto personal, menos eficiente en pricing y con menos competidores tecnológicamente sofisticados. Si replica el éxito de auto personal en commercial, el TAM se multiplica.
+
+LARGO PLAZO (4–10 años): Re-rating del múltiplo. El PE de 10,51x está un 58% por debajo de su media histórica de 24,83x. Cuando el mercado reconozca definitivamente que Progressive es una empresa tecnológica de datos (lo que ya es) y no una aseguradora tradicional, el re-rating puede ser el mayor driver de retorno, independientemente del crecimiento operativo. GuruFocus tiene GF Value de $272,81 (+21% sobre precio actual).`,
     cats:[
-      'PE 10,5x es 58% más barato que la media histórica 24,8x — cuando el mercado reconozca el moat tecnológico, re-rating brutal',
-      'ROE del 40% — excepcional en cualquier sector, extraordinario en seguros — refleja la calidad del modelo de negocio',
-      'Pólizas en vigor personales +11% YoY — aún está ganando cuota de mercado a pesar de ser ya la mayor aseguradora directa',
-      'Florida tort reform: reducción estructural de litigios fraudulentos que distorsionaban la siniestralidad',
-      'Reforma tarifaria: los aumentos de primas implementados en 2023–2024 siguen fluyendo como earned premium en 2026',
-      'IA en siniestros: 70% de interacciones cerradas sin intervención humana — reducción de costes estructural permanente',
-      'Expansión commercial trucking: replicar el modelo telemático en segmento de camiones — mercado enorme y virgen'
+      'PE 10,51x = 58% descuento vs. media histórica 24,83x — mercado infravalora consistentemente el moat tecnológico',
+      'Combined ratio 86,4: 10 puntos mejor que la media sectorial = ventaja estructural permanente por datos propietarios',
+      'ROE 40,45%: imposible en aseguradora convencional — solo posible con suscripción por IA sobre datos propietarios de 20 años',
+      'Conversión en máximo de 20 años (Q1 2026 SEC filing): el mercado valida el producto a precios premium',
+      'Florida tort reform: reducción estructural de litigios fraudulentos — catalizador de corto plazo ya materializado',
+      'Commercial trucking: mercado 4x mayor que auto personal, virgen en telemática — segunda curva de crecimiento'
     ],
-    risks:`<strong>Riesgo 1 — Moderación del crecimiento:</strong> Las primas netas crecen al +6% vs. +20% en años anteriores. Los competidores (Allstate, State Farm, Geico/Berkshire) también están subiendo primas y mejorando sus modelos. La ventaja tecnológica existe pero se reduce con el tiempo.
+    risks:`<strong>Riesgo 1 — Desaceleración de crecimiento de primas (+6% vs. +20% en años anteriores):</strong> El crecimiento está moderándose. Los competidores también están subiendo primas y mejorando modelos. La ventaja existe pero se estrecha gradualmente. El mercado está penalizando esta moderación con una caída del -25,85% YTD.
 
-<strong>Riesgo 2 — Catástrofes climáticas:</strong> El segmento Property (hogar) sigue siendo vulnerable. Los huracanes Helene y Milton de 2024–2025 generaron pérdidas significativas. El cambio climático implica que la frecuencia e intensidad de eventos extremos aumenta estructuralmente, presionando el combined ratio de Property.
+<strong>Riesgo 2 — Catástrofes climáticas en Property:</strong> El segmento de seguros de hogar (Property) está expuesto a huracanes y catástrofes. Eventos como los huracanes Helene y Milton pueden destruir la rentabilidad de un trimestre completo. Progressive tiene menor exposición que homeowners puros pero no es inmune.
 
-<strong>Riesgo 3 — Regulación de telemática:</strong> Algunos estados están considerando legislación que limite el uso de ciertos tipos de datos para pricing. Si se restringen los datos de conducción, el moat de Snapshot se debilita.
+<strong>Riesgo 3 — Competencia de Allstate y Berkshire/Geico:</strong> Allstate está invirtiendo agresivamente en telemática. Geico, bajo la presión de Buffett, está modernizando su modelo. Si logran paridad en datos, la ventaja de Progressive se reduce.
 
-<strong>Riesgo 4 — Selección adversa:</strong> Al mantener el combined ratio por disciplina, Progressive puede perder conductores de bajo riesgo a competidores más agresivos en precio. El balance entre rentabilidad y volumen es permanente.`,
-    verdict:`Progressive es la empresa más sofisticada tecnológicamente del sector asegurador — es literalmente una empresa de datos que usa los seguros como vehículo de monetización. El "Mathematical Moat" descrito por los analistas no es metáfora: es un flywheel de datos propietarios + IA + pricing que lleva 20 años construyéndose y que ningún competidor puede replicar rápidamente.
+<strong>Riesgo 4 — Regulación de pricing por telemática:</strong> Varios estados consideran legislación que limite el uso de datos de conducción para pricing. Si se restringe Snapshot en estados clave, el moat se debilita.`,
+    verdict:`Progressive es la empresa de mayor calidad del sector financiero americano que no cotiza como tal. Tiene el ROE más alto de cualquier aseguradora (40,45%), el mejor combined ratio del sector (86,4), el mayor crecimiento de políticas en dos décadas (+11% auto PIFs YoY), y un moat de datos propietarios de 20 años construido sobre Snapshot que ningún competidor puede replicar rápidamente.
 
-Lo más llamativo es la valoración: a PE de 10,5x cotiza un 58% por debajo de su media histórica de 24,8x, con un ROE del 40%, combined ratio de 86,4 (doble que la media) y policies en vigor creciendo al +11%. El mercado está valorando a Progressive como una aseguradora ordinaria. Cuando el consenso la reconozca como empresa tecnológica de datos — lo que ya es — el re-rating puede ser espectacular.
+La paradoja: todo esto cotiza a 10,51x PE — un 58% por debajo de la media histórica de 24,83x — porque el mercado interpreta la moderación del crecimiento de primas como deterioro estructural cuando en realidad es normalización post-ciclo de subidas masivas. GuruFocus la considera "modestamente infravalorada" con GF Value de $272,81 frente a los $224 actuales.
 
-<strong>BofA mantiene objetivo de $331 (+60% upside). GuruFocus considera la acción "modestamente infravalorada" con valor intrínseco de $268 (+29% sobre precio actual).</strong>
-
-Estrategia: Zona de entrada actual $195–215 (~179–198€) es atractiva para posición inicial del 2–3%. Es la mejor forma de añadir exposición defensiva al portfolio sin sacrificar calidad. Complementa perfectamente la concentración en tech.`},
+<strong>La acción ha caído -25,85% YTD desde máximos de $267 hasta $224. Esa caída, sin ningún deterioro de los fundamentales operativos, es la oportunidad de entrada. BofA mantiene Buy con objetivo $313 (+39% upside). Posición inicial 2–3% cartera a precios actuales. Horizonte 5–10 años como compounder de calidad.</strong>`},
   isrg:{name:'Intuitive Surgical',
     meta:'ISRG · Nasdaq · Monopolio Cirugía Robótica / IA Quirúrgica / MedTech · Fundada 1995',
     inCartera:false,
@@ -1887,6 +1928,72 @@ Estrategia: posición inicial 3–5% del portfolio como contrapeso defensivo a l
   ktos:{name:'Kratos Defense & Security Solutions',meta:'KTOS · Nasdaq · Defensa / Drones militares / Autonomous Systems · Fundada 1994',inCartera:false,badges:[['b-strong','Líder en drones militares no tripulados — Valkyrie XQ-58A seleccionado por Marines'],['b-buy','Backlog récord $2.010M · Pipeline $14.000M'],['b-buy','Cathie Wood compró $15M el 29 mayo 2026'],['b-warn','Cotiza ~$63 — caída -53% desde máximos de $134']],metrics:[{l:'Precio actual',v:'~$63',s:'-53% desde máximos $134'},{l:'Backlog',v:'$2.010M',s:'récord histórico'},{l:'Obj. Simply Wall St',v:'$113',s:'+79% upside'},{l:'Guidance 2026',v:'$1.700–1.760M',s:'+22% YoY'}],moat:'<strong>Valkyrie XQ-58A</strong> — único drone wingman autónomo certificado por Marines con contrato $231,5M. Modelo "drone-as-a-solution" con ingresos recurrentes. Pipeline $14.000M = visibilidad 8+ años. CEO guidance $2.500–3.000M revenue 2028.',motor:'Q1 2026: Revenue $371M (+22,6% YoY). Backlog récord $2.010M. El presupuesto Pentágono para drones pasa de $225M a $55.000M en 2027 — multiplicador 244x. Kratos con contratos activos es el mayor beneficiario. Cathie Wood compró 252.000 acciones ($15M) el 29 mayo 2026.',cats:['Valkyrie XQ-58A: contrato Marines $231,5M — único drone wingman autónomo certificado en combate','Presupuesto Pentágono drones: de $225M a $55.000M en 2027 — multiplicador 244x','Backlog récord $2.010M + pipeline $14.000M = visibilidad 8+ años de ingresos','Cathie Wood (ARK): $15M comprados mayo 2026 — respaldo institucional significativo','CEO guidance $2.500–3.000M revenue 2028 desde $1.700M actuales — CAGR ~30%','Caída -53% desde máximos sin deterioro de fundamentales = punto de entrada atractivo'],risks:'Dependiente del gobierno federal como cliente principal. Competencia L3Harris, Textron, General Atomics. Márgenes ajustados por naturaleza del negocio de defensa. Volatilidad alta por timing de contratos.',verdict:'Kratos es la apuesta de largo plazo más sólida del sector drones: tecnología probada, backlog récord y el mayor catalizador presupuestario de la historia del Pentágono en 2027. La caída -53% desde máximos no refleja deterioro operativo. Cathie Wood comprando a estos niveles es señal institucional relevante. Posición satélite 1–2% cartera, horizonte 2027–2030.'},
   avav:{name:'AeroVironment Inc.',meta:'AVAV · Nasdaq · Drones militares / Switchblade / Munición teledirigida · Fundada 1971',inCartera:false,badges:[['b-strong','Switchblade probado en combate real (Ucrania) — liderazgo tecnológico único'],['b-buy','Revenue +143% YoY · Backlog récord $1.100M'],['b-hold','Integración BlueHalo comprime márgenes temporalmente'],['b-warn','Valoración exigente post-rally — esperar corrección']],metrics:[{l:'Precio actual',v:'~$187',s:'post-integración BlueHalo'},{l:'Revenue Q trim.',v:'$408M',s:'+143% YoY'},{l:'Obj. Needham',v:'$400',s:'+114% upside potencial'},{l:'Backlog',v:'$1.100M + $2.100M reservas',s:'visibilidad total $3.200M'}],moat:'Switchblade 300/600: única munición teledirigida probada masivamente en Ucrania con contratos IDIQ $990M con el Ejército americano. Cartera más diversificada del sector: Puma, Raven, Switchblade, HAPS. BlueHalo añade guerra electrónica y contra-drones → único proveedor full-stack de defensa autónoma.',motor:'Revenue TTM $1.400M+ (+143% YoY). Guidance 2026: $1.850–1.950M. Integración BlueHalo: si exitosa → AVAV único proveedor que combina drones + munición teledirigida + contra-drones + guerra electrónica en un solo contrato para el Pentágono.',cats:['Switchblade en Ucrania: tecnología probada en combate real — credencial que ningún competidor puede igualar','BlueHalo: si integración exitosa → único proveedor full-stack de defensa autónoma en EE.UU.','Presupuesto Pentágono drones $55.000M en 2027 — beneficiario directo con contratos activos','Contratos IDIQ $990M con Ejército americano — visibilidad multianual','Needham Buy $400 · consenso Buy $415–450 — upside +114% desde precios actuales'],risks:'Integración BlueHalo ($3.500M) es el mayor riesgo: si hay problemas, márgenes se comprimen más. Competencia Kratos, Textron y Elbit (Israel) en munición teledirigida. Dependencia contratos US Government. Valoración ya recuperada desde mínimos.',verdict:'AeroVironment tiene la tecnología de drones militares más probada en combate real del mundo occidental. El Switchblade en Ucrania es una credencial que ningún competidor puede igualar. Si la integración de BlueHalo se ejecuta bien, AVAV se convierte en el proveedor full-stack de defensa autónoma más completo de EE.UU. Posición satélite 1–2% cartera, horizonte 2026–2028.'},
   ibe:{name:'Iberdrola S.A.',meta:'IBE · BME Madrid · Utilities / Renovables / Redes Eléctricas para IA · Fundada 1840',inCartera:false,badges:[['b-strong','Máximos históricos con baja volatilidad — señal técnica y fundamental convergente'],['b-buy','Barclays Overweight €22,60 — crecimiento superior por demanda data centers IA'],['b-buy','Q1 2026: beneficio neto +11% · Guidance >8% crecimiento'],['b-idea','Única utility europea en la intersección renovables + redes + IA']],metrics:[{l:'Precio actual',v:'€21,75',s:'máximos históricos jun 2026'},{l:'Obj. Barclays',v:'€22,60',s:'Overweight — upgrade por demanda IA'},{l:'Media 23 analistas',v:'€19,94',s:'cotiza por encima del consenso'},{l:'Capex 2024–26',v:'€41.000M',s:'60% en redes eléctricas reguladas'}],moat:'RAB (Regulated Asset Base) de €51.000M en EE.UU., UK, Brasil y España — ingresos regulados garantizados que crecen con la electrificación. 46.177 MW capacidad instalada renovable. PPAs con hyperscalers (Microsoft, Amazon, Google) para energía verde de data centers. 25 años de crecimiento continuo de beneficio y dividendo. Avangrid (EE.UU.) + Electricity North West (UK) = propietaria de la infraestructura crítica que conecta data centers a la red.',motor:'Q1 2026: beneficio neto ajustado €1.865M (+11% YoY). Guidance 2026 elevado a >8% crecimiento. EBITDA objetivo €16.500–17.000M. Capex 2026: €12.500M. Señal técnica (Iturralde, Capital Radio 26 jun 2026): máximos históricos con baja volatilidad = mercado adelantando resultados futuros excepcionales. Goldman Sachs: demanda data centers EE.UU. +220% hasta 2030 — Iberdrola posee las redes que los alimentan.',cats:['Barclays Overweight €22,60: upgrade explícito por demanda de data centers — primer gran banco en conectar Iberdrola con la tesis IA','Redes eléctricas reguladas en EE.UU. y UK: cuello de botella real de la IA — Iberdrola posee infraestructura crítica','Señal técnica confirmada: máximos históricos + baja volatilidad = acumulación institucional silenciosa','Capex €41.000M en redes 2024–26 → RAB creciente → más ingresos regulados garantizados','PPAs con hyperscalers: energía verde certificada con prima — mercado de $100B+ creciendo al 30% anual','25 años dividendo creciente sin interrupciones — activo defensivo ideal para cartera concentrada en tech'],risks:'Cotiza en máximos y por encima del objetivo medio de analistas (€19,94 vs. €21,75 precio actual) — upside limitado a corto plazo. Sensibilidad a subida de tipos (Net Debt/EBITDA ~3,3x). Riesgo regulatorio en cada mercado. Retrasos en proyectos offshore wind (Vineyard Wind 1). Tipo de cambio EUR/USD impacta ingresos Avangrid.',verdict:'La única utility europea que combina escala global en renovables, redes reguladas en los mercados de mayor crecimiento de data centers (EE.UU. y UK) y 25 años de dividendo creciente. La convergencia de señal técnica (máximos históricos, baja volatilidad) y fundamental (Barclays upgrade por IA) es exactamente la combinación que busca un inversor de largo plazo. Riesgo principal: ya está en máximos. Estrategia: esperar corrección hacia €19–20 (~zona consenso analistas) para entrada con margen de seguridad. Como activo defensivo con beta baja, complemento perfecto a una cartera concentrada en tecnología americana. Horizonte 5–10 años.'},
+  allianz:{name:'Allianz SE',
+    meta:'ALV · Xetra EURONEXT · Seguro global / IA / Reaseguro / PIMCO / AXA XL · Fundada 1890',
+    inCartera:false,
+    badges:[
+      ['b-strong','Mayor aseguradora del mundo — #1 marca global de seguros 7 años consecutivos (Interbrand)'],
+      ['b-buy','Q1 2026 beneficio récord +52% YoY · EPS €9,71 · Solvency II 221%'],
+      ['b-buy','Dividendo €17,10/acc (+14,7% YoY) · yield ~4,3% · recompra $2.500M activa'],
+      ['b-idea','PIMCO + $2B en IA hasta 2026 — doble catalizador de gestión de activos + eficiencia operativa']
+    ],
+    metrics:[
+      {l:'Precio actual',v:'€400',s:'jun 2026 — 52W: €300–416'},
+      {l:'PE FY2026e',v:'~13x',s:'EPS consenso €30,73 FY2026e'},
+      {l:'Obj. consenso',v:'€416',s:'17 analistas — Morgan Stanley €390, RBC €400'},
+      {l:'Dividendo',v:'€17,10',s:'yield ~4,3% — pagado consistentemente desde 1890'}
+    ],
+    moat:`<strong>El conglomerado financiero-asegurador más diversificado y defensivo del mundo</strong>
+
+<strong>1. Escala global irreplicable — 97 millones de clientes en 70 países:</strong> Allianz asegura a 97 millones de clientes privados y corporativos en casi 70 países. Esa escala no es solo un dato de marketing — es una ventaja operativa concreta. Un siniestro en Singapur puede ser tramitado por la red local de Allianz en lugar de requerir intermediarios. Un cliente multinacional que necesita seguros en 30 países puede contratar todo con Allianz. Esta escala cuesta décadas construirse y es prácticamente irreplicable. Ningún competidor nuevo puede llegar a esa red en menos de 50 años.
+
+<strong>2. PIMCO — el activo oculto que el mercado no valora correctamente:</strong> Allianz es propietaria de PIMCO, el mayor gestor de renta fija del mundo con más de $2 billones en activos gestionados. En un entorno de tipos altos, PIMCO genera fees crecientes y Allianz se beneficia directamente de esa rentabilidad. En Q1 2026, las entradas de terceros en PIMCO fueron positivas con un AuM récord de $2,043 billones. PIMCO es un negocio de gestión de activos de márgenes altísimos embebido dentro de una aseguradora — muchos inversores solo ven la parte aseguradora y subestiman este activo.
+
+<strong>3. Float invertido de $770.000M — la mayor ventaja invisible del seguro:</strong> Como aseguradora global, Allianz gestiona aproximadamente $770.000M en activos de inversión correspondientes a las reservas de seguros de sus clientes. En un entorno de tipos altos (2024–2026), el rendimiento de esas reservas crece sustancialmente sin ningún esfuerzo adicional. En 2023–2022 con tipos al 0%, este float generaba casi nada. A tipos del 3–4%, genera miles de millones en ingresos financieros adicionales que van directamente a beneficio.
+
+<strong>4. Número 1 en cyber insurance global — el mercado de seguros de mayor crecimiento:</strong> Allianz es uno de los dos líderes mundiales en cyber insurance junto con Zurich. El mercado de cyber insurance crece al 25% anual y Allianz tiene escala, expertise de datos y la red de distribución corporativa necesaria para suscribir riesgos complejos a escala global. Cada nueva empresa que digitaliza su infraestructura es un cliente potencial de cyber insurance para Allianz.`,
+    motor:`<strong>Q1 2026 — resultados récord que confirman la calidad del negocio:</strong>
+Beneficio operativo Q1 2026: €4.520M (+7% YoY) — récord absoluto. EPS core: €9,96 (+50,7% YoY). Net income: €3.690M (+52% YoY). Revenue: €28.800M (+8,8% YoY, superando estimaciones en 21%). Solvency II: 221% (vs. 208% requerido). ROE anualizado: 24,2%.
+
+FY2025: Revenue €109.000M (+1,6%). Net income €10.800M (+10%). EPS €28,14. Dividendo €17,10/acción (+14,7% YoY). Payout ratio 62% — muy sostenible.
+
+<strong>Comparativa directa con los grandes del sector:</strong>
+
+vs. AXA (CS): Allianz tiene ROE del 24,2% vs. AXA ~15%. Allianz Solvency II del 221% vs. AXA ~220%. Allianz tiene PIMCO como activo diferenciador — AXA no tiene equivalente en asset management.
+
+vs. Zurich Insurance: Market cap €100.000M vs. Allianz €142.000M. Zurich tiene ROE ~20% y está haciendo la adquisición de Beazley (£8.100M) que aumentará su deuda. Allianz tiene balance más limpio.
+
+vs. Munich Re: Es el mayor reasegurador global. Complementario a Allianz (que también tiene reaseguro). Munich Re tiene más exposición a catástrofes por la naturaleza del reaseguro.
+
+<strong>Los tres catalizadores por horizonte temporal:</strong>
+
+CORTO PLAZO (6–18 meses): Recompra activa de €2.500M que reduce el share count y eleva el EPS por acción. Q2 2026 earnings el 6 de agosto — management ha confirmado que están en línea con el target anual de €17.400M. Posible adquisición de HSBC Life Singapore (hasta $2.000M) que añadiría AuM en Asia.
+
+MEDIO PLAZO (18–48 meses): $2.000M invertidos en IA hasta 2026 empezarán a materializarse en reducción de costes operativos y mejora de combined ratio. El procesamiento automático de siniestros menores ya ha reducido costes un 25% — escalar eso a las 97 millones de pólizas globales es un multiplicador enorme. Revenue proyectado creciendo al 13% anual durante 3 años vs. 5,7% del sector.
+
+LARGO PLAZO (4–10 años): La demografía de Asia y mercados emergentes es el mayor runway de crecimiento para seguros de vida y salud. Allianz tiene joint ventures activas en India, China y Sudeste Asiático y está expandiendo. La clase media asiática necesitará seguros de vida, salud y pensiones — y Allianz es la marca global con la infraestructura para servir ese mercado.`,
+    cats:[
+      'Q1 2026 beneficio récord €4.520M (+52% YoY net income) — la mejor empresa defensiva de Europa en este momento',
+      'PIMCO AuM récord $2.043B con flujos positivos: asset management negocio de altos márgenes embebido en aseguradora',
+      'Dividendo €17,10 (+14,7% YoY) yield ~4,3% + recompra €2.500M activa: retorno total al accionista >8% anual solo en capital return',
+      'Solvency II 221% vs. 208% requerido: fortaleza de capital excepcional que permite M&A oportunista (HSBC Life Singapore)',
+      'IA: automatización siniestros -25% costes · escalar a 97M pólizas globales = miles de millones en ahorro estructural',
+      'Cyber insurance líder global: mercado +25% CAGR — Allianz con mayor escala corporativa para suscribir riesgos complejos'
+    ],
+    risks:`<strong>Riesgo 1 — Catástrofes climáticas y reservas insuficientes:</strong> Con €770.000M en reservas invertidas, Allianz es sistémicamente importante. Un año con pérdidas por catástrofes muy superiores a lo modelizado (como ocurrió con los huracanes de 2024–2025) puede impactar el beneficio de un año completo. Sin embargo, con Solvency II del 221%, tiene colchón suficiente para absorber shocks severos.
+
+<strong>Riesgo 2 — Exposición a renta fija vía PIMCO en entorno de tipos volátil:</strong> Si los tipos bajan rápidamente, el yield del float y los fees de PIMCO se comprimen. Si los tipos suben abruptamente, el valor de mercado de las carteras de renta fija cae. La sensibilidad a tipos es el mayor riesgo financiero de Allianz.
+
+<strong>Riesgo 3 — Regulación europea y complejidad geopolítica:</strong> Opera en 70 países con regulaciones diferentes. El entorno regulatorio europeo de seguros (Solvency II, IFRS 17) es complejo y cambiante. Sanciones o conflictos geopolíticos pueden obligar a salidas de mercados específicos.
+
+<strong>Riesgo 4 — Riesgo divisa para inversor español:</strong> Allianz cotiza en euros (Xetra) pero genera ingresos en USD, GBP, JPY y otras divisas. La fortaleza del euro frente al USD puede comprimir los ingresos reportados en euros. Para un inversor en euros es menor impacto que para un americano.
+
+<strong>Riesgo 5 — Prima de valoración post-rally:</strong> Allianz ha subido desde €250 en 2024 hasta €400 en 2026. El consenso de analistas tiene objetivo de €416 — solo un 4% de upside desde precios actuales. El upside a corto plazo es limitado; el valor está en el dividendo, la recompra y el crecimiento de largo plazo.`,
+    verdict:`Allianz es la aseguradora de mayor calidad del mundo: mayor aseguradora global por capitalización, 7 años consecutivos como #1 marca global del sector, PIMCO como activo de gestión de activos de clase mundial, Solvency II del 221%, y la combinación más rara en finanzas — crecimiento robusto (beneficio +52% YoY en Q1 2026) con valoración razonable (PE ~13x) y retorno de capital generoso (dividendo €17,10 + recompra €2.500M = >8% retorno total al accionista solo en capital return).
+
+La razón por la que Allianz no cotiza a PE más alto es precisamente lo que la hace atractiva para un inversor de largo plazo: es aburrida, estable, predecible. No tiene el crecimiento explosivo de una tech, pero tampoco tiene el riesgo. Es el activo perfecto para el 15–20% de cartera que no quieres que dependa del ciclo de IA.
+
+<strong>Para el inversor español con cuenta en DeGiro, Allianz cotiza en Xetra (ALV.DE) con total accesibilidad. El entry point óptimo sería en correcciones hacia €350–370 donde el dividendo yield sube al 4,6–4,9% y el PE baja a ~11–12x. A €400 sigue siendo un Hold/Buy de largo plazo. Posición 2–3% cartera como ancla defensiva europea frente a la concentración en tech americana.</strong>`},
   constellation:{name:'Constellation Software',meta:'CSU · TSX · Software vertical / Compounder / Adquisiciones · Fundada 1995',inCartera:false,badges:[['b-strong','El compounder perfecto — 500+ empresas software vertical adquiridas'],['b-buy','ROIC >30% histórico — el mejor asignador de capital del mercado'],['b-idea','Favorito Invertir desde Cero — Fernando Sánchez'],['b-hold','Precio elevado — esperar correcciones ~$4.000–4.300 CAD']],metrics:[{l:'Precio actual',v:'~$4.500 CAD',s:'mercado canadiense TSX'},{l:'ROIC histórico',v:'>30%',s:'uno de los más altos del mercado'},{l:'Empresas adquiridas',v:'500+',s:'software vertical de nicho'},{l:'Entrada ideal',v:'$4.000–4.300 CAD',s:'en correcciones'}],moat:'Adquiere y mejora software vertical de nicho con switching costs altísimos (ERP municipios, gestión funerarias, software dental...). 500+ empresas en cartera. ROIC >30% histórico. Modelo de capital allocation único: reinvierte 100% del FCF en nuevas adquisiciones, nunca paga dividendo. Fundador Mark Leonard sigue activo.',motor:'Reinvierte 100% FCF en adquisiciones. Topicus replicando el modelo en Europa con éxito. Mercado de targets virtualmente ilimitado — cualquier software vertical de nicho es candidato. Crecimiento orgánico + inorgánico compounding durante décadas.',cats:['Pipeline de adquisiciones global enorme — nunca se agotarán los targets','Topicus en Europa: réplica del modelo con éxito validado','Switching costs casi infinitos en software vertical de nicho','Favorito de Fernando Sánchez (Invertir desde Cero) — respaldo formativo','Mark Leonard: uno de los mejores CEOs/allocators del mundo'],risks:'Precio elevado en CAD — requiere paciencia para encontrar entrada. Dependencia de Mark Leonard y equipo directivo clave. Riesgo teórico de escasez de targets de calidad a largo plazo. Menor liquidez al cotizar solo en TSX.',verdict:'Compounder perfecto a LP. Favorito de Invertir desde Cero. Entrar en correcciones con posición inicial 2–3%.'}
 };
 
@@ -1936,7 +2043,8 @@ const TV_TICKERS={
   visa:'NYSE:V',besi:'EURONEXT:BESI',constellation:'TSX:CSU',oust:'NYSE:OUST',
   lly:'NYSE:LLY',pgr:'NYSE:PGR',isrg:'NASDAQ:ISRG',iak:'NYSE:IAK',
   amba:'NASDAQ:AMBA',stm:'NYSE:STM',ktos:'NASDAQ:KTOS',avav:'NASDAQ:AVAV',
-  ibe:'BME:IBE',uran:'CBOE:URAN',msft:'NASDAQ:MSFT',acs:'BME:ACS',
+  ibe:'BME:IBE',
+  allianz:'XETR:ALV',uran:'CBOE:URAN',msft:'NASDAQ:MSFT',acs:'BME:ACS',
 };
 
 // Current chart state
@@ -2084,6 +2192,24 @@ function loadTVChart(key){
   setTimeout(()=>checkChartLoaded(key,0), 500);
 }
 
+// ── MOBILE NAV ────────────────────────────────────────────────────────
+function toggleMobileNav(){
+  const tabs=document.querySelector('.nav-tabs');
+  const btn=document.getElementById('nav-ham-btn');
+  if(!tabs)return;
+  tabs.classList.toggle('open');
+  btn.textContent=tabs.classList.contains('open')?'✕':'☰';
+}
+// Close mobile nav when a tab is clicked
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('nt')){
+    const tabs=document.querySelector('.nav-tabs');
+    const btn=document.getElementById('nav-ham-btn');
+    if(tabs){tabs.classList.remove('open');}
+    if(btn)btn.textContent='☰';
+  }
+});
+
 // ── SECTOR FILTER ─────────────────────────────────────────────────────
 function filterSector(sector,btn){
   document.querySelectorAll('.sfil').forEach(b=>b.classList.remove('active'));
@@ -2139,6 +2265,7 @@ const TESIS_ENTRIES={
   ktos:{sym:'KTOS',entryLow:50,entryHigh:70},
   stm:{sym:'STM',entryLow:26,entryHigh:32},
   ibe:{sym:'IBE.MC',entryLow:19,entryHigh:20},
+  allianz:{sym:'ALV.DE',entryLow:350,entryHigh:380},
 };
 async function checkBuyZones(){
   for(const[key,entry]of Object.entries(TESIS_ENTRIES)){
