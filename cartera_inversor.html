@@ -564,37 +564,37 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────
 const DS=[
-  {name:'Meta Platforms',sym:'META',shares:7,bepEur:459.86,buyAlert:441.6,stopPct:20,broker:'TR'},
-  {name:'ASML Holding',sym:'ASML',shares:4,bepEur:720.00,buyAlert:580,stopPct:30,broker:'TR+DG'},
-  {name:'Alphabet',sym:'GOOGL',shares:11,bepEur:155.38,buyAlert:138,stopPct:30,broker:'TR+DG'},
-  {name:'Amazon',sym:'AMZN',shares:8,bepEur:179.03,buyAlert:156.4,stopPct:25,broker:'TR'},
-  {name:'Microsoft',sym:'MSFT',shares:4,bepEur:375.27,buyAlert:331.2,stopPct:20,broker:'TR'},
-  {name:'ACS',sym:'ACS.MC',shares:4,bepEur:81.91,buyAlert:38,stopPct:15,broker:'TR'},
+  {name:'Meta Platforms',sym:'META',shares:8,bepEur:504.99,buyAlert:460,stopPct:20,broker:'TR'},
+  {name:'ASML Holding',sym:'ASML',shares:4,bepEur:717.75,buyAlert:650,stopPct:20,broker:'TR+DG'},
+  {name:'Alphabet',sym:'GOOGL',shares:9,bepEur:161.63,buyAlert:145,stopPct:20,broker:'TR+DG'},
+  {name:'Amazon',sym:'AMZN',shares:8,bepEur:190.55,buyAlert:170,stopPct:25,broker:'TR'},
+  {name:'Microsoft',sym:'MSFT',shares:4,bepEur:366.98,buyAlert:330,stopPct:20,broker:'TR'},
+  {name:'ACS',sym:'ACS.MC',shares:4,bepEur:81.91,buyAlert:72,stopPct:20,broker:'TR'},
   {name:'Zegona',sym:'ZEG.L',shares:19,bepEur:8.25,buyAlert:1.52,stopPct:20,cur:'GBX',broker:'TR+DG'},
-  {name:'Cal-Maine',sym:'CALM',shares:4,bepEur:60.86,buyAlert:53.36,stopPct:20,broker:'TR'},
-  {name:'Sandoz',sym:'SDZ.SW',shares:4,bepEur:36.71,buyAlert:31.2,stopPct:20,broker:'TR+DG'},
+  {name:'Cal-Maine',sym:'CALM',shares:4,bepEur:66.15,buyAlert:58,stopPct:20,broker:'TR'},
+  {name:'Sandoz',sym:'SDZ.SW',shares:2,bepEur:35.3,buyAlert:null,stopPct:20,broker:'DG'},
   {name:'Central G&P',sym:'CENTA',shares:2,bepEur:30.41,buyAlert:null,stopPct:null,broker:'DG'},
   {name:'Auto Partner',sym:'APR.WA',shares:3,bepEur:5.81,buyAlert:null,stopPct:null,broker:'DG'},
   {name:'SAGE Therap.',sym:'SAGE',shares:3,bepEur:0.01,buyAlert:null,stopPct:null,broker:'DG'},
-  {name:'Broadcom',sym:'AVGO',shares:2,bepEur:320.90,buyAlert:300,stopPct:20,broker:'TR'},
-  {name:'AeroVironment',sym:'AVAV',shares:2,bepEur:163.00,buyAlert:145,stopPct:20,broker:'TR'},
+  {name:'Broadcom',sym:'AVGO',shares:2,bepEur:321.4,buyAlert:290,stopPct:20,broker:'TR'},
+  {name:'AeroVironment',sym:'AVAV',shares:2,bepEur:163.5,buyAlert:145,stopPct:20,broker:'TR'},
 ];
 const DE=[
-  {name:'MSCI ACWI USD',sym:'SSAC.L',shares:15.28,bepEur:83.58,gbx:true},
-  {name:'Physical Gold',sym:'IGLN.L',shares:17,bepEur:65.47,gbx:true},
-  {name:'Copper Hedged',sym:'COPA.L',shares:55,bepEur:8.43,gbx:true},
-  {name:'Euro STOXX 50',sym:'CSX5.DE',shares:3,bepEur:93.43,gbx:false},
-  {name:'Uranium & Nuclear',sym:'URAN.L',shares:5.98,bepEur:55.05,gbx:true},
-  {name:'VanEck Semis',sym:'VVSM.AS',shares:3,bepEur:41.90,gbx:false},
-  {name:'iShares MSCI World',sym:'IWDA.AS',shares:3,bepEur:95.69,gbx:false},
-  {name:'MSCI ACWI EUR Hed.',sym:'HMWO.L',shares:15.31,bepEur:24.89,gbx:true},
+  {name:'MSCI ACWI USD',sym:'SSAC.L',shares:15.279868,bepEur:83.58,buyAlert:null,stopPct:null,broker:'TR'},
+  {name:'Physical Gold',sym:'IGLN.L',shares:17,bepEur:63.72,buyAlert:58,stopPct:20,broker:'TR'},
+  {name:'Copper Hedged',sym:'COPA.L',shares:55,bepEur:8.43,buyAlert:7,stopPct:20,broker:'TR'},
+  {name:'Euro STOXX 50',sym:'CSX5.DE',shares:3,bepEur:93.43,buyAlert:null,stopPct:null,broker:'TR'},
+  {name:'Uranium & Nuclear',sym:'URAN.L',shares:5.983812,bepEur:55.08,buyAlert:null,stopPct:null,broker:'TR'},
+  {name:'VanEck Semis',sym:'VVSM.AS',shares:3,bepEur:41.9,buyAlert:null,stopPct:null,broker:'DG'},
+  {name:'iShares MSCI World',sym:'IWDA.AS',shares:3,bepEur:95.69,buyAlert:null,stopPct:null,broker:'DG'},
+  {name:'MSCI ACWI EUR Hed.',sym:'HMWO.L',shares:16.073759,bepEur:24.89,buyAlert:null,stopPct:null,broker:'TR'},
   {name:'Silver 3x Lev.',sym:'3SIL.L',shares:0.74,bepEur:93.28,gbx:true},
   {name:'MSCI China',sym:'CNYA.L',shares:0.60,bepEur:4.76,gbx:true},
 ];
 const DC=[{name:'Ethereum',sym:'ETH-EUR',shares:0.0899,bepEur:1679},{name:'XRP',sym:'XRP-EUR',shares:93.95,bepEur:2.49}];
 
 let stocks=JSON.parse(localStorage.getItem('stocks')||'null')||DS.map(s=>({...s}));
-let cash=parseFloat(localStorage.getItem('cash')||'7117.93');
+let cash=parseFloat(localStorage.getItem('cash')||'5676.83');
 let note=localStorage.getItem('note')||'TR + DeGiro · incl. venta 3xGOOGL + SmallCap + WorldWater';
 let userPin=localStorage.getItem('userPin')||'1234';
 let isUnlocked=false;
@@ -812,7 +812,7 @@ function addNewPosition(){
 
 function savePos(){localStorage.setItem('stocks',JSON.stringify(stocks));renderPortfolio();showToast('Posiciones guardadas','ok');}
 function saveEmailConfig(){ejsConfig={service:document.getElementById('cfg-service')?.value||ejsConfig.service,template:document.getElementById('cfg-template')?.value||ejsConfig.template,pubkey:document.getElementById('cfg-pubkey')?.value||ejsConfig.pubkey,email:ejsConfig.email};localStorage.setItem('ejsConfig',JSON.stringify(ejsConfig));if(ejsConfig.pubkey)try{emailjs.init(ejsConfig.pubkey);}catch(e){}}
-function resetData(){localStorage.clear();stocks=DS.map(s=>({...s}));cash=7117.93;note='TR + DeGiro';userPin='1234';customAlerts=[];alertHistory=[];subscribers=[];renderSTable();renderPortfolio();showToast('Datos restablecidos','ok');}
+function resetData(){localStorage.clear();stocks=DS.map(s=>({...s}));cash=5676.83;note='TR + DeGiro';userPin='1234';customAlerts=[];alertHistory=[];subscribers=[];renderSTable();renderPortfolio();showToast('Datos restablecidos','ok');}
 
 // ── ALERTS ────────────────────────────────────────────────────────────
 // ── SMART TICKER SEARCH ───────────────────────────────────────────────
