@@ -1,5 +1,398 @@
 {
-  "actualizado": "2026-10-02",
-  "aviso": "Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.",
-  "tesis": []
+ "actualizado": "2026-10-02",
+ "aviso": "Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.",
+ "tesis": [
+  {
+   "id": "vst",
+   "ticker": "VST",
+   "empresa": "Vistra Corp.",
+   "sector": "energia",
+   "estado": "nueva",
+   "veredicto": "Interesante",
+   "conviccion": 3,
+   "fecha_creacion": "2026-10-02",
+   "fecha_actualizacion": "2026-10-02",
+   "resumen": "Productor eléctrico independiente de EE. UU. que ha caído ~35% desde el máximo de 217 $ por el desplome de los precios a plazo en Texas (ERCOT), no por un deterioro del negocio: el EBITDA ajustado del 2T 2026 creció un 30%. A ~140 $ cotiza a unas 13,5 veces el beneficio esperado para 2027 y con una rentabilidad de flujo de caja libre cercana al 9% sobre la guía de 2026. La idea es buena pero menos 'nuclear' de lo que se vende: solo ~6,4 GW de ~39 GW son nucleares, y el resto es gas y venta minorista expuestos a Texas. Convicción 3/5: valoración atractiva y contratos de 20 años, pero el catalizador depende de que Texas conecte la demanda de centros de datos y de que ERCOT recupere precios.",
+   "negocio": "Tres patas: generación (gas, nuclear, carbón en cierre, solar y baterías; ~38.700 MW), venta minorista de electricidad a ~4,3 millones de clientes (sobre todo en Texas) y comercialización mayorista. Gana dinero con el diferencial entre su coste de generación y el precio de mercado, más contratos a largo plazo. Tiene el 100% de 2026, ~94% de 2027 y ~72% de 2028 cubierto con coberturas, lo que da visibilidad pero retrasa el efecto de cualquier subida de precios.",
+   "pros": [
+    "Crecimiento operativo real: EBITDA ajustado del 2T 2026 de 1.767 M$ (+30% interanual); guía 2026 de 6.800–7.600 M$ reafirmada.",
+    "Generación de caja muy alta para su tamaño: guía de flujo de caja libre antes de crecimiento de 3.925–4.725 M$ en 2026, ~9% de su capitalización (~47.100 M$).",
+    "Contratos de 20 años con Meta por 2.609 MW en tres nucleares de Ohio y Pensilvania (entregas desde finales de 2026, plenas en 2034) y otro de 1.200 MW en Comanche Peak (Texas) desde finales de 2027. Juntos suman ~3,8 GW de sus ~6,4 GW nucleares, y los de Meta aún no están en la guía.",
+    "Recompras agresivas y bien hechas: ha retirado ~171 millones de acciones (~30% del total) a un precio medio de ~38 $ desde 2021, y quedan ~1.200 M$ por ejecutar hasta 2027.",
+    "Socio fundador de Helix, la plataforma de infraestructura de IA de KKR con NVIDIA y el fondo soberano de Kuwait (>10.000 M$ comprometidos; Samsung añadió 1.000 M$ el 28-sep). Abre una vía de demanda adicional para su energía."
+   ],
+   "contras": [
+    "La mayor parte de su capacidad no es nuclear: gas y retail en Texas pesan mucho más, y ahí está el problema. Los precios a plazo de ERCOT para 2027 son 'significativamente más bajos' según la dirección, y el EBITDA de 2027 apunta a la parte baja del rango de 7.400–7.800 M$.",
+    "Riesgo político en Texas: el gobernador ordenó auditar los centros de datos que piden conexión a la red y ERCOT aplazó estudios de transmisión. La demanda que justifica la tesis puede llegar más tarde de lo previsto.",
+    "Endeudamiento elevado: unos 19.000 M$ de deuda y deuda neta/EBITDA ~3,5x (frente a 2,9x hace un año), con la compra de Cogentrix (~4.700 M$, 5,5 GW de gas) aún pendiente de cierre.",
+    "Resultados contables ruidosos: el 2T tuvo 472 M$ de pérdidas no realizadas por coberturas y los ingresos no alcanzaron la previsión, lo que castiga a la acción en cada presentación (cayó tras los resultados del 4T, 1T y 2T).",
+    "El consenso de beneficio por acción de 2027 se está revisando a la baja (de 11,30 $ a 10,38 $ en 60 días): el múltiplo bajo se debe en parte a un beneficio esperado que también baja."
+   ],
+   "competencia": {
+    "posicion": "Es el segundo operador nuclear privado de EE. UU., pero muy por detrás de Constellation (más de 22 GW nucleares frente a 6,4 GW). Su ventaja no es la nuclear en sí, sino la combinación de flota existente ya conectada a la red, una base minorista grande que actúa como cobertura natural y presencia en los dos mercados con más demanda de centros de datos (ERCOT y PJM). Paradójicamente, tiene más capacidad nuclear contratada con hiperescaladores que Constellation (~3,8 GW frente a ~1,95 GW).",
+    "rivales": [
+     {
+      "nombre": "Constellation Energy",
+      "ticker": "CEG",
+      "comentario": "Flota casi toda nuclear (>22 GW de 32 GW); PER esperado ~21x según Yahoo Finance (29-sep), no los 25x del vídeo. Capitalización ~93.000 M$. La prima está más justificada de lo que admite Dan por la calidad y estabilidad de sus activos."
+     },
+     {
+      "nombre": "Talen Energy",
+      "ticker": "TLN",
+      "comentario": "Más pequeña (~10,7 GW, ~14.700 M$ de capitalización); contrato nuclear con Amazon en Susquehanna. Perfil similar con más riesgo."
+     },
+     {
+      "nombre": "NRG Energy",
+      "ticker": "NRG",
+      "comentario": "El comparable más directo en retail y gas en Texas; cotiza a ~14x beneficio esperado según la prensa sobre la cartera de Tepper, que compró ambas."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026 y posible actualización del rango de 2027",
+     "fecha": "principios de noviembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Cierre de la compra de Cogentrix (5,5 GW de gas)",
+     "fecha": "2S 2026 (ya aprobada por la FERC)",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Inicio de entregas a Meta en Perry, Davis-Besse y Beaver Valley",
+     "fecha": "finales de 2026",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Resultado de la auditoría de Texas sobre centros de datos y decisiones de ERCOT sobre grandes cargas",
+     "fecha": "2026-2027",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Energización del contrato de 1.200 MW en Comanche Peak",
+     "fecha": "finales de 2027",
+     "impacto": "positivo"
+    }
+   ],
+   "riesgos": [
+    "Precios de ERCOT estancados en torno a 30 $/MWh: el propio CEO dice que con ese precio 'no se construye nada nuevo'.",
+    "Una ralentización del gasto en IA reduciría el atractivo de toda la tesis de 'energía para centros de datos' de golpe.",
+    "Cambios regulatorios en el mercado de capacidad de PJM o en las reglas de conexión de grandes consumidores junto a centrales (co-location).",
+    "Riesgo operativo nuclear: una parada larga no prevista en una planta contratada."
+   ],
+   "valoracion": {
+    "precio": 139.75,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-02",
+    "per": 13.5,
+    "ev_ebit": null,
+    "fcf_yield_pct": 9.2,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": 3.5,
+    "rango_interes": {
+     "bajo": 120,
+     "alto": 140
+    },
+    "comentario": "PER calculado sobre el consenso de BPA de 2027 (10,38 $) y FCF yield sobre el punto medio de la guía 2026 (4.325 M$) entre la capitalización (47.100 M$). Pagar 11,5–13,5x el BPA de 2027 (120–140 $) da margen si el beneficio sigue revisándose a la baja. Los 18–19x que pide Dan exigen que el mercado deje de verla como una eléctrica, algo poco probable mientras el ~80% de su capacidad sea gas, carbón y retail. Objetivo medio de los analistas: ~218 $ (máximo, Scotiabank: 298 $)."
+   },
+   "vs_divulgadores": "Coincido con Dan en que la caída es sobre todo de múltiplo y no de negocio, y en que los contratos de 20 años con Meta son una validación seria. Discrepo en cuatro puntos. 1) Presenta Vistra como 'la segunda nuclear de EE. UU.' y la compara con Constellation como si fueran casi iguales, pero solo ~16% de su capacidad es nuclear: el descuento frente a CEG está bastante justificado. 2) Atribuye el contrato de Comanche Peak a AWS; Vistra no reveló el cliente en el anuncio y solo algunas fuentes posteriores lo atribuyen a Amazon. 3) Exagera Helix: Vistra es socio fundador y socio preferente de energía, pero no hay ningún 'derecho exclusivo' publicado que obligue a Helix a comprarle toda la energía. 4) Las compras de Pelosi y Trump no las he podido verificar. Las de Thiel (~59 M$ a cierre del 2T), Tepper (~2,2 millones de acciones, +10%) y el CEO (~0,9 M$ a ~135 $ el 31-ago y 1-sep) sí cuadran, pero que unos inversores famosos compraran más caro no es un argumento de valoración. Además, Dan no menciona la deuda, ERCOT ni la auditoría de Texas, que son la causa real de la caída. Su stop en 132 $ es gestión de una operación de corto plazo, no una tesis a 10 años.",
+   "que_cambiaria_mi_opinion": "Subiría la convicción si: los precios a plazo de ERCOT para 2027–2028 se recuperan por encima de 40 $/MWh, el rango de 2027 se confirma en la mitad o la parte alta en noviembre, o firma un nuevo contrato de más de 1 GW con un hiperescalador. La bajaría si: la deuda neta/EBITDA supera 4x tras Cogentrix, el consenso de BPA de 2027 baja de 9,50 $ o la auditoría de Texas restringe las conexiones de centros de datos.",
+   "relacion_cartera": "Ya tienes exposición indirecta: Meta (tu posición) es su principal cliente nuclear y Amazon (también en cartera) es probablemente el cliente de Comanche Peak. Vistra es otra apuesta al mismo motor, el gasto en IA de los hiperescaladores. Además, URAN.L ya te da exposición nuclear. Diversifica algo por sector (eléctrica con caja, recompras y dividendo), pero si el gasto en IA se frena, caería junto a META, GOOGL, AMZN, MSFT, ASML y AVGO.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
+     "url": "https://www.youtube.com/watch?v=WxKLYd6mcLE",
+     "fecha": "2026-10-01",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Vistra (8-K resultados 2T 2026)",
+     "titulo": "Q2 2026 results, guidance reaffirmed",
+     "url": "https://www.stocktitan.net/sec-filings/VST/8-k-vistra-corp-reports-material-event-99e1ad11af31.html",
+     "fecha": "2026-08-07",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Vistra IR",
+     "titulo": "Vistra and Meta Announce Agreements to Support Nuclear Plants in PJM",
+     "url": "https://investor.vistracorp.com/2026-01-09-Vistra-and-Meta-Announce-Agreements-to-Support-Nuclear-Plants-in-PJM-and-Add-New-Nuclear-Generation-to-the-Grid",
+     "fecha": "2026-01-09",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Vistra's Price Dropped 30% in 1 Year",
+     "url": "https://247wallst.com/investing/2026/10/01/vistras-price-dropped-30-in-1-year-why-one-wall-street-analyst-predicts-115-returns-from-here/",
+     "fecha": "2026-10-01",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Yahoo Finance",
+     "titulo": "Constellation Energy vs. Vistra: Nuclear's Two Biggest AI Bets",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/constellation-energy-vs-vistra-nuclears-131002473.html",
+     "fecha": "2026-09-29",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "TechNode Global",
+     "titulo": "Samsung invests $1B in KKR's AI infrastructure firm Helix",
+     "url": "https://technode.global/2026/09/29/samsung-invests-1b-in-kkrs-ai-infrastructure-firm-helix-joining-nvidia-vistra/",
+     "fecha": "2026-09-29",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-02",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026 (primera tesis del agente)."
+    }
+   ]
+  },
+  {
+   "id": "crdo",
+   "ticker": "CRDO",
+   "empresa": "Credo Technology",
+   "sector": "ia",
+   "estado": "nueva",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "fecha_creacion": "2026-10-02",
+   "fecha_actualizacion": "2026-10-02",
+   "resumen": "Diseñadora de chips y cables de conexión de alta velocidad para centros de datos de IA que está creciendo a más del 100%, con márgenes de software (~68% bruto non-GAAP). El negocio es excelente; el problema es el precio y la concentración. A ~210 $ ya no está 'rezagada', como dice Dan: ha subido un 24% desde los 170 $ de principios de septiembre y cotiza a unas 16 veces las ventas esperadas para el año fiscal. Convicción 3/5: calidad alta, pero dos clientes suponen el 61% de los ingresos y la volatilidad es extrema.",
+   "negocio": "Vende circuitos SerDes y DSP, cables eléctricos activos (AEC, su producto estrella para conectar servidores de IA dentro del rack), chiplets y licencias de propiedad intelectual. Con la compra de DustPhotonics entra en fotónica de silicio. Para el año fiscal 2027 apunta a más de 600 M$ en productos ópticos, además de los cables.",
+   "pros": [
+    "Crecimiento explosivo y rentable: ingresos del 1T fiscal 2027 de 479 M$ (+115% interanual), margen operativo non-GAAP del 48% y beneficio GAAP de 129 M$.",
+    "Guía de crecimiento superior al 85% para el año fiscal 2027 (≥2.470 M$), y la mitad ya está prácticamente asegurada con el 1T y la guía del 2T (525–535 M$).",
+    "Los AEC sustituyen al cobre pasivo y a parte de la óptica en distancias cortas, con menor consumo y fallo: es una categoría que la propia Credo ha creado y en la que es referencia.",
+    "Se diversifica hacia la óptica (DSP, fotónica de silicio), un mercado más grande, aprovechando su tecnología SerDes."
+   ],
+   "contras": [
+    "Concentración muy alta: los cuatro mayores clientes son el 33%, 28%, 13% y 10% de los ingresos. Perder o reducir a uno de ellos cambia la tesis.",
+    "El margen bruto GAAP cayó del 68,2% al 64,5% tras la compra de DustPhotonics, y la retribución en acciones es alta (88 M$ en el trimestre): el beneficio real por accionista es menor que el non-GAAP.",
+    "La guía exige un crecimiento secuencial de ~23% por trimestre en la segunda mitad del año: cualquier tropiezo en diciembre castigará mucho la acción.",
+    "Volatilidad extrema (beta ~3,2; rango anual 86–309 $). Es un valor de momentum, no un compounder tranquilo."
+   ],
+   "competencia": {
+    "posicion": "Domina los AEC con ventaja de primer movimiento y diseño propio de SerDes. En DSP ópticos compite con gigantes que tienen más escala y relación con los clientes. Su fortaleza es la eficiencia energética y la velocidad de lanzamiento; su debilidad, el tamaño y la dependencia de pocos hiperescaladores.",
+    "rivales": [
+     {
+      "nombre": "Marvell",
+      "ticker": "MRVL",
+      "comentario": "Líder en DSP ópticos y rival directo en la nueva línea óptica de Credo; mucho más diversificado."
+     },
+     {
+      "nombre": "Broadcom",
+      "ticker": "AVGO",
+      "comentario": "Rival en SerDes y DSP; tu posición AVGO ya cubre parte de este mercado."
+     },
+     {
+      "nombre": "Astera Labs",
+      "ticker": "ALAB",
+      "comentario": "Compite en conectividad dentro del rack (retimers, cables activos)."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 2T fiscal 2027 (guía de 525–535 M$)",
+     "fecha": "principios de diciembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Despliegue de 1,6T y adopción de AEC en nuevas generaciones de racks de IA",
+     "fecha": "2026-2027",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Restricciones de EE. UU. a transceptores ópticos chinos",
+     "fecha": "en tramitación",
+     "impacto": "positivo"
+    }
+   ],
+   "riesgos": [
+    "Que un hiperescalador grande internalice el diseño o pase a la óptica coempaquetada (CPO), que reduciría la necesidad de cables activos.",
+    "Ralentización del gasto en IA: con este múltiplo, una desaceleración del crecimiento se paga con caídas del 40–50%.",
+    "Sede legal en Islas Caimán y parte de la producción y ventas en Asia: riesgo arancelario y geopolítico."
+   ],
+   "valoracion": {
+    "precio": 210.17,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-02",
+    "per": null,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 114.7,
+    "margen_operativo_pct": 48.2,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 140,
+     "alto": 170
+    },
+    "comentario": "Capitalización de ~39.200 M$ sobre ≥2.470 M$ de ventas del año fiscal 2027: ~16x ventas. Anualizar el BPA non-GAAP del 1T (1,20 $ × 4 = 4,80 $) da ~44x; con el crecimiento previsto el PER de 12 meses vista sería menor, pero no lo he podido verificar con estimaciones de consenso. El margen operativo indicado es non-GAAP. Entre 140 y 170 $ (niveles de septiembre) el riesgo/beneficio sería más razonable. Objetivo de los analistas tras los resultados: 235–310 $."
+   },
+   "vs_divulgadores": "Dan la compra como 'la rezagada' de la fotónica frente a Lumentum y Marvell, y por las posibles restricciones a los transceptores chinos. Coincido en la calidad del negocio. Discrepo en el argumento principal: las restricciones que se tramitan (proyecto de ley bipartidista del Senado) afectan solo a sistemas del gobierno federal, y los análisis apuntan a que afectarían a los futuros 3,2T, no al despliegue actual de 800G y 1,6T. Además, Credo no fabrica transceptores completos: le beneficiaría de forma indirecta y menor que a Coherent o Lumentum. Dan tampoco menciona la concentración de clientes ni la caída del margen GAAP. Es una compra de su cartera 'reto 100K', orientada al corto plazo.",
+   "que_cambiaria_mi_opinion": "Pasaría a 'Interesante' si: cumple la guía de diciembre con un margen bruto non-GAAP ≥67% y el mayor cliente baja del 30% de los ingresos, o si la acción vuelve a la zona de 140–170 $ sin deterioro del negocio. La bajaría si un hiperescalador grande anuncia el paso a CPO sin cables activos o si recorta la guía anual.",
+   "relacion_cartera": "Solapa con AVGO (tienes posición) y con tu tesis de Marvell: los tres comparten clientes y ciclo. Es un tercer vehículo para el mismo motor, el gasto en infraestructura de IA, con más volatilidad. No diversifica.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
+     "url": "https://www.youtube.com/watch?v=WxKLYd6mcLE",
+     "fecha": "2026-10-01",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "InsiderFinance",
+     "titulo": "Credo Earnings Beat, Shares Fall on Margin Concerns",
+     "url": "https://www.insiderfinance.io/news/credo-earnings-beat-shares-fall-on-margin-concerns",
+     "fecha": "2026-09-08",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Top1Markets",
+     "titulo": "Credo Guided to 85% Growth. Here Is What the Rest Requires",
+     "url": "https://www.top1markets.com/insights/stocks/credo-crdo-stock-earnings-guidance-math-2026",
+     "fecha": "2026-09-08",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Benzinga",
+     "titulo": "Lumentum, Coherent Rip Higher As Washington Targets Chinese Optical Transceivers",
+     "url": "https://benzinga.com/trading-ideas/movers/26/10/62117250/lumentum-coherent-rip-higher-as-washington-targets-chinese-optical-transceivers",
+     "fecha": "2026-10-01",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-02",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
+    }
+   ]
+  },
+  {
+   "id": "aaoi",
+   "ticker": "AAOI",
+   "empresa": "Applied Optoelectronics",
+   "sector": "ia",
+   "estado": "nueva",
+   "veredicto": "No convence",
+   "conviccion": 2,
+   "fecha_creacion": "2026-10-02",
+   "fecha_actualizacion": "2026-10-02",
+   "resumen": "Fabricante de transceptores ópticos y equipos de cable con sede en Texas que está creciendo rápido (+86% interanual) gracias al 800G. La tesis de Dan es que se beneficiará si EE. UU. restringe los transceptores chinos. Me parece una apuesta especulativa: el margen bruto es bajo (~30%), sigue perdiendo dinero en términos GAAP, tiene producción en Ningbo (China) y las restricciones en tramitación son más estrechas de lo que se vende. Convicción 2/5.",
+   "negocio": "Diseña y fabrica láseres, subconjuntos y transceptores ópticos para centros de datos (56% de los ingresos del 2T 2026) y equipos para redes de televisión por cable (42%). Tiene fábricas en Sugar Land (Texas), Taipéi y Ningbo, y está ampliando capacidad de 800G y 1,6T hasta ~650.000 unidades al mes a final de 2026.",
+   "pros": [
+    "Crecimiento fuerte: ingresos del 2T 2026 de 191,9 M$ (+86% interanual), quinto trimestre récord, y guía del 3T de 255–290 M$.",
+    "Volvió al beneficio non-GAAP (5,5 M$) y la dirección prevé que la demanda supere a la capacidad hasta mediados de 2027.",
+    "Su producción en EE. UU. y la fabricación propia de láseres le darían ventaja si las restricciones a proveedores chinos se amplían."
+   ],
+   "contras": [
+    "Margen bruto bajo y a la baja: 27,7% GAAP (30,3% hace un año). Es un fabricante de producto casi indiferenciado frente a Innolight o Eoptolink, que tienen más escala y menores costes.",
+    "Sigue en pérdidas GAAP (-22,8 M$ en el 2T) y la caja pasó de 216 a 509 M$ en seis meses sin generar beneficio contable. Eso apunta a financiación externa (emisión de acciones o convertibles), así que hay que vigilar la dilución.",
+    "Tiene fábrica en Ningbo (China), lo que debilita el argumento de 'proveedor 100% doméstico'.",
+    "Volatilidad extrema: beta ~3,8 y rango anual de 18,5 a 233,7 $. Es más una operación que una inversión."
+   ],
+   "competencia": {
+    "posicion": "Jugador pequeño en un mercado dominado por fabricantes chinos (Innolight, Eoptolink) y por Coherent y Lumentum en EE. UU. Su ventaja es la integración vertical de láseres y la producción en Texas; su desventaja, la escala, el margen y un historial de ciclos de auge y caída muy marcados.",
+    "rivales": [
+     {
+      "nombre": "Coherent",
+      "ticker": "COHR",
+      "comentario": "Mayor escala y oferta completa; subió un 11% el 1-oct por la noticia de las restricciones."
+     },
+     {
+      "nombre": "Lumentum",
+      "ticker": "LITE",
+      "comentario": "Líder en láseres para IA; +7,7% el 1-oct."
+     },
+     {
+      "nombre": "Innolight / Eoptolink",
+      "ticker": "300308.SZ / 300502.SZ",
+      "comentario": "Líderes mundiales en transceptores para IA con más escala; son el objetivo de las restricciones."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026 (guía de 255–290 M$)",
+     "fecha": "principios de noviembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Tramitación del proyecto de ley del Senado contra transceptores chinos en sistemas federales",
+     "fecha": "en tramitación",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Posibles normas de la FCC (los análisis apuntan a que se aplicarían desde los 3,2T)",
+     "fecha": "sin fecha",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Que las restricciones se queden en sistemas federales y no afecten a las compras de los hiperescaladores.",
+    "Guerra de precios en 800G cuando se normalice la escasez de capacidad.",
+    "Dependencia de pocos clientes grandes (dato no publicado en el último informe) y de la continuidad del gasto en IA."
+   ],
+   "valoracion": {
+    "precio": 107.32,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-02",
+    "per": null,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 86.4,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": null,
+     "alto": null
+    },
+    "comentario": "Capitalización de ~8.600 M$. Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~8x ventas con un margen bruto del 30%: un múltiplo exigente para un fabricante de hardware de bajo margen. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
+   },
+   "vs_divulgadores": "Dan la compara con Ouster, que se disparó cuando EE. UU. restringió los LiDAR chinos. La analogía es débil. El proyecto de ley de los senadores Cornyn, McCormick, Fetterman y Gallego solo prohíbe los transceptores chinos en sistemas sensibles del gobierno federal, no en los centros de datos de los hiperescaladores. Los análisis citados apuntan a que una posible norma de la FCC empezaría en los 3,2T, no en el 800G ni el 1,6T actuales. Además, los primeros beneficiados serían Coherent y Lumentum, por escala. Dan tampoco menciona la fábrica de AAOI en China, sus pérdidas GAAP ni su historial de volatilidad. Es una operación de su cartera 'reto 100K', financiada con la venta de CoreWeave.",
+   "que_cambiaria_mi_opinion": "La reconsideraría si: el margen bruto supera de forma sostenida el 35%, encadena dos trimestres con beneficio GAAP, o las restricciones se amplían a las compras comerciales de centros de datos en EE. UU. con calendario concreto.",
+   "relacion_cartera": "No solapa directamente con tus posiciones, pero depende del mismo ciclo de gasto en IA que AVGO, META, AMZN, GOOGL y MSFT. Su volatilidad no encaja con tu horizonte a 10 años.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
+     "url": "https://www.youtube.com/watch?v=WxKLYd6mcLE",
+     "fecha": "2026-10-01",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Applied Optoelectronics (nota de resultados)",
+     "titulo": "Applied Optoelectronics Reports Second Quarter 2026 Results",
+     "url": "https://www.stocktitan.net/news/AAOI/applied-optoelectronics-reports-second-quarter-2026-wjz4h91d9ngj.html",
+     "fecha": "2026-08-06",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Benzinga",
+     "titulo": "Lumentum, Coherent Rip Higher As Washington Targets Chinese Optical Transceivers",
+     "url": "https://benzinga.com/trading-ideas/movers/26/10/62117250/lumentum-coherent-rip-higher-as-washington-targets-chinese-optical-transceivers",
+     "fecha": "2026-10-01",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Senado de EE. UU. (McCormick)",
+     "titulo": "Bill to keep Chinese transceivers out of U.S. national security systems",
+     "url": "https://www.mccormick.senate.gov/news/press-releases/senators-mccormick-gallego-cornyn-fetterman-introduce-bill-to-keep-chinese-transceivers-out-of-u-s-national-security-systems/",
+     "fecha": "2026-09",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-02",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
+    }
+   ]
+  }
+ ]
 }

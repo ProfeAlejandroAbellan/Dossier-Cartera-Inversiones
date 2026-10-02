@@ -87,14 +87,40 @@ def transcribir(api, video_id: str) -> tuple[str | None, str | None]:
         return None, f"{type(exc).__name__}: {str(exc)[:300]}"
 
 
-def main(api=None, obtener=None) -> int:
+def crear_aviso(v: dict, canal: str, publicar=None) -> bool:
+    """Abre un issue en el repositorio: GitHub te lo envía por correo y aparece en la app de GitHub."""
+    repo, token = os.getenv("GITHUB_REPOSITORY"), os.getenv("GITHUB_TOKEN")
+    fecha = datetime.fromisoformat(v["publicado"]).strftime("%d-%m-%y")
+    cuerpo = (f"**{canal}** ha publicado un vídeo nuevo ({fecha}).\n\n"
+              f"▶️ {v['url']}\n\n"
+              f"Si te interesa, copia la transcripción en `Documents/Web y seguimiento inversiones CLAUDE/Transcripciones/` "
+              f"con el nombre `Empresa - {canal} {fecha}.txt`. El agente la procesará el domingo.\n\n"
+              f"<details><summary>Descripción del vídeo</summary>\n\n{v['descripcion'][:1500]}\n</details>")
+    datos = {"title": f"🎬 {canal}: {v['titulo']}"[:250], "body": cuerpo, "labels": ["video-nuevo"]}
+    if publicar:
+        return publicar(datos)
+    if not (repo and token):
+        print("[aviso] sin GITHUB_TOKEN: no se crea el issue")
+        return False
+    r = requests.post(f"https://api.github.com/repos/{repo}/issues", json=datos, timeout=30,
+                      headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
+    if r.status_code >= 300:
+        print(f"[error] no se pudo crear el issue: {r.status_code} {r.text[:200]}")
+    return r.status_code < 300
+
+
+def main(api=None, obtener=None, publicar=None) -> int:
+    """Modo 'aviso' (por defecto): avisa de vídeos nuevos con un issue y Alejandro pega la transcripción a mano.
+    Modo 'transcribir' (si existen los secretos WEBSHARE_USER/WEBSHARE_PASS): además descarga la transcripción."""
     cfg = json.loads(CANALES.read_text(encoding="utf-8"))
     vistos = json.loads(VISTOS.read_text(encoding="utf-8")) if VISTOS.exists() else {}
     limite = datetime.now(timezone.utc) - timedelta(days=cfg.get("dias_atras", 10))
     max_canal = cfg.get("max_videos_por_canal", 6)
     obtener = obtener or (lambda u: requests.get(u, headers=UA, timeout=30))
-    api = api or api_transcripciones()
-    BANDEJA.mkdir(exist_ok=True)
+    transcribir_activo = api is not None or bool(os.getenv("WEBSHARE_USER") and os.getenv("WEBSHARE_PASS"))
+    if transcribir_activo:
+        api = api or api_transcripciones()
+        BANDEJA.mkdir(exist_ok=True)
     nuevos = fallos = 0
     cfg_cambiada = False
 
@@ -116,29 +142,37 @@ def main(api=None, obtener=None) -> int:
             continue
         candidatos = [v for v in parsear_feed(r.text)
                       if not v["es_short"]
-                      # se reintentan los que fallaron al transcribir mientras sigan dentro de la ventana
+                      # nuevos, o fallidos al transcribir que siguen dentro de la ventana
                       and vistos.get(v["id"], {}).get("estado", "sin_transcripcion") == "sin_transcripcion"
                       and datetime.fromisoformat(v["publicado"]) >= limite]
         for v in candidatos[:max_canal]:
-            texto, error = transcribir(api, v["id"])
             fecha = v["publicado"][:10]
-            registro = {**v, "canal": nombre, "transcripcion": texto, "error_transcripcion": error,
-                        "recogido": datetime.now(timezone.utc).isoformat(timespec="seconds")}
-            registro.pop("es_short")
-            (BANDEJA / f"{fecha}_{slug(nombre)}_{v['id']}.json").write_text(
-                json.dumps(registro, ensure_ascii=False, indent=1), encoding="utf-8")
-            vistos[v["id"]] = {"canal": nombre, "titulo": v["titulo"], "fecha": fecha,
-                               "estado": "en_bandeja" if texto else "sin_transcripcion"}
+            previo = vistos.get(v["id"], {})
+            entrada = {"canal": nombre, "titulo": v["titulo"], "fecha": fecha, "url": v["url"],
+                       "avisado": previo.get("avisado", False)}
+            if not entrada["avisado"]:
+                entrada["avisado"] = crear_aviso(v, nombre, publicar)
+            if transcribir_activo:
+                texto, error = transcribir(api, v["id"])
+                registro = {**v, "canal": nombre, "transcripcion": texto, "error_transcripcion": error,
+                            "recogido": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+                registro.pop("es_short")
+                if texto:
+                    (BANDEJA / f"{fecha}_{slug(nombre)}_{v['id']}.json").write_text(
+                        json.dumps(registro, ensure_ascii=False, indent=1), encoding="utf-8")
+                entrada["estado"] = "en_bandeja" if texto else "sin_transcripcion"
+                fallos += error is not None
+            else:
+                entrada["estado"] = "avisado" if entrada["avisado"] else "sin_transcripcion"
+            vistos[v["id"]] = entrada
             nuevos += 1
-            fallos += error is not None
-            print(f"[ok] {nombre}: {v['titulo'][:70]}" + (f"  (sin transcripción: {error[:80]})" if error else ""))
+            print(f"[ok] {nombre}: {v['titulo'][:70]} -> {entrada['estado']}")
 
     VISTOS.write_text(json.dumps(vistos, ensure_ascii=False, indent=1), encoding="utf-8")
     if cfg_cambiada:
         CANALES.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Resumen: {nuevos} vídeos nuevos, {fallos} sin transcripción")
-    # Si TODO falla al transcribir, casi seguro es un bloqueo de YouTube a GitHub: que el workflow lo marque en rojo
-    return 1 if nuevos and fallos == nuevos else 0
+    print(f"Resumen: {nuevos} vídeos nuevos, {fallos} sin transcripción (modo {'transcribir' if transcribir_activo else 'aviso'})")
+    return 1 if transcribir_activo and nuevos and fallos == nuevos else 0
 
 
 if __name__ == "__main__":

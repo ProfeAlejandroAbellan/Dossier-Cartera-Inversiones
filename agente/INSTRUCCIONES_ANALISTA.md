@@ -22,17 +22,32 @@ respaldan la idea, la tesis lo dice y el veredicto es «No convence».
   `Interesante`, `Vigilar` o `No convence`. El tono es de análisis, no de asesoramiento.
 - No copies frases largas de las transcripciones. Parafrasea y cita el vídeo como fuente.
 
+## De dónde salen las transcripciones
+
+YouTube bloquea la descarga automática desde servidores, así que el flujo es:
+1. El recolector de GitHub Actions revisa los canales cada día y abre un *issue* «🎬 Canal: título» por vídeo nuevo
+   (a Alejandro le llega por correo).
+2. Si le interesa, Alejandro copia la transcripción en su ordenador, en
+   `C:\Users\Usuario\Documents\Web y seguimiento inversiones CLAUDE\Transcripciones\`,
+   con el nombre `Empresa - Canal DD-MM-AA.txt` (p. ej. `Vistra - Dan Fuentes 01-10-26.txt`).
+3. Tú lees esa carpeta con las herramientas del ordenador de Alejandro (`device_list_dir` y `device_stage_files`).
+   Si el ordenador no está accesible, dilo en el resumen y limita la ejecución al refresco del Paso 4.
+4. Si en algún momento existen archivos en `agente/bandeja/` (modo automático con proxy), procésalos igual.
+
 ## Paso 1 · Preparar
 
-1. Clona el repositorio `profealejandroabellan/Dossier-Cartera-Inversiones` con permisos de escritura.
-2. Lee `agente/canales.json`, `agente/vistos.json`, `tesis_auto.json` y todos los archivos de `agente/bandeja/`.
-3. Lee en `cartera_inversor.html` la constante `DS` (posiciones actuales) y `TESIS_ENTRIES` (tesis manuales ya
+1. Clona el repositorio `ProfeAlejandroAbellan/Dossier-Cartera-Inversiones` con permisos de escritura.
+2. Lee `agente/canales.json`, `agente/vistos.json`, `agente/transcripciones_procesadas.json` y `tesis_auto.json`.
+3. Lista la carpeta `Transcripciones` del ordenador de Alejandro. Son **pendientes** los `.txt` que no estén en
+   `transcripciones_procesadas.json` o cuya fecha de modificación (`mtimeMs`) haya cambiado. Copia al entorno solo los pendientes.
+4. Lee en `cartera_inversor.html` la constante `DS` (posiciones actuales) y `TESIS_ENTRIES` (tesis manuales ya
    existentes), solo para saber qué tiene ya Alejandro. No modifiques ese archivo.
-4. Si la bandeja está vacía, salta al Paso 4 (refresco de tesis existentes).
+5. Si no hay transcripciones pendientes, salta al Paso 4 (refresco de tesis existentes).
 
 ## Paso 2 · Extraer ideas de los vídeos
 
-Para cada archivo de la bandeja con `transcripcion` no nula:
+Para cada transcripción pendiente (el nombre del archivo indica empresa principal, canal y fecha; busca el vídeo
+correspondiente en `agente/vistos.json` por canal y fecha para obtener título y URL):
 
 - Identifica las **empresas tratadas de forma sustantiva**: el autor da una opinión, una tesis, niveles de precio,
   resultados o una razón para comprar/vender/evitar. Una mención de pasada no cuenta.
@@ -40,8 +55,8 @@ Para cada archivo de la bandeja con `transcripcion` no nula:
   2-4 frases parafraseadas y el minuto aproximado si se puede deducir.
 - Los vídeos solo de macro o de índices (frecuentes en Cava) no generan tesis, pero si afectan a una tesis
   existente (p. ej. aviso técnico sobre semis), regístralo en esa tesis como fuente.
-- Archivos con `transcripcion: null`: no los proceses ni los borres (el recolector los reintentará). Solo menciónalos
-  en el resumen final.
+- Comprueba las afirmaciones factuales del autor (compras de insiders o famosos, contratos, cifras): lo que no
+  puedas verificar se dice explícitamente en `vs_divulgadores`.
 
 Ordena las empresas candidatas por prioridad:
 1. Mencionadas por **dos o más** divulgadores la misma semana.
@@ -50,9 +65,12 @@ Ordena las empresas candidatas por prioridad:
 
 ## Paso 3 · Investigar y escribir cada tesis
 
-Para cada empresa seleccionada, investiga con las herramientas FMP (cotización, estados financieros,
-métricas clave, ratios, estimaciones de analistas, competidores, calendario de resultados, noticias,
-operaciones de insiders) y búsqueda web para noticias y catalizadores recientes.
+Para cada empresa seleccionada, investiga con búsqueda web (resultados trimestrales, nota de prensa o 8-K,
+transcripción de la conferencia, guía, consenso, noticias) y FMP.
+
+**Ojo con FMP:** el plan de Alejandro es el gratuito. Funciona `company` → `profile-symbol` (precio, capitalización,
+rango anual, beta, descripción) y poco más; `quote`, `statements` y `analyst` devuelven ACCESS DENIED. No los
+reintentes: usa `profile-symbol` para precio y capitalización, y la web para todo lo demás, citando la fuente.
 
 Mínimo a cubrir:
 
@@ -139,15 +157,20 @@ luego `actualizada`, luego el resto por convicción descendente.
 ## Paso 6 · Validar, limpiar y publicar
 
 1. Ejecuta `python agente/validar.py`. Si falla, corrige y repite hasta que pase. No publiques nunca un JSON inválido.
-2. Borra de `agente/bandeja/` los archivos procesados (las transcripciones no deben quedarse en un repositorio
-   público) y en `agente/vistos.json` cambia su `estado` a `procesado`.
-3. Haz commit con el mensaje `Agente: tesis semana AAAA-MM-DD` y push a la rama principal.
-4. Termina con un resumen breve en español: vídeos procesados, tesis nuevas (ticker + veredicto), tesis
+2. Añade cada transcripción procesada a `agente/transcripciones_procesadas.json`
+   (`{"nombre del archivo": {"mtimeMs": …, "procesado": "AAAA-MM-DD", "tickers": [...]}}`) y en `agente/vistos.json`
+   pon `estado: "procesado"` al vídeo correspondiente. Nunca subas el texto de las transcripciones al repositorio
+   (es público). No modifiques ni borres nada en el ordenador de Alejandro.
+3. Cierra los issues `video-nuevo` de los vídeos procesados con un comentario que enlace a la web
+   (`gh api -X PATCH repos/ProfeAlejandroAbellan/Dossier-Cartera-Inversiones/issues/N -f state=closed`). Los issues
+   de más de 14 días sin transcripción ciérralos como «no procesado».
+4. Haz commit con el mensaje `Agente: tesis semana AAAA-MM-DD` y push a la rama principal.
+5. Termina con un resumen breve en español: transcripciones procesadas, tesis nuevas (ticker + veredicto), tesis
    actualizadas con su cambio clave, vídeos sin transcripción y cualquier problema encontrado.
 
 ## Si algo falla
 
 - Sin acceso al repositorio: no hagas nada más y explica el error en el resumen.
-- Todas las transcripciones nulas: probablemente YouTube bloquea a GitHub Actions. Indícalo en el resumen
-  (solución: añadir los secretos `WEBSHARE_USER`/`WEBSHARE_PASS` o recolectar desde el ordenador de Alejandro).
+- Ordenador de Alejandro apagado o sin conexión: haz solo el Paso 4 y avisa de que las transcripciones quedan
+  para la siguiente ejecución (o para que Alejandro lance la tarea a mano).
 - FMP no responde para un ticker (p. ej. europeo): usa búsqueda web y marca las métricas que falten como `null`.
