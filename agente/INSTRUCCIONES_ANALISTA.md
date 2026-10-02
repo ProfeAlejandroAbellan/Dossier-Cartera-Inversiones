@@ -40,7 +40,8 @@ Para cada archivo de la bandeja con `transcripcion` no nula:
   2-4 frases parafraseadas y el minuto aproximado si se puede deducir.
 - Los vídeos solo de macro o de índices (frecuentes en Cava) no generan tesis, pero si afectan a una tesis
   existente (p. ej. aviso técnico sobre semis), regístralo en esa tesis como fuente.
-- Archivos con `transcripcion: null`: usa título y descripción solo si nombran empresas con claridad. Si no, ignóralos.
+- Archivos con `transcripcion: null`: no los proceses ni los borres (el recolector los reintentará). Solo menciónalos
+  en el resumen final.
 
 Ordena las empresas candidatas por prioridad:
 1. Mencionadas por **dos o más** divulgadores la misma semana.

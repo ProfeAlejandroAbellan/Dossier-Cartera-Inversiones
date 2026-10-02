@@ -115,7 +115,9 @@ def main(api=None, obtener=None) -> int:
             print(f"[error] {nombre}: feed devolvió {r.status_code}")
             continue
         candidatos = [v for v in parsear_feed(r.text)
-                      if not v["es_short"] and v["id"] not in vistos
+                      if not v["es_short"]
+                      # se reintentan los que fallaron al transcribir mientras sigan dentro de la ventana
+                      and vistos.get(v["id"], {}).get("estado", "sin_transcripcion") == "sin_transcripcion"
                       and datetime.fromisoformat(v["publicado"]) >= limite]
         for v in candidatos[:max_canal]:
             texto, error = transcribir(api, v["id"])
