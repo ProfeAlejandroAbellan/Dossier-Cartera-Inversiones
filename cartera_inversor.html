@@ -220,7 +220,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 </head>
 <body>
 <!-- PIN OVERLAY -->
-<div class="pin-overlay" id="pin-overlay">
+<div class="pin-overlay" id="pin-overlay" style="display:none" onclick="if(event.target===this)skipPin()">
   <div class="pin-box">
     <div class="pin-logo">📊</div>
     <div class="pin-title">Investment Dashboard</div>
@@ -237,7 +237,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       <button class="pin-key" onclick="pinDel()" style="font-size:14px;color:var(--text2)">⌫</button>
       <button class="pin-key zero" onclick="pinKey('0')">0</button>
     </div>
-    <button onclick="skipPin()" style="width:100%;font-size:14px;font-weight:700;padding:14px 20px;margin-top:.75rem;background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));border:1px solid rgba(59,130,246,0.4);border-radius:var(--r);color:#93C5FD;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:all .2s" onmouseover="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15))'">🌐 Acceso público — Ver Tesis, Ideas y Alertas</button>
+    <button onclick="skipPin()" style="width:100%;font-size:14px;font-weight:700;padding:14px 20px;margin-top:.75rem;background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15));border:1px solid rgba(59,130,246,0.4);border-radius:var(--r);color:#93C5FD;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.2px;transition:all .2s" onmouseover="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.25),rgba(139,92,246,0.25))'" onmouseout="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15))'">Cancelar</button>
   </div>
 </div>
 <!-- NAV -->
@@ -259,6 +259,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     <span class="upd" id="upd">—</span>
     <button class="btn" id="btn-refresh" onclick="loadAll()" style="display:none">↻</button>
     <button class="btn" id="btn-lock" onclick="lockApp()" style="display:none;font-size:11px">🔒 Bloquear</button>
+    <button class="btn" id="btn-acceso" onclick="openPin()" title="Acceso a la zona privada" style="font-size:11px">🔑 Acceso</button>
   </div>
 </nav>
 <!-- TESIS & IDEAS -->
@@ -722,6 +723,7 @@ function checkPin(){
     document.getElementById('tab-ajustes').classList.remove('locked');
     document.getElementById('btn-refresh').style.display='';
     document.getElementById('btn-lock').style.display='';
+    document.getElementById('btn-acceso').style.display='none';
     document.getElementById('my-alerts-section').style.display='block';
     document.getElementById('subscribers-section').style.display='block';
     renderSubscribers();
@@ -733,16 +735,29 @@ function checkPin(){
     setTimeout(()=>{pinEntry='';updatePinDots();document.getElementById('pin-error').textContent='';},1000);
   }
 }
+function openPin(){
+  pinEntry='';updatePinDots();
+  document.getElementById('pin-error').textContent='';
+  document.getElementById('pin-overlay').style.display='flex';
+}
 function skipPin(){
   document.getElementById('pin-overlay').style.display='none';
-  showPage('tesis',document.querySelector('.nt'));
+  pinEntry='';updatePinDots();
 }
+document.addEventListener('keydown',e=>{
+  const o=document.getElementById('pin-overlay');
+  if(!o||o.style.display==='none')return;
+  if(e.key==='Escape')skipPin();
+  else if(/^[0-9]$/.test(e.key))pinKey(e.key);
+  else if(e.key==='Backspace')pinDel();
+});
 function lockApp(){
   isUnlocked=false;
   document.getElementById('tab-portfolio').classList.add('locked');
   document.getElementById('tab-ajustes').classList.add('locked');
   document.getElementById('btn-refresh').style.display='none';
   document.getElementById('btn-lock').style.display='none';
+  document.getElementById('btn-acceso').style.display='';
   document.getElementById('my-alerts-section').style.display='none';
   document.getElementById('subscribers-section').style.display='none';
   document.getElementById('cartera-banner').style.display='none';
