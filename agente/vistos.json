@@ -11,32 +11,32 @@
   "canal": "Dan Fuentes",
   "titulo": "Los 3 Errores que el 95% comete al invertir y cómo evitarlos sin ser financiero",
   "fecha": "2026-10-01",
-  "estado": "sin_transcripcion",
   "url": "https://www.youtube.com/watch?v=3X5goeuD2-U",
-  "avisado": false
+  "avisado": true,
+  "estado": "avisado"
  },
  "gWN_LSK2va4": {
   "canal": "Dan Fuentes",
   "titulo": "Olvida Nvidia. Esta industria Valdrá Más",
   "fecha": "2026-10-01",
-  "estado": "sin_transcripcion",
   "url": "https://www.youtube.com/watch?v=gWN_LSK2va4",
-  "avisado": false
+  "avisado": true,
+  "estado": "avisado"
  },
  "Cvs7IotLGoo": {
   "canal": "Dan Fuentes",
   "titulo": "NO puedo PARAR de COMPRAR estas 3 Acciones",
   "fecha": "2026-09-30",
-  "estado": "sin_transcripcion",
   "url": "https://www.youtube.com/watch?v=Cvs7IotLGoo",
-  "avisado": false
+  "avisado": true,
+  "estado": "avisado"
  },
  "B1K_gD7Mk78": {
   "canal": "Dan Fuentes",
   "titulo": "Elon Musk & Jensen Huang Apuntan al Mismo Trade",
   "fecha": "2026-09-22",
-  "estado": "sin_transcripcion",
   "url": "https://www.youtube.com/watch?v=B1K_gD7Mk78",
-  "avisado": false
+  "avisado": true,
+  "estado": "avisado"
  }
 }
