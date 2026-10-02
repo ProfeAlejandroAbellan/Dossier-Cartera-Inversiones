@@ -316,6 +316,108 @@ tr:hover td{background:rgba(255,255,255,0.02)}
     </div>
   </div>
   <div id="thesis-content" class="card"></div>
+<!-- ===== TESIS DEL AGENTE (bloque aislado: lee tesis_auto.json; un fallo aquí no afecta al resto de la web) ===== -->
+<style>
+#agente-tesis .ag-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+#agente-tesis .ag-aviso{font-size:11px;color:var(--text2);background:var(--amber-bg);border:1px solid rgba(245,158,11,.25);border-radius:8px;padding:6px 10px;margin:.6rem 0 .9rem}
+#agente-tesis .ag-fil{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.8rem}
+#agente-tesis .ag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+#agente-tesis .ag-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.7rem .8rem;cursor:pointer;text-align:left;color:var(--text);font-family:inherit;width:100%}
+#agente-tesis .ag-item:hover,#agente-tesis .ag-item.on{border-color:var(--gold-dim)}
+#agente-tesis .ag-tk{font-weight:700;font-size:13px}
+#agente-tesis .ag-em{font-size:11.5px;color:var(--text2);margin:2px 0 6px}
+#agente-tesis .ag-dots{letter-spacing:2px;font-size:10px;color:var(--gold)}
+#agente-tesis .ag-det{scroll-margin-top:90px;margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;font-size:12.5px;line-height:1.75;color:var(--text2)}
+#agente-tesis .ag-det h4{color:var(--text);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:1.1rem 0 .4rem}
+#agente-tesis .ag-det ul{margin:0;padding-left:1.1rem}
+#agente-tesis .ag-2c{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#agente-tesis .ag-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px}
+#agente-tesis .ag-kpi{background:var(--bg3);border-radius:8px;padding:6px 8px}
+#agente-tesis .ag-kpi b{display:block;color:var(--text);font-size:13px}
+#agente-tesis .ag-kpi span{font-size:10px;text-transform:uppercase;letter-spacing:.6px}
+#agente-tesis a{color:var(--blue-text)}
+@media(max-width:640px){#agente-tesis .ag-2c{grid-template-columns:1fr}}
+</style>
+<div id="agente-tesis" class="card" style="margin-top:1rem">
+  <div class="ag-head"><div class="sl" style="margin:0;flex:1">🤖 Tesis del agente · ideas de divulgadores</div><span id="ag-fecha" style="font-size:11px;color:var(--text3)"></span></div>
+  <div class="ag-aviso" id="ag-aviso">Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.</div>
+  <div class="ag-fil" id="ag-fil"></div>
+  <div class="ag-grid" id="ag-grid"><div style="font-size:12px;color:var(--text3)">Cargando…</div></div>
+  <div id="ag-det"></div>
+</div>
+<script>
+(function(){
+  const COL={'Interesante':['var(--green-bg)','var(--green-text)'],'Vigilar':['var(--amber-bg)','var(--amber-text)'],'No convence':['var(--red-bg)','var(--red-text)']};
+  const EST={nueva:'🆕 Nueva',actualizada:'🔄 Actualizada',sin_cambios:'Sin cambios',vigilancia:'👀 Vigilancia',descartada:'Descartada'};
+  let DATA=[],filtro='activas',sel=null;
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const url=u=>/^https?:\/\//.test(u||'')?esc(u):'#';
+  const badge=v=>{const c=COL[v]||['var(--bg4)','var(--text2)'];return `<span class="badge" style="background:${c[0]};color:${c[1]}">${esc(v)}</span>`;};
+  const dots=n=>'●'.repeat(n||0)+'<span style="color:var(--text3)">'+'●'.repeat(5-(n||0))+'</span>';
+  const lista=a=>(a&&a.length)?'<ul>'+a.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'<em>—</em>';
+  const num=(v,suf='')=>v==null?'sin dato':esc(v)+suf;
+  function filtros(){
+    const ops=[['activas','Activas'],['Interesante','Interesante'],['Vigilar','Vigilar'],['No convence','No convence'],['descartada','Descartadas']];
+    document.getElementById('ag-fil').innerHTML=ops.map(([k,l])=>`<button class="sfil${k===filtro?' active':''}" data-k="${esc(k)}">${l}</button>`).join('');
+    document.querySelectorAll('#ag-fil button').forEach(b=>b.onclick=()=>{filtro=b.dataset.k;sel=null;pintar();});
+  }
+  function visibles(){
+    if(filtro==='activas')return DATA.filter(t=>t.estado!=='descartada');
+    if(filtro==='descartada')return DATA.filter(t=>t.estado==='descartada');
+    return DATA.filter(t=>t.veredicto===filtro&&t.estado!=='descartada');
+  }
+  function pintar(){
+    filtros();
+    const v=visibles(),g=document.getElementById('ag-grid');
+    g.innerHTML=v.length?v.map(t=>`<button class="ag-item${t.id===sel?' on':''}" data-id="${esc(t.id)}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:6px"><span class="ag-tk">${esc(t.ticker)}</span>${badge(t.veredicto)}</div>
+      <div class="ag-em">${esc(t.empresa)}</div>
+      <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text3)"><span class="ag-dots">${dots(t.conviccion)}</span><span>${EST[t.estado]||esc(t.estado)} · ${esc(t.fecha_actualizacion)}</span></div>
+    </button>`).join(''):'<div style="font-size:12px;color:var(--text3)">Aún no hay tesis en esta categoría. El agente publica cada domingo.</div>';
+    g.querySelectorAll('.ag-item').forEach(b=>b.onclick=()=>{sel=sel===b.dataset.id?null:b.dataset.id;pintar();if(sel)document.querySelector('#ag-det .ag-det').scrollIntoView({behavior:'smooth',block:'start'});});
+    detalle();
+  }
+  function detalle(){
+    const box=document.getElementById('ag-det'),t=DATA.find(x=>x.id===sel);
+    if(!t){box.innerHTML='';return;}
+    const va=t.valoracion||{},co=t.competencia||{},ri=va.rango_interes||{};
+    box.innerHTML=`<div class="ag-det">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><strong style="color:var(--text);font-size:15px">${esc(t.empresa)} (${esc(t.ticker)})</strong>${badge(t.veredicto)}<span class="ag-dots">${dots(t.conviccion)}</span></div>
+      <p style="color:var(--text)">${esc(t.resumen)}</p>
+      <h4>Negocio</h4><p>${esc(t.negocio)}</p>
+      <div class="ag-2c"><div><h4 style="color:var(--green-text)">A favor</h4>${lista(t.pros)}</div><div><h4 style="color:var(--red-text)">En contra</h4>${lista(t.contras)}</div></div>
+      <h4>Valoración</h4>
+      <div class="ag-kpis">
+        <div class="ag-kpi"><span>Precio</span><b>${num(va.precio)} ${esc(va.moneda||'')}</b></div>
+        <div class="ag-kpi"><span>PER</span><b>${num(va.per,'x')}</b></div>
+        <div class="ag-kpi"><span>EV/EBIT</span><b>${num(va.ev_ebit,'x')}</b></div>
+        <div class="ag-kpi"><span>FCF yield</span><b>${num(va.fcf_yield_pct,'%')}</b></div>
+        <div class="ag-kpi"><span>Crec. ventas</span><b>${num(va.crecimiento_ventas_pct,'%')}</b></div>
+        <div class="ag-kpi"><span>Margen op.</span><b>${num(va.margen_operativo_pct,'%')}</b></div>
+        <div class="ag-kpi"><span>Deuda/EBITDA</span><b>${num(va.deuda_neta_ebitda,'x')}</b></div>
+        <div class="ag-kpi"><span>Rango interés</span><b>${ri.bajo==null?'sin dato':esc(ri.bajo)+'–'+esc(ri.alto)}</b></div>
+      </div>
+      <p style="font-size:11.5px">${esc(va.comentario)}${va.fecha_precio?` <span style="color:var(--text3)">(precio a ${esc(va.fecha_precio)})</span>`:''}</p>
+      <h4>Competencia</h4><p>${esc(co.posicion)}</p>${(co.rivales||[]).length?'<ul>'+co.rivales.map(r=>`<li><strong style="color:var(--text)">${esc(r.nombre)}${r.ticker?' ('+esc(r.ticker)+')':''}</strong>: ${esc(r.comentario)}</li>`).join('')+'</ul>':''}
+      <h4>Catalizadores</h4>${(t.catalizadores||[]).length?'<ul>'+t.catalizadores.map(c=>`<li><strong style="color:var(--text)">${esc(c.fecha)}</strong> · ${esc(c.evento)} <em>(${esc(c.impacto)})</em></li>`).join('')+'</ul>':'<em>—</em>'}
+      <h4>Riesgos</h4>${lista(t.riesgos)}
+      <h4>Frente a los divulgadores</h4><p>${esc(t.vs_divulgadores)}</p>
+      <h4>Qué me haría cambiar de opinión</h4><p>${esc(t.que_cambiaria_mi_opinion)}</p>
+      <h4>Relación con la cartera</h4><p>${esc(t.relacion_cartera)}</p>
+      <h4>Fuentes</h4><ul>${(t.fuentes||[]).map(f=>`<li><a href="${url(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a> · ${esc(f.canal)} · ${esc(f.fecha)} · <em>${esc(f.postura_autor)}</em></li>`).join('')}</ul>
+      <h4>Historial</h4><ul>${(t.historial||[]).map(h=>`<li>${esc(h.fecha)}: ${esc(h.cambio)}</li>`).join('')}</ul>
+    </div>`;
+  }
+  fetch('tesis_auto.json?v='+Date.now()).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}).then(d=>{
+    DATA=Array.isArray(d.tesis)?d.tesis:[];
+    document.getElementById('ag-fecha').textContent=d.actualizado?'Actualizado '+d.actualizado:'';
+    if(d.aviso)document.getElementById('ag-aviso').textContent=d.aviso;
+    pintar();
+  }).catch(e=>{document.getElementById('ag-grid').innerHTML='<div style="font-size:12px;color:var(--text3)">No se pudieron cargar las tesis del agente ('+esc(e.message)+').</div>';});
+})();
+</script>
+<!-- ===== FIN TESIS DEL AGENTE ===== -->
+
 </div>
 <!-- ALERTAS -->
 <div id="page-alertas" class="page">

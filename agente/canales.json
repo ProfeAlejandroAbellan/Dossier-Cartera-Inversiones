@@ -1,0 +1,11 @@
+{
+  "_nota": "Pega en 'url' la dirección del canal (vale https://www.youtube.com/@handle o /channel/UC...). Si channel_id está vacío, el recolector lo resuelve solo y lo guarda.",
+  "max_videos_por_canal": 6,
+  "dias_atras": 10,
+  "canales": [
+    {"nombre": "Dan Fuentes", "url": "https://www.youtube.com/@dan_fuentes", "channel_id": "UC7x4B-Cp_IqeNxvHacU2G4w"},
+    {"nombre": "Gustavo Martínez", "url": "", "channel_id": ""},
+    {"nombre": "José Luis Cava", "url": "", "channel_id": ""},
+    {"nombre": "Alberto Iturralde", "url": "", "channel_id": ""}
+  ]
+}
