@@ -679,7 +679,6 @@ const DS=[
   {name:'Amazon',sym:'AMZN',shares:8,bepEur:190.55,buyAlert:170,stopPct:25,broker:'TR'},
   {name:'Microsoft',sym:'MSFT',shares:4,bepEur:366.98,buyAlert:330,stopPct:20,broker:'TR'},
   {name:'ACS',sym:'ACS.MC',shares:6,bepEur:88.93,buyAlert:72,stopPct:20,broker:'TR'},
-  {name:'Zegona',sym:'ZEG.L',shares:4,bepEur:8.25,buyAlert:1.52,stopPct:20,cur:'GBX',broker:'DG'},
   {name:'Cal-Maine',sym:'CALM',shares:4,bepEur:66.15,buyAlert:58,stopPct:20,broker:'TR'},
   {name:'Sandoz',sym:'SDZ.SW',shares:2,bepEur:35.3,buyAlert:null,stopPct:20,broker:'DG'},
   {name:'Central G&P',sym:'CENTA',shares:2,bepEur:30.41,buyAlert:null,stopPct:null,broker:'DG'},
@@ -703,7 +702,7 @@ const DE=[
 ];
 const DC=[{name:'Ethereum',sym:'ETH-EUR',shares:0.089909,bepEur:2235.37},{name:'XRP',sym:'XRP-EUR',shares:93.953564,bepEur:2.16}];
 // Versión de los datos de cartera: al cambiarla, se descartan las posiciones y la caja guardadas en el navegador
-const DS_VERSION='2026-10-15';
+const DS_VERSION='2026-10-15b';
 try{if(localStorage.getItem('dsVersion')!==DS_VERSION){['stocks','cash','note'].forEach(k=>localStorage.removeItem(k));localStorage.setItem('dsVersion',DS_VERSION);}}catch(e){}
 
 let stocks=JSON.parse(localStorage.getItem('stocks')||'null')||DS.map(s=>({...s}));
@@ -784,8 +783,8 @@ function changePin(){
   userPin=nw;localStorage.setItem('userPin',userPin);showToast('PIN cambiado correctamente','ok');
 }
 function showCarteraBanner(){
-  const carteraSyms=['META','ASML','GOOGL','AMZN','MSFT','ACS.MC','ZEG.L','CALM','SDZ.SW','AVGO','AVAV'];
-  const carteraNames={'META':'Meta','ASML':'ASML','GOOGL':'Alphabet','AMZN':'Amazon','MSFT':'Microsoft','ACS.MC':'ACS','ZEG.L':'Zegona','CALM':'Cal-Maine','SDZ.SW':'Sandoz','AVGO':'Broadcom','AVAV':'AeroVironment'};
+  const carteraSyms=['META','ASML','GOOGL','AMZN','MSFT','ACS.MC','CALM','SDZ.SW','AVGO','AVAV','MRVL','VST'];
+  const carteraNames={'META':'Meta','ASML':'ASML','GOOGL':'Alphabet','AMZN':'Amazon','MSFT':'Microsoft','ACS.MC':'ACS','ZEG.L':'Zegona','CALM':'Cal-Maine','SDZ.SW':'Sandoz','AVGO':'Broadcom','AVAV':'AeroVironment','MRVL':'Marvell','VST':'Vistra'};
   const thesisMap={'META':'meta','ASML':'asml','GOOGL':'alphabet','AMZN':'amazon','MSFT':'msci'};
   document.getElementById('cartera-banner').style.display='block';
   document.getElementById('cartera-chips').innerHTML=carteraSyms.map(s=>`<span class="cartera-chip" onclick="showT('${thesisMap[s]||s.toLowerCase()}',null)">${carteraNames[s]}</span>`).join('');
