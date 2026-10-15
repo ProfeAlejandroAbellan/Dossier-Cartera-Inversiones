@@ -1,3 +1,21 @@
 {
- "Vistra - Dan Fuentes 01-10-26.txt": {"mtimeMs": 1790931980751, "procesado": "2026-10-02", "tickers": ["VST", "CRDO", "AAOI"]}
+ "Vistra - Dan Fuentes 01-10-26.txt": {
+  "mtimeMs": 1790931980751,
+  "procesado": "2026-10-02",
+  "tickers": [
+   "VST",
+   "CRDO",
+   "AAOI"
+  ]
+ },
+ "Dan Fuentes - 15-10-26.txt": {
+  "mtimeMs": 1792050170859,
+  "procesado": "2026-10-15",
+  "tickers": [
+   "CBRS",
+   "MU",
+   "LRCX",
+   "AAOI"
+  ]
+ }
 }

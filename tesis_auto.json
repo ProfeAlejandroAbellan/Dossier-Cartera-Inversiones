@@ -3,6 +3,414 @@
  "aviso": "Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.",
  "tesis": [
   {
+   "id": "cbrs",
+   "ticker": "CBRS",
+   "empresa": "Cerebras Systems",
+   "sector": "ia",
+   "estado": "nueva",
+   "veredicto": "Vigilar",
+   "conviccion": 2,
+   "fecha_creacion": "2026-10-15",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "Fabricante de chips de IA del tamaño de una oblea entera, muy rápidos en inferencia, que salió a bolsa en mayo a 185 $, abrió a 350 $ y hoy cotiza a ~141 $. La tecnología es real y la cartera de pedidos enorme (25.400 M$ de obligaciones pendientes), pero el negocio todavía pierde dinero, el margen bruto baja trimestre a trimestre (46,5% → 40,6% → guía 38–40%) y depende de muy pocos clientes, sobre todo OpenAI. A ~36 veces las ventas previstas para 2026 no es barata: el '13x ventas de 2027' que cita Dan exige que los ingresos se multipliquen casi por tres en un año. Convicción 2/5: idea a vigilar, no a comprar todavía.",
+   "negocio": "Diseña el Wafer-Scale Engine, un único chip que ocupa toda la oblea de silicio, y lo vende como sistemas (CS-3/CS-4) o como capacidad en su propia nube de inferencia. En el 2T 2026 la nube y los servicios ya fueron el 61% de los ingresos (127,7 M$, +287%) frente al hardware (82,1 M$, +17%). El giro hacia la nube acelera el crecimiento pero exige alquilar centros de datos, lo que explica la caída del margen.",
+   "pros": [
+    "Crecimiento muy rápido: ingresos 'core' del 2T 2026 de 209,9 M$ (+103% interanual), con guía anual elevada a 880–890 M$.",
+    "Cartera de pedidos de 25.400 M$ (RPO a 30-jun), unas 29 veces las ventas de 2026, y acuerdos con OpenAI y AWS (venta vía Bedrock desde el 1T 2027) por más de 20.000 M$.",
+    "Ventaja técnica real en inferencia, el segmento del gasto en IA que más crece; alianza con AMD para combinar sus sistemas con los racks Helios desde el 4T 2026.",
+    "Balance holgado tras la salida a bolsa: más de 8.600 M$ en caja (~27% de su capitalización) y una línea de crédito sin usar de 850 M$."
+   ],
+   "contras": [
+    "Margen bruto bajo y a la baja para un fabricante de chips (40,6% en el 2T, guía 38–40%), muy lejos del ~75% de Nvidia. Su modelo de nube se parece más al de un proveedor de infraestructura que al de un diseñador de chips.",
+    "Sigue en pérdidas: margen operativo 'core' del -16% en el 2T y guía de -25% a -23% para el 3T.",
+    "Concentración extrema: el CEO admite que OpenAI seguirá siendo una parte 'significativa' de los ingresos en 2027. Cuando SemiAnalysis publicó (30-sep) que OpenAI usaría GPUs de Nvidia para su modo más rápido, la acción cayó casi un 20% en una semana.",
+    "Presión vendedora: desbloqueos de acciones de hasta 19,4 millones de títulos (~8% del capital) cada dos semanas hasta finales de octubre, y el CEO y el CTO vendieron más de 240 M$ entre el 20-ago y el 25-sep."
+   ],
+   "competencia": {
+    "posicion": "Compite contra Nvidia en el mismo cliente (los laboratorios de IA y los hiperescaladores), que además diseñan sus propios chips. Su diferencial es la velocidad en inferencia; su debilidad, la escala, el ecosistema de software (CUDA) y la dependencia de pocos contratos.",
+    "rivales": [
+     {
+      "nombre": "Nvidia",
+      "ticker": "NVDA",
+      "comentario": "Domina el mercado, con márgenes brutos cercanos al 75% y el ecosistema CUDA; OpenAI acaba de usar sus GPUs para su modo de inferencia más rápido."
+     },
+     {
+      "nombre": "AMD",
+      "ticker": "AMD",
+      "comentario": "Competidor en GPUs y a la vez socio de Cerebras en inferencia desagregada."
+     },
+     {
+      "nombre": "Chips propios de hiperescaladores",
+      "ticker": "GOOGL / AMZN / AVGO",
+      "comentario": "TPU de Google, Trainium de Amazon y los ASIC que diseña Broadcom: el gran riesgo a largo plazo para cualquier chip independiente."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Fin de los desbloqueos de acciones posteriores a la salida a bolsa",
+     "fecha": "finales de octubre 2026",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Resultados del 3T 2026 (guía de 214–216 M$, margen bruto 38–40%)",
+     "fecha": "noviembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Disponibilidad comercial en AWS Bedrock; primeros ingresos de AWS hacia mediados de 2027",
+     "fecha": "1T–2T 2027",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Despliegue conjunto con AMD (racks Helios)",
+     "fecha": "4T 2026",
+     "impacto": "positivo"
+    }
+   ],
+   "riesgos": [
+    "Que OpenAI reduzca su dependencia de Cerebras: cualquier noticia en ese sentido mueve la acción un 10–20%.",
+    "Que el modelo de nube siga comiéndose el margen y obligue a nuevas ampliaciones de capital.",
+    "Valoración dependiente de previsiones muy agresivas (las de UBS que cita Dan no las he podido verificar).",
+    "Acción recién salida a bolsa, con poco historial y alta volatilidad (rango 134–386 $ en cinco meses)."
+   ],
+   "valoracion": {
+    "precio": 140.97,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": null,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 103.0,
+    "margen_operativo_pct": -16.0,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": null,
+     "alto": null
+    },
+    "comentario": "Capitalización de ~31.900 M$ (FMP) sobre 880–890 M$ de ventas previstas en 2026: ~36x ventas. Restando la caja (8.600 M$), el valor de empresa ronda 23.300 M$, ~26x ventas. El '13x ventas de 2027' de Dan implica unas ventas de ~2.450 M$ en 2027 (casi el triple), y el '10x beneficios de 2029' se apoya en previsiones de UBS que no he podido verificar. Sin beneficio ni flujo de caja positivos no fijo rango de interés: la valoración depende de que se cumpla el crecimiento, no de los múltiplos actuales."
+   },
+   "vs_divulgadores": "Coincido con Dan en que la caída desde la salida a bolsa es normal y en que la tecnología es diferencial en inferencia. Discrepo en tres puntos. 1) Que Brad Gerstner (Altimeter) comprara a ~221 $ no es un argumento de valoración: un fondo de capital riesgo puede tener horizontes y objetivos distintos de los tuyos. Además, no he podido verificar el precio medio ni el peso del 16% que cita Dan; una fuente habla de una posición de unos 2.000 M$. 2) El margen bruto bajando y las pérdidas operativas no aparecen en el vídeo, y son la clave para saber si Cerebras puede ser un negocio rentable además de una buena tecnología. 3) Los '57 veces más rápido que Nvidia' son pruebas en modelos concretos; la decisión de OpenAI de usar Nvidia para su modo más rápido demuestra que el cliente no elige solo por velocidad. Altman llamó a Cerebras 'socio cercano', pero no desmintió qué chips usa ese modo. El propio Dan espera a que la acción haga suelo y no la ha comprado todavía, lo cual es coherente.",
+   "que_cambiaria_mi_opinion": "Subiría la convicción si: el margen bruto vuelve por encima del 45%, OpenAI baja de la mitad de los ingresos con clientes nuevos (AWS, AMD, soberanos), y la empresa se acerca al equilibrio operativo en 2027. La bajaría si: OpenAI recorta compromisos, el margen cae por debajo del 35% o la empresa necesita ampliar capital.",
+   "relacion_cartera": "No tienes posición. Sería otra apuesta al gasto en IA de los hiperescaladores, con el riesgo concentrado en un cliente (OpenAI) que también es clave para tus posiciones en Microsoft, Broadcom y Marvell. Por su volatilidad y su falta de beneficios, si algún día entra en cartera debería ser con un peso pequeño, la misma lección de tamaño de posición que da Dan con AAOI.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Vídeo del 15-oct-2026 sobre las compras de Brad Gerstner (Altimeter)",
+     "url": "https://www.youtube.com/@dan_fuentes/videos",
+     "fecha": "2026-10-15",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Yahoo Finance (GuruFocus)",
+     "titulo": "Cerebras Systems (CBRS) Q2 2026 Earnings Call Highlights",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/cerebras-systems-inc-cbrs-q2-010516519.html",
+     "fecha": "2026-08-12",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Benzinga",
+     "titulo": "Cerebras Stock Braces for 19.4 Million-Share Unlock After Record Low",
+     "url": "https://www.benzinga.com/markets/tech/26/10/62330736/cerebras-stock-braces-for-19-4-million-share-unlock",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Simply Wall St (Yahoo Finance)",
+     "titulo": "Cerebras Systems Is Down 22.3% After Guiding To Lower Margins",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/cerebras-systems-cbrs-down-22-050644951.html",
+     "fecha": "2026-06-25",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "Crypto Briefing",
+     "titulo": "Altimeter adds new $2B stake in Cerebras, trims Meta holding",
+     "url": "https://cryptobriefing.com/altimeter-cerebras-stake-meta-trim-2026/",
+     "fecha": "2026",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner)."
+    }
+   ]
+  },
+  {
+   "id": "mu",
+   "ticker": "MU",
+   "empresa": "Micron Technology",
+   "sector": "ia",
+   "estado": "nueva",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "fecha_creacion": "2026-10-15",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "El mayor fabricante estadounidense de memoria vive el mejor momento de su historia: 54.230 M$ de ingresos en el último trimestre (+379%) con un margen bruto del 87%, algo nunca visto en el sector. Cotiza a ~12 veces el beneficio de los últimos doce meses y a ~7 veces el del último trimestre anualizado. La pregunta no es si es barata con estos beneficios, sino si son sostenibles. Hay argumentos nuevos para pensar que esta vez el ciclo es más largo (acuerdos plurianuales con precio mínimo y 150.000 M$ de pedidos), pero un margen del 87% en memoria es justo lo que atrae competencia (CXMT) e inversión masiva en capacidad nueva. Convicción 3/5.",
+   "negocio": "Fabrica memoria DRAM (73% de los ingresos del último trimestre), incluida la memoria de alto ancho de banda (HBM) que necesitan los chips de IA, y almacenamiento NAND. Vende a centros de datos, móviles, PCs, coches e industria. Es uno de los tres grandes de la DRAM junto a SK Hynix y Samsung, y el único estadounidense.",
+   "pros": [
+    "Resultados extraordinarios: ingresos del 4T fiscal 2026 de 54.230 M$ (+379%), margen bruto non-GAAP del 87% y beneficio neto de 37.700 M$ en un solo trimestre. Guía del 1T fiscal 2027 de 61.500 M$, por encima del consenso (57.000 M$).",
+    "Visibilidad inusual en memoria: 26 acuerdos estratégicos con clientes que suponen más del 35% de los ingresos hasta 2030, con bandas de precio con suelo, 150.000 M$ de obligaciones pendientes a precios mínimos y 32.000 M$ en compromisos de clientes, en su mayoría depósitos en efectivo.",
+    "Más del 75% de la producción del año fiscal 2027 ya está comprometida, y la dirección espera que la oferta siga ajustada hasta 2028.",
+    "Valoración baja respecto a sus beneficios actuales: ~12x el beneficio de los últimos doce meses (84.970 M$) y ~7x el último trimestre anualizado."
+   ],
+   "contras": [
+    "Un margen bruto del 87% es un máximo histórico para la memoria, un producto que históricamente ha sido cíclico. El mercado paga poco precisamente porque descuenta que estos beneficios no se repetirán.",
+    "Competencia china: CXMT anunció un diseño de DRAM para servidores más denso (4F2) para final de año. Micron cayó un 4–5% el 13-oct y SK Hynix un 6%.",
+    "Riesgo legal: Netlist ha presentado quejas ante la Comisión de Comercio Internacional de EE. UU. contra la HBM3E/HBM4 y la DDR5 de Micron, y pide órdenes que podrían bloquear importaciones.",
+    "La propia Micron invierte a un ritmo récord (27.370 M$ en el año fiscal 2026 y ~11.500 M$ solo en el próximo trimestre), con gran parte de la capacidad nueva entrando entre 2028 y 2030. Así es como suelen terminar los ciclos de memoria.",
+    "La memoria ya no es una apuesta escondida: la empresa vale más de 1 billón de dólares tras subir desde 192 $ a 1.255 $ en un año."
+   ],
+   "competencia": {
+    "posicion": "Es el tercer fabricante de DRAM del mundo y el único estadounidense, una ventaja si EE. UU. restringe la memoria china. En HBM compite con SK Hynix, líder del segmento, y con Samsung. Según el análisis citado, su política de limitar las subidas de precio en los contratos (elogiada por Elon Musk) le da fidelidad de clientes a cambio de no capturar todo el precio de mercado.",
+    "rivales": [
+     {
+      "nombre": "SK Hynix",
+      "ticker": "000660.KS",
+      "comentario": "Líder en HBM; según algunos análisis no confirmados, está quitando los techos de precio a sus contratos."
+     },
+     {
+      "nombre": "Samsung Electronics",
+      "ticker": "005930.KS",
+      "comentario": "Mayor productor mundial de memoria; recuperándose en HBM."
+     },
+     {
+      "nombre": "CXMT",
+      "ticker": "(China)",
+      "comentario": "Fabricante chino de DRAM en expansión; su capacidad actual no cubre ni la demanda de China, según Dan, pero es la amenaza a medio plazo."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed (posible subida de tipos tras el IPC de septiembre, 3,7%)",
+     "fecha": "2026-10-28",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Lanzamiento del DRAM de servidor de CXMT",
+     "fecha": "final de 2026",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Resultados del 1T fiscal 2027 (guía de 61.500 M$)",
+     "fecha": "diciembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Resolución de las quejas de Netlist ante la Comisión de Comercio Internacional de EE. UU.",
+     "fecha": "sin fecha",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Posibles restricciones de EE. UU. a la memoria china",
+     "fecha": "sin fecha",
+     "impacto": "positivo"
+    }
+   ],
+   "riesgos": [
+    "Final del ciclo: cuando entre la nueva capacidad (2028–2030) de Micron, SK Hynix, Samsung y CXMT, los precios pueden caer con fuerza.",
+    "Ralentización del gasto en IA, que hoy explica la mayor parte de la demanda de HBM.",
+    "Bloqueo de importaciones por patentes (Netlist).",
+    "Volatilidad muy alta: beta de 2,2."
+   ],
+   "valoracion": {
+    "precio": 912.1,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 12.1,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 379.0,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": null,
+     "alto": null
+    },
+    "comentario": "PER calculado con la capitalización de FMP (~1,03 billones $) sobre el beneficio neto GAAP del año fiscal 2026 (84.970 M$). Con el último trimestre anualizado (37.700 M$ × 4) sería ~6,8x. En memoria, el PER bajo en la cima del ciclo es una señal habitual de que el mercado espera beneficios menores, no de que la acción esté barata. No fijo rango de interés porque depende de cuál sea el margen 'normal' tras el ciclo, y no tengo un dato fiable para estimarlo. Los soportes de 800 y 780–790 $ que da Dan son análisis técnico, no valoración."
+   },
+   "vs_divulgadores": "Coincido con Dan en que los acuerdos plurianuales con precio mínimo, los depósitos de clientes y la demanda de HBM hacen este ciclo distinto de los anteriores, y en que el miedo a CXMT a corto plazo parece exagerado. Las cifras que da (26 acuerdos, 150.000 M$ de pedidos, 32.000 M$ comprometidos, >75% de 2027 vendido) cuadran con las fuentes. Discrepo en dos puntos. 1) 'PER de 10 creciendo 5 veces más que Nvidia' compara un negocio con márgenes en máximos históricos con otros más estables: un PER bajo con márgenes del 87% no garantiza nada si los márgenes vuelven a la mitad. 2) Da por hecho que EE. UU. prohibirá la memoria china, pero es una suposición suya, no una medida anunciada. Tampoco menciona las demandas de Netlist ni el capex récord de la propia Micron. Él mismo no tiene Micron: prefiere el ETF DRAM de Roundhill, que reparte el riesgo entre varios fabricantes, una opción más prudente.",
+   "que_cambiaria_mi_opinion": "Subiría la convicción si: los acuerdos con precio mínimo se amplían más allá del 35% de los ingresos, el margen bruto se mantiene por encima del 70% en los resultados de 2027 pese a CXMT, o EE. UU. restringe la memoria china en centros de datos. La bajaría si: los precios de contrato de DRAM o HBM empiezan a caer, los clientes recortan pedidos o la Comisión de Comercio Internacional falla a favor de Netlist.",
+   "relacion_cartera": "No tienes memoria en cartera. Diversificaría algo tu bloque de IA, que hoy es sobre todo de plataformas (META, GOOGL, AMZN, MSFT) y diseño de chips (AVGO, MRVL), pero sigue dependiendo del mismo gasto en IA. Si te interesa la tesis de la memoria, un ETF como el que usa Dan reduce el riesgo de que un solo fabricante pierda la carrera.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Vídeo del 15-oct-2026 sobre las compras de Brad Gerstner (Altimeter)",
+     "url": "https://www.youtube.com/@dan_fuentes/videos",
+     "fecha": "2026-10-15",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Cranberry Journal",
+     "titulo": "Micron Fiscal Q4 2026 Results: $54.23B Revenue, 87% Gross Margin, $61.5B Guidance",
+     "url": "https://cranberryjournal.com/technology/micron-record-quarter-stock-flat/",
+     "fecha": "2026-09-30",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Frontier // Decoded",
+     "titulo": "Micron Q4 2026: HBM sold forward; 2027 supply pinched through 2028",
+     "url": "https://frontierdecoded.com/story/rep-cpu-20261003",
+     "fecha": "2026-10-03",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Micron Falls 5% as China's CXMT Targets Server Memory",
+     "url": "https://247wallst.com/investing/2026/10/13/micron-falls-5-as-chinas-cxmt-targets-server-memory-sandisk-drops-4/",
+     "fecha": "2026-10-13",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "Timothy Sykes News",
+     "titulo": "Micron Stock Slumps As Legal And China DRAM Threats Mount",
+     "url": "https://timothysykes.com/news/micron-technology-inc-mu-news-2026_10_14",
+     "fecha": "2026-10-14",
+     "postura_autor": "bajista"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner)."
+    }
+   ]
+  },
+  {
+   "id": "lrcx",
+   "ticker": "LRCX",
+   "empresa": "Lam Research",
+   "sector": "ia",
+   "estado": "nueva",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "fecha_creacion": "2026-10-15",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "Líder en equipos de grabado y deposición para fabricar chips, y el proveedor de máquinas más expuesto a la memoria (46% de sus ventas de sistemas). Es un negocio de gran calidad, con márgenes operativos de casi el 40% y un ciclo de inversión en fábricas que la dirección describe como 'extraordinario' para 2027. Ha caído un 38% desde su máximo de 438,5 $, pero a ~273 $ todavía cotiza a unas 32 veces el beneficio del trimestre en curso anualizado. Convicción 3/5: buena empresa, precio razonable pero no barato, y muy cíclica.",
+   "negocio": "Fabrica las máquinas que graban y depositan capas en las obleas de silicio, pasos críticos sobre todo en memoria (NAND y DRAM) y en los chips más avanzados. Además, casi un tercio de sus ingresos son servicios y recambios para la base instalada (2.500 M$ en el último trimestre), un ingreso más estable.",
+   "pros": [
+    "Récord de resultados: 6.720 M$ de ingresos en el trimestre de junio (+30% interanual), margen bruto del 52% y operativo del 38,4%. Guía para el trimestre de septiembre de 8.100 M$ y 2,15 $ por acción.",
+    "La dirección elevó su previsión de inversión mundial en equipos de fabricación (WFE) para 2026 hasta ~150.000 M$ y espera 8–10 fábricas nuevas operativas a finales de 2027.",
+    "Es la más expuesta a la memoria (46% de las ventas de sistemas): si el ciclo de memoria es estructural, como defienden Micron y Dan, Lam es la forma de apostar por todos los fabricantes a la vez.",
+    "Negocio de servicios creciendo un 43% interanual, que suaviza los ciclos."
+   ],
+   "contras": [
+    "Valoración exigente para un negocio cíclico: ~47x el beneficio del año fiscal 2026 y ~32x el trimestre en curso anualizado.",
+    "Dependencia de China (26% de los ingresos en junio, bajando desde el 34%) y riesgo de nuevas restricciones a la exportación o de que los fabricantes chinos de equipos le quiten cuota.",
+    "La dirección admite que es difícil ver más mejoras en la segunda mitad de 2026, y los plazos de cobro se alargan (de 64 a 72 días).",
+    "Si el ciclo de memoria se gira, la inversión en equipos es lo primero que se recorta: es la parte más volátil de la cadena."
+   ],
+   "competencia": {
+    "posicion": "Forma un oligopolio con Applied Materials, Tokyo Electron, KLA y ASML, cada una dominante en distintos pasos del proceso. Lam lidera el grabado, especialmente en memoria 3D NAND; Applied es más diversificada y KLA domina la inspección y medición, con los márgenes más altos.",
+    "rivales": [
+     {
+      "nombre": "Applied Materials",
+      "ticker": "AMAT",
+      "comentario": "La más grande y diversificada (~339.400 M$ de capitalización); también la compra Altimeter según Dan. Ha caído desde 740 $ a ~428 $."
+     },
+     {
+      "nombre": "KLA",
+      "ticker": "KLAC",
+      "comentario": "Líder en control de procesos, menos expuesta a la memoria; ha caído desde 307 $ a ~174 $."
+     },
+     {
+      "nombre": "ASML",
+      "ticker": "ASML",
+      "comentario": "Monopolio en litografía EUV; ya la tienes en cartera."
+     },
+     {
+      "nombre": "Tokyo Electron",
+      "ticker": "8035.T",
+      "comentario": "Competidor directo en grabado y deposición."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del trimestre de septiembre y primera cifra de inversión mundial en equipos para 2027",
+     "fecha": "2026-10-21",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Decisión de la Fed tras el IPC de septiembre (3,7%)",
+     "fecha": "2026-10-28",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Construcción de la 'Terafab' de Elon Musk en Texas (inversión anunciada de 16.800 M$, según Dan)",
+     "fecha": "2027-2028",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Nuevas restricciones de EE. UU. a la venta de equipos a China",
+     "fecha": "sin fecha",
+     "impacto": "negativo"
+    }
+   ],
+   "riesgos": [
+    "Giro del ciclo de memoria: Lam es la más expuesta del sector.",
+    "Pérdida de ventas en China por restricciones o por competidores locales.",
+    "Que el gasto en IA se modere y los fabricantes de chips retrasen fábricas."
+   ],
+   "valoracion": {
+    "precio": 272.56,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 31.7,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 30.0,
+    "margen_operativo_pct": 38.4,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 215,
+     "alto": 250
+    },
+    "comentario": "PER sobre la guía de beneficio por acción del trimestre de septiembre anualizada (2,15 $ × 4 = 8,60 $); sobre el año fiscal 2026 (5,82 $) sería ~47x. Capitalización de ~341.000 M$ (FMP). El rango de interés equivale a 25–29 veces ese beneficio anualizado: un precio razonable para una empresa de esta calidad, con margen por si el ciclo se modera. Los 270–280 $ que da Dan son un soporte técnico, no una valoración."
+   },
+   "vs_divulgadores": "Coincido con Dan en que invertir en quien fabrica las máquinas evita tener que adivinar qué fabricante de memoria gana, y en que la caída del 38% desde máximos devuelve la acción al radar. Discrepo en tres puntos. 1) Las cifras de la 'Terafab' de Elon Musk (16.800 M$, el edificio más grande del mundo) y las compras de Altimeter y Ray Dalio no las he podido verificar con fuentes primarias. Y aunque fueran ciertas, 16.800 M$ es poco frente a un mercado de equipos de ~150.000 M$ al año. 2) No menciona la exposición a China ni la reciente caída de esas ventas. 3) La compara con ASML como si fuera igual de imprescindible, pero ASML tiene un monopolio en EUV; Lam lidera su nicho, pero compite con Applied Materials y Tokyo Electron.",
+   "que_cambiaria_mi_opinion": "Subiría la convicción si: el 21 de octubre da una cifra de inversión en equipos para 2027 claramente por encima de la de 2026 y mantiene el margen operativo cerca del 39%, o si la acción baja a la zona de 215–250 $ sin que cambie el negocio. La bajaría si: los fabricantes de memoria recortan su inversión, China cae por debajo del 20% de los ingresos por restricciones o el margen bruto baja del 50%.",
+   "relacion_cartera": "Tienes ASML, que depende del mismo ciclo de inversión en fábricas. Lam añadiría exposición a ese ciclo, más inclinada a la memoria, así que diversifica poco. Si te interesa el sector de equipos, compáralo antes con ampliar ASML.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Vídeo del 15-oct-2026 sobre las compras de Brad Gerstner (Altimeter)",
+     "url": "https://www.youtube.com/@dan_fuentes/videos",
+     "fecha": "2026-10-15",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Yahoo Finance (GuruFocus)",
+     "titulo": "Lam Research Corp (LRCX) (Q4 2026) Earnings Call Highlights",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/lam-research-corp-lrcx-q4-050153347.html",
+     "fecha": "2026-07-29",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "Why is Lam Research stock plummeting today?",
+     "url": "https://www.investing.com/news/stock-market-news/why-is-lam-research-stock-plummeting-today-93CH-4899266",
+     "fecha": "2026-09-14",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "Stocktwits",
+     "titulo": "LRCX earnings calendar",
+     "url": "https://stocktwits.com/symbol/LRCX/earnings",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner). Incluye Applied Materials y KLA como comparables."
+    }
+   ]
+  },
+  {
    "id": "vst",
    "ticker": "VST",
    "empresa": "Vistra Corp.",
@@ -405,10 +813,17 @@
     },
     "comentario": "Capitalización de ~6.950 M$ (FMP, 15-oct). Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~6,3x ventas con un margen bruto en torno al 30%: sigue siendo exigente para un fabricante de hardware de bajo margen. La ATM de 600 M$ (completada a principios de octubre) supone del orden del 8–9% de la capitalización actual; el número exacto de acciones emitidas no lo he podido verificar. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
    },
-   "vs_divulgadores": "Dan la compara con Ouster, que se disparó cuando EE. UU. restringió los LiDAR chinos. La analogía es débil. El proyecto de ley de los senadores Cornyn, McCormick, Fetterman y Gallego solo prohíbe los transceptores chinos en sistemas sensibles del gobierno federal, no en los centros de datos de los hiperescaladores. Los análisis citados apuntan a que una posible norma de la FCC empezaría en los 3,2T, no en el 800G ni el 1,6T actuales. Además, los primeros beneficiados serían Coherent y Lumentum, por escala. Dan tampoco menciona la fábrica de AAOI en China, sus pérdidas GAAP ni su historial de volatilidad. Es una operación de su cartera 'reto 100K', financiada con la venta de CoreWeave.",
+   "vs_divulgadores": "Dan la compara con Ouster, que se disparó cuando EE. UU. restringió los LiDAR chinos. La analogía es débil. El proyecto de ley de los senadores Cornyn, McCormick, Fetterman y Gallego solo prohíbe los transceptores chinos en sistemas sensibles del gobierno federal, no en los centros de datos de los hiperescaladores. Los análisis citados apuntan a que una posible norma de la FCC empezaría en los 3,2T, no en el 800G ni el 1,6T actuales. Además, los primeros beneficiados serían Coherent y Lumentum, por escala. Dan tampoco menciona la fábrica de AAOI en China, sus pérdidas GAAP ni su historial de volatilidad. Es una operación de su cartera 'reto 100K', financiada con la venta de CoreWeave. Actualización 15-oct: el propio Dan reconoce que AAOI ha caído ~20% desde su compra, que ha tocado su stop de 93 $ y que está pensando en salir. La presenta como lección de tamaño de posición (solo era el 3% de su cartera), un buen enfoque, pero confirma que fue una operación de corto plazo y no una tesis de inversión.",
    "que_cambiaria_mi_opinion": "La reconsideraría si: el margen bruto supera de forma sostenida el 35%, encadena dos trimestres con beneficio GAAP, o las restricciones se amplían a las compras comerciales de centros de datos en EE. UU. con calendario concreto.",
    "relacion_cartera": "No solapa directamente con tus posiciones, pero depende del mismo ciclo de gasto en IA que AVGO, META, AMZN, GOOGL y MSFT. Su volatilidad no encaja con tu horizonte a 10 años.",
    "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Vídeo del 15-oct-2026 sobre las compras de Brad Gerstner (Altimeter)",
+     "url": "https://www.youtube.com/@dan_fuentes/videos",
+     "fecha": "2026-10-15",
+     "postura_autor": "técnica"
+    },
     {
      "canal": "Dan Fuentes",
      "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
@@ -460,6 +875,10 @@
     {
      "fecha": "2026-10-15",
      "cambio": "Refresco semanal: precio 107,32 → 81,87 $ (-24%). Confirmado el riesgo de dilución: ATM de 600 M$ completada, tercera ampliación de 2026. Venta sectorial en ópticas por dudas sobre la financiación del capex de IA. Veredicto No convence y convicción 2 sin cambios."
+    },
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Nueva fuente: Dan admite que AAOI tocó su stop (93 $) y valora salir. Sin cambios de veredicto."
     }
    ]
   }
