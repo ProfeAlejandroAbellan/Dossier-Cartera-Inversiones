@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-10-02",
+ "actualizado": "2026-10-15",
  "aviso": "Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.",
  "tesis": [
   {
@@ -7,12 +7,12 @@
    "ticker": "VST",
    "empresa": "Vistra Corp.",
    "sector": "energia",
-   "estado": "nueva",
+   "estado": "actualizada",
    "veredicto": "Interesante",
    "conviccion": 3,
    "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-02",
-   "resumen": "Productor eléctrico independiente de EE. UU. que ha caído ~35% desde el máximo de 217 $ por el desplome de los precios a plazo en Texas (ERCOT), no por un deterioro del negocio: el EBITDA ajustado del 2T 2026 creció un 30%. A ~140 $ cotiza a unas 13,5 veces el beneficio esperado para 2027 y con una rentabilidad de flujo de caja libre cercana al 9% sobre la guía de 2026. La idea es buena pero menos 'nuclear' de lo que se vende: solo ~6,4 GW de ~39 GW son nucleares, y el resto es gas y venta minorista expuestos a Texas. Convicción 3/5: valoración atractiva y contratos de 20 años, pero el catalizador depende de que Texas conecte la demanda de centros de datos y de que ERCOT recupere precios.",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "Productor eléctrico independiente de EE. UU. que sigue lejos del máximo de 217 $ por la caída de los precios a plazo en Texas (ERCOT), no por un deterioro del negocio: el EBITDA ajustado del 2T 2026 creció un 30%. A 147,6 $ (15-oct, FMP) cotiza a unas 14 veces el BPA esperado para 2027 y con una rentabilidad de flujo de caja libre cercana al 8,7% sobre la guía de 2026. Novedad de la semana: el Departamento de Energía (DOE) ofrece un préstamo condicional de hasta 4.200 M$ para los aumentos de potencia (433 MW) de las nucleares de PJM ligadas al contrato con Meta; abarata la financiación pero no cambia el problema de Texas. La idea es menos 'nuclear' de lo que se vende: solo ~6,4 GW de ~39 GW son nucleares. Convicción 3/5: valoración razonable y contratos largos, pero el precio ya está algo por encima del rango de interés y el catalizador inmediato son los resultados del 6 de noviembre.",
    "negocio": "Tres patas: generación (gas, nuclear, carbón en cierre, solar y baterías; ~38.700 MW), venta minorista de electricidad a ~4,3 millones de clientes (sobre todo en Texas) y comercialización mayorista. Gana dinero con el diferencial entre su coste de generación y el precio de mercado, más contratos a largo plazo. Tiene el 100% de 2026, ~94% de 2027 y ~72% de 2028 cubierto con coberturas, lo que da visibilidad pero retrasa el efecto de cualquier subida de precios.",
    "pros": [
     "Crecimiento operativo real: EBITDA ajustado del 2T 2026 de 1.767 M$ (+30% interanual); guía 2026 de 6.800–7.600 M$ reafirmada.",
@@ -50,13 +50,18 @@
    },
    "catalizadores": [
     {
-     "evento": "Resultados del 3T 2026 y posible actualización del rango de 2027",
-     "fecha": "principios de noviembre 2026",
+     "evento": "Resultados del 3T 2026 y posible actualización de la guía de 2026 y 2027 (la de 2027 podría retrasarse si no ha cerrado Cogentrix)",
+     "fecha": "2026-11-06",
      "impacto": "incierto"
     },
     {
+     "evento": "Préstamo condicional del DOE de hasta 4.200 M$ para aumentos de potencia (433 MW) en Beaver Valley, Davis-Besse y Perry; pendiente de cumplir condiciones antes de la firma",
+     "fecha": "anunciado 2026-10-05; firma sin fecha",
+     "impacto": "positivo"
+    },
+    {
      "evento": "Cierre de la compra de Cogentrix (5,5 GW de gas)",
-     "fecha": "2S 2026 (ya aprobada por la FERC)",
+     "fecha": "finales de 2026 (ya aprobada por la FERC)",
      "impacto": "positivo"
     },
     {
@@ -82,12 +87,12 @@
     "Riesgo operativo nuclear: una parada larga no prevista en una planta contratada."
    ],
    "valoracion": {
-    "precio": 139.75,
+    "precio": 147.6,
     "moneda": "USD",
-    "fecha_precio": "2026-10-02",
-    "per": 13.5,
+    "fecha_precio": "2026-10-15",
+    "per": 14.2,
     "ev_ebit": null,
-    "fcf_yield_pct": 9.2,
+    "fcf_yield_pct": 8.7,
     "crecimiento_ventas_pct": null,
     "margen_operativo_pct": null,
     "deuda_neta_ebitda": 3.5,
@@ -95,7 +100,7 @@
      "bajo": 120,
      "alto": 140
     },
-    "comentario": "PER calculado sobre el consenso de BPA de 2027 (10,38 $) y FCF yield sobre el punto medio de la guía 2026 (4.325 M$) entre la capitalización (47.100 M$). Pagar 11,5–13,5x el BPA de 2027 (120–140 $) da margen si el beneficio sigue revisándose a la baja. Los 18–19x que pide Dan exigen que el mercado deje de verla como una eléctrica, algo poco probable mientras el ~80% de su capacidad sea gas, carbón y retail. Objetivo medio de los analistas: ~218 $ (máximo, Scotiabank: 298 $)."
+    "comentario": "PER calculado sobre el consenso de BPA de 2027 (10,38 $, dato del 2-oct) y FCF yield sobre el punto medio de la guía 2026 (4.325 M$) entre la capitalización de FMP (49.540 M$). Pagar 11,5–13,5x el BPA de 2027 (120–140 $) da margen si el beneficio sigue revisándose a la baja; a 147,6 $ está ligeramente por encima de ese rango. Los 18–19x que pide Dan exigen que el mercado deje de verla como una eléctrica, algo poco probable mientras el ~80% de su capacidad sea gas, carbón y retail. Objetivo medio de mercado según TIKR (9-oct): ~210 $; BMO recortó su objetivo de 231 a 210 $ el 5-oct. La acción subió un 20,5% entre el 30-sep y el 7-oct y cayó un 6,35% el 8-oct por recogida de beneficios e incertidumbre regulatoria en PJM."
    },
    "vs_divulgadores": "Coincido con Dan en que la caída es sobre todo de múltiplo y no de negocio, y en que los contratos de 20 años con Meta son una validación seria. Discrepo en cuatro puntos. 1) Presenta Vistra como 'la segunda nuclear de EE. UU.' y la compara con Constellation como si fueran casi iguales, pero solo ~16% de su capacidad es nuclear: el descuento frente a CEG está bastante justificado. 2) Atribuye el contrato de Comanche Peak a AWS; Vistra no reveló el cliente en el anuncio y solo algunas fuentes posteriores lo atribuyen a Amazon. 3) Exagera Helix: Vistra es socio fundador y socio preferente de energía, pero no hay ningún 'derecho exclusivo' publicado que obligue a Helix a comprarle toda la energía. 4) Las compras de Pelosi y Trump no las he podido verificar. Las de Thiel (~59 M$ a cierre del 2T), Tepper (~2,2 millones de acciones, +10%) y el CEO (~0,9 M$ a ~135 $ el 31-ago y 1-sep) sí cuadran, pero que unos inversores famosos compraran más caro no es un argumento de valoración. Además, Dan no menciona la deuda, ERCOT ni la auditoría de Texas, que son la causa real de la caída. Su stop en 132 $ es gestión de una operación de corto plazo, no una tesis a 10 años.",
    "que_cambiaria_mi_opinion": "Subiría la convicción si: los precios a plazo de ERCOT para 2027–2028 se recuperan por encima de 40 $/MWh, el rango de 2027 se confirma en la mitad o la parte alta en noviembre, o firma un nuevo contrato de más de 1 GW con un hiperescalador. La bajaría si: la deuda neta/EBITDA supera 4x tras Cogentrix, el consenso de BPA de 2027 baja de 9,50 $ o la auditoría de Texas restringe las conexiones de centros de datos.",
@@ -142,12 +147,30 @@
      "url": "https://technode.global/2026/09/29/samsung-invests-1b-in-kkrs-ai-infrastructure-firm-helix-joining-nvidia-vistra/",
      "fecha": "2026-09-29",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "Utility Dive",
+     "titulo": "DOE intends to loan Vistra $4.2B for nuclear fleet improvements",
+     "url": "https://www.utilitydive.com/news/doe-intends-to-loan-vistra-42b-for-nuclear-fleet-improvements/832236/",
+     "fecha": "2026-10-06",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "TIKR",
+     "titulo": "Vistra Stock Fell 6% in a Day After a 20% Run. Here's What Its November 6 Report Needs to Show",
+     "url": "https://www.tikr.com/blog/vistra-stock-fell-6-in-a-day-after-a-20-run-heres-what-its-november-6-report-needs-to-show",
+     "fecha": "2026-10-09",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-02",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026 (primera tesis del agente)."
+    },
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Refresco semanal: precio 139,75 → 147,6 $; PER 2027 ~14,2x y FCF yield ~8,7%. Añadido el préstamo condicional del DOE (4.200 M$) y fijada la fecha de resultados del 3T (6-nov). BMO recorta objetivo a 210 $. Veredicto y convicción sin cambios; el precio queda algo por encima del rango de interés."
     }
    ]
   },
@@ -156,12 +179,12 @@
    "ticker": "CRDO",
    "empresa": "Credo Technology",
    "sector": "ia",
-   "estado": "nueva",
+   "estado": "actualizada",
    "veredicto": "Vigilar",
    "conviccion": 3,
    "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-02",
-   "resumen": "Diseñadora de chips y cables de conexión de alta velocidad para centros de datos de IA que está creciendo a más del 100%, con márgenes de software (~68% bruto non-GAAP). El negocio es excelente; el problema es el precio y la concentración. A ~210 $ ya no está 'rezagada', como dice Dan: ha subido un 24% desde los 170 $ de principios de septiembre y cotiza a unas 16 veces las ventas esperadas para el año fiscal. Convicción 3/5: calidad alta, pero dos clientes suponen el 61% de los ingresos y la volatilidad es extrema.",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "Diseñadora de chips y cables de conexión de alta velocidad para centros de datos de IA que está creciendo a más del 100%, con márgenes muy altos (~68% bruto non-GAAP). El negocio es excelente; el problema era el precio y la concentración. En dos semanas la acción ha pasado de ~210 $ a 177 $ (15-oct, FMP) por la venta generalizada en infraestructura de IA tras los avisos de Broadcom e Intel sobre la financiación del gasto en IA, no por un problema propio. Ya está cerca del rango de interés de 140–170 $, pero sigue cotizando a ~13,5x las ventas esperadas del año fiscal y a ~64x el beneficio de los últimos 12 meses. Convicción 3/5: calidad alta, pero dos clientes suponen el 61% de los ingresos y la volatilidad es extrema; la caída de esta semana confirma que se mueve con el sentimiento sobre el capex de IA.",
    "negocio": "Vende circuitos SerDes y DSP, cables eléctricos activos (AEC, su producto estrella para conectar servidores de IA dentro del rack), chiplets y licencias de propiedad intelectual. Con la compra de DustPhotonics entra en fotónica de silicio. Para el año fiscal 2027 apunta a más de 600 M$ en productos ópticos, además de los cables.",
    "pros": [
     "Crecimiento explosivo y rentable: ingresos del 1T fiscal 2027 de 479 M$ (+115% interanual), margen operativo non-GAAP del 48% y beneficio GAAP de 129 M$.",
@@ -202,6 +225,11 @@
      "impacto": "incierto"
     },
     {
+     "evento": "Sentimiento sobre la financiación del capex de IA tras los avisos de los CEO de Broadcom e Intel (12-oct)",
+     "fecha": "en curso",
+     "impacto": "negativo"
+    },
+    {
      "evento": "Despliegue de 1,6T y adopción de AEC en nuevas generaciones de racks de IA",
      "fecha": "2026-2027",
      "impacto": "positivo"
@@ -218,10 +246,10 @@
     "Sede legal en Islas Caimán y parte de la producción y ventas en Asia: riesgo arancelario y geopolítico."
    ],
    "valoracion": {
-    "precio": 210.17,
+    "precio": 177.11,
     "moneda": "USD",
-    "fecha_precio": "2026-10-02",
-    "per": null,
+    "fecha_precio": "2026-10-15",
+    "per": 63.8,
     "ev_ebit": null,
     "fcf_yield_pct": null,
     "crecimiento_ventas_pct": 114.7,
@@ -231,7 +259,7 @@
      "bajo": 140,
      "alto": 170
     },
-    "comentario": "Capitalización de ~39.200 M$ sobre ≥2.470 M$ de ventas del año fiscal 2027: ~16x ventas. Anualizar el BPA non-GAAP del 1T (1,20 $ × 4 = 4,80 $) da ~44x; con el crecimiento previsto el PER de 12 meses vista sería menor, pero no lo he podido verificar con estimaciones de consenso. El margen operativo indicado es non-GAAP. Entre 140 y 170 $ (niveles de septiembre) el riesgo/beneficio sería más razonable. Objetivo de los analistas tras los resultados: 235–310 $."
+    "comentario": "Capitalización de ~33.290 M$ (FMP, 15-oct) sobre ≥2.470 M$ de ventas del año fiscal 2027: ~13,5x ventas. El PER es el de los últimos 12 meses según MarketBeat (63,8x); anualizar el BPA non-GAAP del 1T (1,20 $ × 4 = 4,80 $) da ~37x. El margen operativo indicado es non-GAAP. Entre 140 y 170 $ (niveles de septiembre) el riesgo/beneficio sería más razonable; a 177 $ está a menos de un 5% del techo de ese rango. Objetivo medio de los analistas según MarketBeat: ~263 $ (Stifel 310 $, Rosenblatt 235 $ neutral)."
    },
    "vs_divulgadores": "Dan la compra como 'la rezagada' de la fotónica frente a Lumentum y Marvell, y por las posibles restricciones a los transceptores chinos. Coincido en la calidad del negocio. Discrepo en el argumento principal: las restricciones que se tramitan (proyecto de ley bipartidista del Senado) afectan solo a sistemas del gobierno federal, y los análisis apuntan a que afectarían a los futuros 3,2T, no al despliegue actual de 800G y 1,6T. Además, Credo no fabrica transceptores completos: le beneficiaría de forma indirecta y menor que a Coherent o Lumentum. Dan tampoco menciona la concentración de clientes ni la caída del margen GAAP. Es una compra de su cartera 'reto 100K', orientada al corto plazo.",
    "que_cambiaria_mi_opinion": "Pasaría a 'Interesante' si: cumple la guía de diciembre con un margen bruto non-GAAP ≥67% y el mayor cliente baja del 30% de los ingresos, o si la acción vuelve a la zona de 140–170 $ sin deterioro del negocio. La bajaría si un hiperescalador grande anuncia el paso a CPO sin cables activos o si recorta la guía anual.",
@@ -264,12 +292,30 @@
      "url": "https://benzinga.com/trading-ideas/movers/26/10/62117250/lumentum-coherent-rip-higher-as-washington-targets-chinese-optical-transceivers",
      "fecha": "2026-10-01",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "MarketBeat",
+     "titulo": "Credo Technology Group (NASDAQ:CRDO) Shares Down 9.6% After Insider Selling",
+     "url": "https://www.marketbeat.com/instant-alerts/price-credo-technology-group-nasdaq-crdo-shares-down-96-after-insider-selling-2026-10-14/",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Applied Optoelectronics Dives 9% as AI Funding Fears Hit Optical Stocks",
+     "url": "https://247wallst.com/investing/2026/10/14/applied-optoelectronics-dives-9-as-ai-funding-fears-hit-optical-stocks-coherent-slides-7-lumentum-drops-7/",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-02",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
+    },
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Refresco semanal: precio 210,17 → 177,11 $ (-16%) por la venta sectorial en IA; ya cerca del rango de interés 140–170 $. Venta del CFO (7.580 acciones a 212,91 $, plan 10b5-1) poco relevante. Veredicto Vigilar y convicción 3 sin cambios; si entra en el rango sin deterioro operativo, se reevaluará tras los resultados de diciembre."
     }
    ]
   },
@@ -278,12 +324,12 @@
    "ticker": "AAOI",
    "empresa": "Applied Optoelectronics",
    "sector": "ia",
-   "estado": "nueva",
+   "estado": "actualizada",
    "veredicto": "No convence",
    "conviccion": 2,
    "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-02",
-   "resumen": "Fabricante de transceptores ópticos y equipos de cable con sede en Texas que está creciendo rápido (+86% interanual) gracias al 800G. La tesis de Dan es que se beneficiará si EE. UU. restringe los transceptores chinos. Me parece una apuesta especulativa: el margen bruto es bajo (~30%), sigue perdiendo dinero en términos GAAP, tiene producción en Ningbo (China) y las restricciones en tramitación son más estrechas de lo que se vende. Convicción 2/5.",
+   "fecha_actualizacion": "2026-10-15",
+   "resumen": "Fabricante de transceptores ópticos y equipos de cable con sede en Texas que está creciendo rápido (+86% interanual) gracias al 800G. La tesis de Dan es que se beneficiará si EE. UU. restringe los transceptores chinos. Esta semana se ha confirmado el riesgo de dilución que señalaba la tesis: la empresa ha completado una venta de acciones en mercado (ATM) de 600 M$, la tercera gran ampliación de 2026, y la acción ha caído a 81,9 $ (15-oct, FMP) desde 107 $ a principios de mes, arrastrada además por la venta en valores ópticos. Sigue con margen bruto bajo (~28–30%), pérdidas GAAP y producción en Ningbo (China). Convicción 2/5: la caída no la hace más atractiva porque el problema es la calidad del negocio y la financiación con acciones, no el precio.",
    "negocio": "Diseña y fabrica láseres, subconjuntos y transceptores ópticos para centros de datos (56% de los ingresos del 2T 2026) y equipos para redes de televisión por cable (42%). Tiene fábricas en Sugar Land (Texas), Taipéi y Ningbo, y está ampliando capacidad de 800G y 1,6T hasta ~650.000 unidades al mes a final de 2026.",
    "pros": [
     "Crecimiento fuerte: ingresos del 2T 2026 de 191,9 M$ (+86% interanual), quinto trimestre récord, y guía del 3T de 255–290 M$.",
@@ -292,7 +338,7 @@
    ],
    "contras": [
     "Margen bruto bajo y a la baja: 27,7% GAAP (30,3% hace un año). Es un fabricante de producto casi indiferenciado frente a Innolight o Eoptolink, que tienen más escala y menores costes.",
-    "Sigue en pérdidas GAAP (-22,8 M$ en el 2T) y la caja pasó de 216 a 509 M$ en seis meses sin generar beneficio contable. Eso apunta a financiación externa (emisión de acciones o convertibles), así que hay que vigilar la dilución.",
+    "Sigue en pérdidas GAAP (-22,8 M$ en el 2T) y se financia con acciones: en octubre completó una venta de acciones en mercado (ATM) de 600 M$, la tercera gran ampliación de 2026. El crecimiento lo pagan en parte los accionistas con dilución.",
     "Tiene fábrica en Ningbo (China), lo que debilita el argumento de 'proveedor 100% doméstico'.",
     "Volatilidad extrema: beta ~3,8 y rango anual de 18,5 a 233,7 $. Es más una operación que una inversión."
    ],
@@ -318,9 +364,14 @@
    },
    "catalizadores": [
     {
-     "evento": "Resultados del 3T 2026 (guía de 255–290 M$)",
+     "evento": "Resultados del 3T 2026 (guía de 255–290 M$) y número de acciones tras la ATM de 600 M$",
      "fecha": "principios de noviembre 2026",
      "impacto": "incierto"
+    },
+    {
+     "evento": "Sentimiento sobre la financiación del capex de IA tras los avisos de los CEO de Broadcom e Intel (12-oct)",
+     "fecha": "en curso",
+     "impacto": "negativo"
     },
     {
      "evento": "Tramitación del proyecto de ley del Senado contra transceptores chinos en sistemas federales",
@@ -339,9 +390,9 @@
     "Dependencia de pocos clientes grandes (dato no publicado en el último informe) y de la continuidad del gasto en IA."
    ],
    "valoracion": {
-    "precio": 107.32,
+    "precio": 81.87,
     "moneda": "USD",
-    "fecha_precio": "2026-10-02",
+    "fecha_precio": "2026-10-15",
     "per": null,
     "ev_ebit": null,
     "fcf_yield_pct": null,
@@ -352,7 +403,7 @@
      "bajo": null,
      "alto": null
     },
-    "comentario": "Capitalización de ~8.600 M$. Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~8x ventas con un margen bruto del 30%: un múltiplo exigente para un fabricante de hardware de bajo margen. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
+    "comentario": "Capitalización de ~6.950 M$ (FMP, 15-oct). Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~6,3x ventas con un margen bruto en torno al 30%: sigue siendo exigente para un fabricante de hardware de bajo margen. La ATM de 600 M$ (completada a principios de octubre) supone del orden del 8–9% de la capitalización actual; el número exacto de acciones emitidas no lo he podido verificar. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
    },
    "vs_divulgadores": "Dan la compara con Ouster, que se disparó cuando EE. UU. restringió los LiDAR chinos. La analogía es débil. El proyecto de ley de los senadores Cornyn, McCormick, Fetterman y Gallego solo prohíbe los transceptores chinos en sistemas sensibles del gobierno federal, no en los centros de datos de los hiperescaladores. Los análisis citados apuntan a que una posible norma de la FCC empezaría en los 3,2T, no en el 800G ni el 1,6T actuales. Además, los primeros beneficiados serían Coherent y Lumentum, por escala. Dan tampoco menciona la fábrica de AAOI en China, sus pérdidas GAAP ni su historial de volatilidad. Es una operación de su cartera 'reto 100K', financiada con la venta de CoreWeave.",
    "que_cambiaria_mi_opinion": "La reconsideraría si: el margen bruto supera de forma sostenida el 35%, encadena dos trimestres con beneficio GAAP, o las restricciones se amplían a las compras comerciales de centros de datos en EE. UU. con calendario concreto.",
@@ -385,12 +436,30 @@
      "url": "https://www.mccormick.senate.gov/news/press-releases/senators-mccormick-gallego-cornyn-fetterman-introduce-bill-to-keep-chinese-transceivers-out-of-u-s-national-security-systems/",
      "fecha": "2026-09",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "TipRanks",
+     "titulo": "Applied Optoelectronics Plunges After Surprise Equity Raise",
+     "url": "https://www.tipranks.com/news/catalyst/applied-optoelectronics-plunges-after-surprise-equity-raise",
+     "fecha": "2026-10-12",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Applied Optoelectronics Dives 9% as AI Funding Fears Hit Optical Stocks",
+     "url": "https://247wallst.com/investing/2026/10/14/applied-optoelectronics-dives-9-as-ai-funding-fears-hit-optical-stocks-coherent-slides-7-lumentum-drops-7/",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-02",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
+    },
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Refresco semanal: precio 107,32 → 81,87 $ (-24%). Confirmado el riesgo de dilución: ATM de 600 M$ completada, tercera ampliación de 2026. Venta sectorial en ópticas por dudas sobre la financiación del capex de IA. Veredicto No convence y convicción 2 sin cambios."
     }
    ]
   }
