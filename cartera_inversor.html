@@ -118,6 +118,10 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 .sfil{padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
 .sfil:hover{border-color:var(--accent);color:var(--accent)}
 .sfil.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.sfil-agente{border-color:rgba(212,175,55,.55);color:var(--gold)}
+.sfil-agente.active{background:var(--gold);border-color:var(--gold);color:#0B1120}
+#ag-count{margin-left:5px;font-size:10px;padding:0 6px;border-radius:10px;background:rgba(212,175,55,.18)}
+.sfil-agente.active #ag-count{background:rgba(11,17,32,.2)}
 .ttab.buy-zone{border-color:rgba(34,197,94,0.6)!important;color:#4ade80!important;box-shadow:0 0 8px rgba(34,197,94,0.25)}
 .ttab.buy-zone::after{content:' 🟢';font-size:9px}
 .ttab:hover{border-color:rgba(212,175,55,0.4);color:var(--text)}
@@ -270,8 +274,9 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   </div>
   <div id="thesis-tabs">
     <!-- Sector filter bar -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
+    <div id="sector-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
       <button class="sfil active" onclick="filterSector('all',this)">Todos</button>
+      <button class="sfil sfil-agente" onclick="filterSector('agente',this)">🧠 Tesis del agente<span id="ag-count"></span></button>
       <button class="sfil" onclick="filterSector('ia',this)">🤖 IA & Semis</button>
       <button class="sfil" onclick="filterSector('salud',this)">🏥 Salud</button>
       <button class="sfil" onclick="filterSector('defensa',this)">🛡️ Defensa</button>
@@ -339,7 +344,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 #agente-tesis a{color:var(--blue-text)}
 @media(max-width:640px){#agente-tesis .ag-2c{grid-template-columns:1fr}}
 </style>
-<div id="agente-tesis" class="card" style="margin-top:1rem">
+<div id="agente-tesis" class="card" style="display:none">
   <div class="ag-head"><div class="sl" style="margin:0;flex:1">🤖 Tesis del agente · ideas de divulgadores</div><span id="ag-fecha" style="font-size:11px;color:var(--text3)"></span></div>
   <div class="ag-aviso" id="ag-aviso">Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.</div>
   <div class="ag-fil" id="ag-fil"></div>
@@ -411,6 +416,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   }
   fetch('tesis_auto.json?v='+Date.now()).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}).then(d=>{
     DATA=Array.isArray(d.tesis)?d.tesis:[];
+    const n=DATA.filter(t=>t.estado!=='descartada').length,c=document.getElementById('ag-count');if(c)c.textContent=n||'';
     document.getElementById('ag-fecha').textContent=d.actualizado?'Actualizado '+d.actualizado:'';
     if(d.aviso)document.getElementById('ag-aviso').textContent=d.aviso;
     pintar();
@@ -2115,6 +2121,8 @@ La razón por la que Allianz no cotiza a PE más alto es precisamente lo que la 
 };
 
 function showT(key,btn){
+  const _at=document.getElementById('agente-tesis');
+  if(_at&&_at.style.display!=='none')filterSector('all',document.querySelector('#sector-bar .sfil'));
   if(btn){document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
   else{document.querySelectorAll('.ttab').forEach(t=>{if(t.onclick&&t.onclick.toString().includes("'"+key+"'"))t.classList.add('active');else t.classList.remove('active');});}
   const t=TH[key];if(!t)return;
@@ -2329,8 +2337,14 @@ document.addEventListener('click',function(e){
 
 // ── SECTOR FILTER ─────────────────────────────────────────────────────
 function filterSector(sector,btn){
-  document.querySelectorAll('.sfil').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#sector-bar .sfil').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
+  const ag=sector==='agente';
+  const tl=document.getElementById('thesis-tab-list'),tc=document.getElementById('thesis-content'),at=document.getElementById('agente-tesis');
+  if(tl)tl.style.display=ag?'none':'';
+  if(tc)tc.style.display=ag?'none':'';
+  if(at)at.style.display=ag?'':'none';
+  if(ag)return;
   document.querySelectorAll('#thesis-tab-list .ttab').forEach(t=>{
     if(sector==='all')t.style.display='';
     else if(sector==='cartera')t.style.display=t.classList.contains('in-cartera')?'':'none';
