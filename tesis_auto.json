@@ -1,7 +1,1132 @@
 {
- "actualizado": "2026-10-15",
+ "actualizado": "2026-10-18",
  "aviso": "Contenido generado automáticamente por IA a partir de vídeos públicos y datos de mercado. No es recomendación de inversión.",
  "tesis": [
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "ms",
+   "ticker": "MS",
+   "empresa": "Morgan Stanley",
+   "veredicto": "Interesante",
+   "conviccion": 4,
+   "resumen": "El banco de inversión con el negocio más estable: la gestión de patrimonios ya pesa casi la mitad de los ingresos y acaba de captar un récord de 232.000 M$ de dinero nuevo en un trimestre. Rentabilidad sobre capital tangible del 22,6% y unas 14,8 veces el beneficio anualizado. Cayó un 3% tras batir previsiones. Convicción 4/5: calidad alta a precio razonable; la mejor de la lista junto a JPMorgan.",
+   "negocio": "Tres negocios: gestión de patrimonios (9.100 M$ de ingresos en el 3T, margen del 30,4%), banca institucional (asesoramiento, emisiones, trading; 10.000 M$) y gestión de activos (1.500 M$). Los activos de clientes suman 10,5 billones de dólares.",
+   "pros": [
+    "Resultados del 3T 2026 por encima del consenso: ingresos de 20.340 M$ y BPA de 3,03 $; ROTCE del 22,6%, quinto trimestre seguido por encima del 20%.",
+    "Gestión de patrimonios récord: 232.000 M$ de captación neta en el trimestre y ~500.000 M$ en el año; ingresos recurrentes que suavizan los ciclos.",
+    "Capital holgado: CET1 del 14,9% con ~300 pb de exceso; recompras de 1.500 M$ en el trimestre."
+   ],
+   "contras": [
+    "La renta variable (+41%) vive un pico difícil de repetir; la banca de inversión solo creció un 2%.",
+    "El margen de intereses de patrimonios baja ligeramente y los analistas están recortando objetivos (consenso de 224,75 $ a 215,67 $ en un mes)."
+   ],
+   "competencia": {
+    "posicion": "Líder mundial en gestión de patrimonios por asesor, por delante de Goldman en estabilidad de ingresos. En banca de inversión compite con Goldman y JPMorgan.",
+    "rivales": [
+     {
+      "nombre": "Goldman Sachs",
+      "ticker": "GS",
+      "comentario": "Más dependiente del trading y la banca de inversión."
+     },
+     {
+      "nombre": "JPMorgan",
+      "ticker": "JPM",
+      "comentario": "Más diversificado, con banca comercial y de consumo."
+     },
+     {
+      "nombre": "Charles Schwab",
+      "ticker": "SCHW",
+      "comentario": "Rival en patrimonios de clientes autónomos; más barato pero con más riesgo de margen."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed tras el IPC del 3,7%",
+     "fecha": "2026-10-28",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Resultados del 4T 2026",
+     "fecha": "mediados de enero 2027",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Corrección de mercado: reduce comisiones sobre activos y trading a la vez.",
+    "Normalización del trading de renta variable tras un trimestre récord."
+   ],
+   "valoracion": {
+    "precio": 179.79,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 14.8,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 160,
+     "alto": 170
+    },
+    "comentario": "PER sobre el BPA del 3T anualizado (3,03 × 4 = 12,12 $). Rango de interés = 13–14 veces ese beneficio. Mínimo anual 152,8 $. Consenso 215,67 $ (Mantener, 27 analistas)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La bajaría si la captación neta de patrimonios cae por debajo de 100.000 M$ por trimestre o si el ROTCE baja del 18%. La subiría a la zona de 160–170 $ sin deterioro del negocio.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Es la candidata más defensiva del sector.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "Morgan Stanley Q3 2026 earnings call transcript",
+     "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-morgan-stanley-beats-q3-2026-estimates-shares-fall-93CH-4949662",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "MarketBeat",
+     "titulo": "Morgan Stanley price target consensus",
+     "url": "https://www.marketbeat.com/stocks/NYSE/MS/price-target/",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "jpm",
+   "ticker": "JPM",
+   "empresa": "JPMorgan Chase",
+   "veredicto": "Interesante",
+   "conviccion": 4,
+   "resumen": "El banco más grande y diversificado de EE. UU. y líder mundial en comisiones de banca de inversión. Beneficio récord de 15.300 M$ en el 3T con ROTCE del 20%, aunque el BPA quedó por debajo del consenso. A unas 14 veces el beneficio de 2026 y con ~30.000 M$ de capital sobrante, es una forma de calidad de entrar en el sector. Convicción 4/5.",
+   "negocio": "Banca de consumo (21.200 M$ de ingresos en el 3T), banca corporativa y de inversión (22.700 M$) y gestión de patrimonios (6.900 M$). Ingresos totales de unos 50.900 M$ trimestrales.",
+   "pros": [
+    "Diversificación única: si se frena la banca de inversión, el margen de intereses y el consumo sostienen el beneficio.",
+    "Banca de inversión +14% y renta variable +49% en el 3T; captación de 51.000 M$ en gestión de activos.",
+    "Unos 30.000 M$ de capital sobrante según Dimon; previsión de margen de intereses sin mercados de ~107.000 M$ en 2027."
+   ],
+   "contras": [
+    "Gastos +12% interanual y provisiones de 2.700 M$: la morosidad sube.",
+    "Ha reducido mucho las recompras para priorizar crecimiento; BPA por debajo del consenso en el 3T."
+   ],
+   "competencia": {
+    "posicion": "Referencia del sector por escala y rentabilidad sostenida (objetivo del 17% de ROTCE a lo largo del ciclo, hoy en el 20%).",
+    "rivales": [
+     {
+      "nombre": "Bank of America",
+      "ticker": "BAC",
+      "comentario": "Más sensible a tipos; falló previsiones este trimestre."
+     },
+     {
+      "nombre": "Morgan Stanley",
+      "ticker": "MS",
+      "comentario": "Más rentable sobre capital, menos diversificado."
+     },
+     {
+      "nombre": "Goldman Sachs",
+      "ticker": "GS",
+      "comentario": "Más puro en banca de inversión y trading."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Resultados del 4T 2026 y guía de 2027",
+     "fecha": "mediados de enero 2027",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Aumento de la morosidad en tarjetas (previsión de ~3,2% de fallidos en 2027).",
+    "Sucesión de Jamie Dimon a medio plazo."
+   ],
+   "valoracion": {
+    "precio": 334.37,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 13.9,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 300,
+     "alto": 315
+    },
+    "comentario": "PER sobre el BPA estimado de 2026 (24,13 $). Rango de interés = 12,5–13 veces ese beneficio. Consenso 363–372 $ según la fuente."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La bajaría si las provisiones de crédito superan los 3.500 M$ trimestrales o el ROTCE cae del 17%. Entraría con más convicción en 300–315 $.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Aporta además exposición al consumo y a la banca comercial estadounidense.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "JPMorgan Q3 2026 earnings call transcript",
+     "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-jpmorgan-chase-misses-q3-2026-forecasts-as-profits-stay-strong-93CH-4946956",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Beinsure",
+     "titulo": "JPMorgan Chase stock forecast after earnings miss",
+     "url": "https://beinsure.com/news/jpmorgan-chase-stock-forecast-earnings-miss/",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "gs",
+   "ticker": "GS",
+   "empresa": "Goldman Sachs",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "resumen": "Segundo mejor trimestre de su historia: 18.680 M$ de ingresos (+23%), BPA de 17,01 $ y ROE del 18,7%, con la renta variable disparada un 72%. Pero la cartera de operaciones pendientes ha bajado y el precio ya paga 2,37 veces el valor contable. Convicción 3/5: gran franquicia, mejor comprarla más cerca de 2 veces su valor contable.",
+   "negocio": "Banca de inversión (3.224 M$ de comisiones en el 3T), mercados (renta variable 6.441 M$, renta fija 3.471 M$) y gestión de activos y patrimonios (5.051 M$, 4,1 billones supervisados).",
+   "pros": [
+    "Asesoramiento récord (1.654 M$, +18%) y salidas a bolsa y ampliaciones +43%.",
+    "Gestión de activos y patrimonios creciendo un 14% con comisiones récord: más ingresos recurrentes.",
+    "Dividendo +25% (5 $ por trimestre) y recompras de 3.000 M$."
+   ],
+   "contras": [
+    "Cartera de operaciones pendientes por debajo de junio y de finales de 2025; las fusiones mundiales cayeron un 41% trimestral.",
+    "CET1 bajando del 12,9% al 12,4%; consenso «Mantener» con recortes de objetivo de Citi y KBW esta semana."
+   ],
+   "competencia": {
+    "posicion": "Número uno mundial en asesoramiento de fusiones; más dependiente del ciclo que Morgan Stanley y JPMorgan.",
+    "rivales": [
+     {
+      "nombre": "Morgan Stanley",
+      "ticker": "MS",
+      "comentario": "Más estable gracias a patrimonios."
+     },
+     {
+      "nombre": "JPMorgan",
+      "ticker": "JPM",
+      "comentario": "Más diversificado."
+     },
+     {
+      "nombre": "Evercore",
+      "ticker": "EVR",
+      "comentario": "Boutique de asesoramiento pura, más volátil."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Resultados del 4T 2026",
+     "fecha": "mediados de enero 2027",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Normalización del trading tras un trimestre récord.",
+    "Tipos altos que frenen fusiones y salidas a bolsa.",
+    "Ruido sobre la sucesión del CEO."
+   ],
+   "valoracion": {
+    "precio": 882.15,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": null,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 750,
+     "alto": 800
+    },
+    "comentario": "Cotiza a 2,37 veces el valor contable (372,64 $ por acción). Rango de interés = 2,0–2,15 veces. BPA del 3T anualizado ~68 $ (≈13x), pero inflado por el trading. Consenso 1.050,55 $ (Mantener)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si la cartera de operaciones vuelve a crecer en el 4T o si el precio baja a 750–800 $. La bajaría si la renta variable cae más de un 30% sin compensación en banca de inversión.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Es la más cíclica de los grandes bancos.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Goldman Sachs",
+     "titulo": "Third Quarter 2026 Earnings Results",
+     "url": "https://www.goldmansachs.com/pressroom/press-releases/2026/2026-10-13-q3-results",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "SEC",
+     "titulo": "3Q26 GS Earnings Results",
+     "url": "https://www.sec.gov/Archives/edgar/data/886982/000088698226000529/a3q26gsearningsresults.htm",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Defense World / MarketBeat",
+     "titulo": "Citigroup cuts Goldman Sachs target to $1,000",
+     "url": "https://www.defenseworld.net/2026/10/15/the-goldman-sachs-group-nysegs-price-target-cut-to-1000-00-by-analysts-at-citigroup.html",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "evr",
+   "ticker": "EVR",
+   "empresa": "Evercore",
+   "veredicto": "Vigilar",
+   "conviccion": 2,
+   "resumen": "La boutique de asesoramiento más pura: la primera en notar un frenazo de las fusiones y la que más sube cuando se reactivan. Está en mínimos de 52 semanas (254,6 $, -35% desde 388,7 $), a unas 11,4 veces el beneficio estimado de 2027, pero las estimaciones se están recortando rápido. Convicción 2/5: esperar a sus resultados de noviembre.",
+   "negocio": "Asesoramiento en fusiones y reestructuraciones (776 M$ en el 2T), aseguramiento de emisiones y research/trading institucional; pequeña gestión de patrimonios.",
+   "pros": [
+    "Ingresos del 2T +19% (990 M$) con aseguramiento +201%.",
+    "Valoración baja respecto al ciclo: ~13,8x BPA 2026e y ~11,4x 2027e; 823 M$ devueltos al accionista en el año."
+   ],
+   "contras": [
+    "Estimaciones en caída: BPA del 3T de 3,70 a 2,84 $ en una semana; Zacks la califica de «Venta fuerte».",
+    "La retribución al personal se lleva el 64% de los ingresos y el BPA del 2T (2,91 $) quedó por debajo de lo esperado."
+   ],
+   "competencia": {
+    "posicion": "Líder entre las boutiques independientes, compitiendo con los grandes bancos por mandatos de asesoramiento.",
+    "rivales": [
+     {
+      "nombre": "Goldman Sachs",
+      "ticker": "GS",
+      "comentario": "Líder mundial en asesoramiento."
+     },
+     {
+      "nombre": "Lazard",
+      "ticker": "LAZ",
+      "comentario": "Boutique comparable."
+     },
+     {
+      "nombre": "PJT Partners",
+      "ticker": "PJT",
+      "comentario": "Especialista en reestructuraciones."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Resultados del 3T 2026",
+     "fecha": "principios de noviembre 2026",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Tipos altos durante más tiempo frenan las operaciones.",
+    "Que el recorte de estimaciones continúe y abarate solo en apariencia la acción."
+   ],
+   "valoracion": {
+    "precio": 254.59,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 11.4,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 225,
+     "alto": 245
+    },
+    "comentario": "PER sobre el BPA estimado de 2027 (22,27 $, Zacks). Rango de interés = 10–11 veces ese beneficio, que bajaría si siguen los recortes. Consenso 328 $ (TipRanks, 10-oct)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si en noviembre bate el BPA de 2,84 $ y la cartera de mandatos crece. La bajaría si el BPA de 2027 baja de 20 $.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Es la apuesta más directa a una recuperación de las fusiones.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Evercore",
+     "titulo": "Second Quarter 2026 Results",
+     "url": "https://investors.evercore.com/news-releases/news-release-details/evercore-reports-second-quarter-2026-results-quarterly-dividend",
+     "fecha": "2026-07-29",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Zacks (TradingView)",
+     "titulo": "Bear of the Day: Evercore",
+     "url": "https://www.tradingview.com/news/zacks:c94417230094b:0-bear-of-the-day-evercore-evr/",
+     "fecha": "2026-10",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "TipRanks",
+     "titulo": "Evercore forecast",
+     "url": "https://www.tipranks.com/stocks/evr/forecast",
+     "fecha": "2026-10-10",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "ibkr",
+   "ticker": "IBKR",
+   "empresa": "Interactive Brokers",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "resumen": "El mejor negocio de la lista: cuentas +35%, 964.700 M$ de patrimonio de clientes y un margen antes de impuestos del 77%. Remunera el efectivo, lo que ayuda a captar clientes, pero sin regalar margen (no paga por los primeros 10.000). El problema es el precio: ~32,6 veces el beneficio esperado frente a 22 de media en cinco años. Convicción 3/5.",
+   "negocio": "Bróker electrónico global para particulares, asesores y fondos: comisiones de operaciones, intereses sobre saldos y préstamos con margen, y préstamo de valores.",
+   "pros": [
+    "Crecimiento de cuentas del 35% interanual (5,58 millones) y préstamos con margen +36%.",
+    "Eficiencia excepcional: margen antes de impuestos del 77% en el 2T y BPA de 0,69 $.",
+    "Remunera el efectivo con condiciones que protegen su margen (BM − 0,5% por encima de 10.000 y con patrimonio > 100.000)."
+   ],
+   "contras": [
+    "Valoración exigente: ~32,6x beneficio esperado frente a 22,4 de media en cinco años.",
+    "Las operaciones diarias solo crecieron un 6% en septiembre (36% en el 2T) y el margen de intereses bajó del 2,07% al 1,93%."
+   ],
+   "competencia": {
+    "posicion": "Referencia mundial en costes y amplitud de mercados; gana cuota entre inversores activos fuera de EE. UU.",
+    "rivales": [
+     {
+      "nombre": "Charles Schwab",
+      "ticker": "SCHW",
+      "comentario": "Más grande en EE. UU., menos internacional."
+     },
+     {
+      "nombre": "Robinhood",
+      "ticker": "HOOD",
+      "comentario": "Más orientado al inversor joven."
+     },
+     {
+      "nombre": "flatexDEGIRO",
+      "ticker": "FTK.DE",
+      "comentario": "Competidor en Europa."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026",
+     "fecha": "14–15 oct 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Corrección del mercado: caen a la vez operativa, préstamos y patrimonio.",
+    "Bajadas de tipos que reduzcan el margen de intereses."
+   ],
+   "valoracion": {
+    "precio": 83.88,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 32.6,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 65,
+     "alto": 72
+    },
+    "comentario": "PER sobre el beneficio esperado (~2,58 $ implícito). Rango de interés = 25–28 veces ese beneficio. Mínimo anual 58,95 $. Consenso 105,19 $ (Comprar, 14 analistas). Resultados del 3T recién publicados: revisar."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "Entraría en 65–72 $ si el crecimiento de cuentas se mantiene por encima del 25%. La bajaría si las cuentas crecen menos del 15% o el margen antes de impuestos baja del 70%.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Es el bróker de mayor calidad si se consigue a mejor precio.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Finance Magnates",
+     "titulo": "IBKR September 2026 metrics",
+     "url": "https://www.financemagnates.com/forex/interactive-brokers-reports-56m-client-accounts-in-september-darts-at-41m/",
+     "fecha": "2026-10-01",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Yahoo Finance",
+     "titulo": "IBKR trading above its 5-year valuation",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/interactive-brokers-ibkr-trading-above-221925745.html",
+     "fecha": "2026-10-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Interactive Brokers",
+     "titulo": "Interest rates",
+     "url": "https://www.interactivebrokers.ie/en/accounts/fees/pricing-interest-rates.php",
+     "fecha": "2026-09-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "IBKR consensus estimates",
+     "url": "https://www.investing.com/equities/interactive-broke-consensus-estimates",
+     "fecha": "2026-10",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "schw",
+   "ticker": "SCHW",
+   "empresa": "Charles Schwab",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "resumen": "El mayor bróker de EE. UU. por activos, con ingresos récord de 7.170 M$ (+17%) y BPA ajustado de 1,69 $ (+29%) en el 3T, pero cayó un 4% por quedarse algo corto en ingresos y por la salida de efectivo de clientes hacia productos mejor remunerados. Cotiza a unas 13,8 veces el beneficio anualizado. Convicción 3/5.",
+   "negocio": "Bróker y banco para inversores particulares y asesores independientes; algo más de la mitad del beneficio procede de intereses sobre el efectivo de clientes.",
+   "pros": [
+    "Captación neta de 190.400 M$ en el trimestre y apalancamiento operativo de unos 800 pb en 2026.",
+    "Recompras de casi 4.000 M$ en lo que va de año y previsión de ampliar el margen de intereses 25–30 pb en el 4T."
+   ],
+   "contras": [
+    "Los clientes mueven su efectivo a productos que les pagan más (el riesgo contrario al modelo de cuenta remunerada).",
+    "Previsión de ingresos de 2026 rebajada a la parte baja del rango."
+   ],
+   "competencia": {
+    "posicion": "Líder en EE. UU. tras absorber TD Ameritrade; compite en precio con Interactive Brokers y Robinhood.",
+    "rivales": [
+     {
+      "nombre": "Interactive Brokers",
+      "ticker": "IBKR",
+      "comentario": "Más eficiente e internacional."
+     },
+     {
+      "nombre": "Morgan Stanley",
+      "ticker": "MS",
+      "comentario": "Más centrado en asesoramiento."
+     },
+     {
+      "nombre": "Robinhood",
+      "ticker": "HOOD",
+      "comentario": "Capta al cliente joven."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Resultados del 4T 2026",
+     "fecha": "mediados de enero 2027",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Bajadas de tipos o más salida de efectivo hacia fondos monetarios.",
+    "Pérdida de cuota frente a plataformas que remuneran mejor el efectivo."
+   ],
+   "valoracion": {
+    "precio": 93.16,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-15",
+    "per": 13.8,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": null,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 84,
+     "alto": 88
+    },
+    "comentario": "PER sobre el BPA ajustado del 3T anualizado (1,69 × 4 = 6,76 $). Rango de interés = 12,5–13 veces ese beneficio. Mínimo anual 83,96 $. No he encontrado un consenso reciente y fiable."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si el efectivo de clientes se estabiliza y el margen de intereses sube como promete. La bajaría si los ingresos de 2026 quedan por debajo del rango.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Es la opción más barata entre los brókers, a cambio de menos crecimiento.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "Schwab Q3 2026 earnings call transcript",
+     "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-charles-schwab-posts-record-q3-2026-results-but-shares-fall-93CH-4952035",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "GuruFocus",
+     "titulo": "Schwab shares dip after Q3",
+     "url": "https://www.gurufocus.com/news/9125404/charles-schwab-schw-shares-dip-after-q3-earnings-beat-but-revenue-miss",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "hood",
+   "ticker": "HOOD",
+   "empresa": "Robinhood Markets",
+   "veredicto": "Vigilar",
+   "conviccion": 2,
+   "resumen": "El bróker de más crecimiento y más volatilidad. Usa la cuenta remunerada como gancho (3,60% con Gold, 5 $ al mes), y funciona: suscriptores Gold +39% y depósitos netos récord de 21.700 M$ en el 2T. Los mercados de predicción ya superan a las criptomonedas en ingresos. Pero cotiza a unas 40 veces beneficios y ha caído de 110,5 a ~99 $ esta semana. Convicción 2/5.",
+   "negocio": "Bróker para particulares (opciones, acciones, cripto, contratos de eventos), suscripción Gold, intereses sobre saldos y préstamos con margen, y una oferta creciente de banca y patrimonios.",
+   "pros": [
+    "Ingresos del 2T de 1.308 M$ (+32%) y beneficio de 573 M$ (+48%).",
+    "Contratos de eventos de 156 M$ (más de 10 veces el año anterior) y 4,8 millones de suscriptores Gold.",
+    "369.000 M$ de activos en la plataforma (+32%)."
+   ],
+   "contras": [
+    "Unas 40 veces el BPA anualizado; Wolfe la rebaja y Wells Fargo recorta su objetivo a 120 $.",
+    "Muy ligada al apetito especulativo: criptomonedas −38% y depósitos de julio y agosto flojos."
+   ],
+   "competencia": {
+    "posicion": "Líder entre el inversor joven de EE. UU.; avanza hacia ser una app financiera completa.",
+    "rivales": [
+     {
+      "nombre": "Charles Schwab",
+      "ticker": "SCHW",
+      "comentario": "Más grande y más barato."
+     },
+     {
+      "nombre": "Interactive Brokers",
+      "ticker": "IBKR",
+      "comentario": "Más profesional."
+     },
+     {
+      "nombre": "SoFi",
+      "ticker": "SOFI",
+      "comentario": "Compite en la app financiera integral."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026 (consenso: ~1.400 M$ de ingresos, BPA 0,64 $)",
+     "fecha": "2026-10-27",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "negativo"
+    }
+   ],
+   "riesgos": [
+    "Caída de la actividad especulativa (cripto, opciones).",
+    "Regulación de los mercados de predicción."
+   ],
+   "valoracion": {
+    "precio": 98.87,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-16",
+    "per": 38.6,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 32.0,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 77,
+     "alto": 85
+    },
+    "comentario": "PER sobre el BPA esperado del 3T anualizado (0,64 × 4 = 2,56 $). Rango de interés = 30–33 veces ese beneficio. Consenso 134,56 $ (31 analistas, 25 con Comprar)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si el 27-oct bate con depósitos netos fuertes y crecimiento de Gold. La bajaría si los ingresos por transacciones caen trimestre contra trimestre.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Pero su volatilidad (beta 2,4) recuerda a la de tus valores de IA.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Robinhood",
+     "titulo": "Robinhood Reports Second Quarter 2026 Results",
+     "url": "https://www.nasdaq.com/press-release/robinhood-reports-second-quarter-2026-results-2026-07-29",
+     "fecha": "2026-07-29",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Benzinga",
+     "titulo": "Why Is Robinhood Stock Under Pressure Ahead of Oct. 27 Earnings?",
+     "url": "https://www.benzinga.com/trading-ideas/movers/26/10/62378604/why-is-robinhood-stock-under-pressure-ahead-of-oct-27-earnings",
+     "fecha": "2026-10-15",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "FinanceRadar",
+     "titulo": "Robinhood Gold cash sweep rates",
+     "url": "https://financeradar.com/savings/robinhood-gold-cash-sweep",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "ftk",
+   "ticker": "FTK.DE",
+   "empresa": "flatexDEGIRO",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "resumen": "El mayor bróker online europeo bate récords (beneficio del 2T +55%, previsión de 2026 de 200–230 M€, objetivos de 2027 alcanzados un año antes) y cotiza a solo 12–13,5 veces el beneficio previsto. Pero la acción ha caído un tercio en el año por la dimisión del presidente del consejo y por la desaceleración de clientes (altas brutas −13%): no usa la cuenta remunerada como gancho, al contrario que Trade Republic. Convicción 3/5.",
+   "negocio": "Bróker online en Europa (DEGIRO y flatex): comisiones por operación (102 M€ en el 2T), intereses sobre el efectivo y depósitos para terceros (11.000–12.000 M€).",
+   "pros": [
+    "Beneficio neto del 1S de 115 M€ (+41%) y más de 100.000 M€ en custodia.",
+    "Valoración baja: ~12–13,5x el beneficio de 2026 frente a ~33x de Interactive Brokers.",
+    "Catalizadores propios: reforma de pensiones alemana (enero 2027) e integración de DEGIRO (final de 2027)."
+   ],
+   "contras": [
+    "Crisis de gobierno corporativo: dimisión del presidente del consejo por desacuerdos estratégicos (10-sep, −7,9%).",
+    "Captación más lenta (altas brutas del 2T −13%) frente a neobrókers que remuneran el efectivo; Deutsche Bank la rebaja a Mantener con objetivo de 31 €."
+   ],
+   "competencia": {
+    "posicion": "Líder por volumen en Europa, pero pierde atractivo frente a Trade Republic y Scalable en el cliente joven que busca cuenta remunerada.",
+    "rivales": [
+     {
+      "nombre": "Trade Republic",
+      "ticker": "(privada)",
+      "comentario": "10 millones de clientes y efectivo remunerado al tipo del BCE."
+     },
+     {
+      "nombre": "Interactive Brokers",
+      "ticker": "IBKR",
+      "comentario": "Rival en el inversor activo europeo."
+     },
+     {
+      "nombre": "eToro",
+      "ticker": "ETOR",
+      "comentario": "Más centrado en cripto y social trading."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026",
+     "fecha": "noviembre 2026 (fecha por confirmar)",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Reforma de pensiones en Alemania",
+     "fecha": "enero 2027",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Actualización estratégica a inversores",
+     "fecha": "febrero 2027",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Que el desacuerdo en el consejo esconda un cambio de estrategia o problemas no conocidos.",
+    "Bajadas de tipos del BCE (un tercio de los ingresos son intereses)."
+   ],
+   "valoracion": {
+    "precio": 25.28,
+    "moneda": "EUR",
+    "fecha_precio": "2026-10-16",
+    "per": 12.6,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 26.0,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 21,
+     "alto": 24
+    },
+    "comentario": "Capitalización ~2.700 M€ sobre un beneficio previsto de 200–230 M€ (BPA ~2,0 € en el punto medio). Rango de interés = 10,5–12 veces. Consenso ~46 € (desfasado tras los recortes)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si el 3T confirma la previsión y se aclara el conflicto del consejo. La bajaría si rebaja la previsión de 2026 o salen nuevas salidas de directivos.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Al ser cliente de DEGIRO, conoces el producto desde dentro.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Investing.com",
+     "titulo": "flatexDEGIRO Q2 2026 earnings call transcript",
+     "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-flatexdegiro-lifts-outlook-after-strong-q2-2026-93CH-4807923",
+     "fecha": "2026-07",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "wallstreet-online",
+     "titulo": "Deutsche Bank senkt Kursziel um ein Drittel",
+     "url": "https://www.wallstreet-online.de/nachricht/21527650-flatexdegiro-deutsche-bank-kursziel-drittel",
+     "fecha": "2026-10-15",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "ms-aktuell",
+     "titulo": "Warum die Aktie fast 8 Prozent verlor",
+     "url": "https://ms-aktuell.de/welt/flatexdegiro-aktie-12-09-2026/",
+     "fecha": "2026-09-12",
+     "postura_autor": "bajista"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "nu",
+   "ticker": "NU",
+   "empresa": "Nu Holdings (Nubank)",
+   "veredicto": "Interesante",
+   "conviccion": 3,
+   "resumen": "El neobanco que mejor convierte la cuenta remunerada en beneficio: 138,9 millones de clientes, beneficio de 1.061 M$ en el 2T (+49%) y ROE del 33%, pagando sus depósitos por debajo del tipo interbancario (88%). A 14,6 $ cotiza a unas 16,6 veces el beneficio anualizado, barato para su crecimiento. Convicción 3/5 por el riesgo de crédito y de Brasil.",
+   "negocio": "Banco digital en Brasil, México y Colombia: tarjetas de crédito, préstamos personales, cuenta remunerada, inversión y seguros, con un coste de servicio de 1 $ al mes por cliente activo.",
+   "pros": [
+    "Rentabilidad excepcional para un banco: ROE del 33% y beneficio +49% interanual.",
+    "Captación barata y masiva: ~4 millones de clientes nuevos al trimestre; depósitos de 45.300 M$ a un coste del 88% del interbancario.",
+    "Licencia bancaria en México aprobada (16 millones de clientes) y Colombia por encima de lo esperado."
+   ],
+   "contras": [
+    "Morosidad de más de 90 días subiendo (6,9%, +35 pb) por la expansión hacia más riesgo.",
+    "Concentración en Brasil, con su riesgo macro y de divisa; parte del margen reciente viene del programa público Desenrola."
+   ],
+   "competencia": {
+    "posicion": "Líder digital en Latinoamérica, con más clientes que cualquier banco tradicional brasileño en la parte minorista y costes muy inferiores.",
+    "rivales": [
+     {
+      "nombre": "Itaú Unibanco",
+      "ticker": "ITUB",
+      "comentario": "Mayor banco privado de Brasil."
+     },
+     {
+      "nombre": "MercadoLibre (Mercado Pago)",
+      "ticker": "MELI",
+      "comentario": "Rival en pagos y crédito digital."
+     },
+     {
+      "nombre": "Inter&Co",
+      "ticker": "INTR",
+      "comentario": "Neobanco brasileño más pequeño."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026",
+     "fecha": "noviembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Pleno funcionamiento bancario en México",
+     "fecha": "2026-2027",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Pruebas de entrada en EE. UU.",
+     "fecha": "12–30 meses",
+     "impacto": "incierto"
+    }
+   ],
+   "riesgos": [
+    "Deterioro del crédito si se frena la economía brasileña.",
+    "Depreciación del real frente al dólar.",
+    "Expansión a EE. UU. que consuma capital sin retorno."
+   ],
+   "valoracion": {
+    "precio": 14.56,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-16",
+    "per": 16.6,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 39.0,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 12,
+     "alto": 13.2
+    },
+    "comentario": "PER sobre el beneficio del 2T anualizado (1.061 × 4 ≈ 4.244 M$) con una capitalización de 70.300 M$: BPA anualizado ~0,88 $. Rango de interés = 13,5–15 veces ese beneficio. Consenso 18,36 $ (TipRanks, 9 analistas, Compra moderada)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si la morosidad de 90+ días baja del 6,5% manteniendo el crecimiento. La bajaría si supera el 7,5% o si el ROE cae del 25%.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Además añadiría exposición a mercados emergentes, que hoy no tienes.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Stock Titan",
+     "titulo": "Nu Holdings Q2 2026 6-K",
+     "url": "https://www.stocktitan.net/sec-filings/NU/6-k-nu-holdings-ltd-current-report-foreign-issuer-b2dec17c9f33.html",
+     "fecha": "2026-08-13",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Yahoo Finance (GuruFocus)",
+     "titulo": "Nu Holdings Q2 2026 Earnings Call Highlights",
+     "url": "https://finance.yahoo.com/markets/stocks/articles/nu-holdings-ltd-nu-q2-030318954.html",
+     "fecha": "2026-08",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "TipRanks",
+     "titulo": "Nu Holdings forecast",
+     "url": "https://www.tipranks.com/stocks/NU/forecast",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    }
+   ]
+  },
+  {
+   "sector": "finanzas",
+   "estado": "nueva",
+   "fecha_creacion": "2026-10-18",
+   "fecha_actualizacion": "2026-10-18",
+   "historial": [
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Creada a partir del estudio sectorial de bancos de inversión y brókers."
+    }
+   ],
+   "id": "sofi",
+   "ticker": "SOFI",
+   "empresa": "SoFi Technologies",
+   "veredicto": "Vigilar",
+   "conviccion": 2,
+   "resumen": "La 'app financiera completa' de EE. UU.: miembros +35% (15,8 millones), ingresos +43% y depósitos de 45.500 M$. La acción ha caído un 45% en el año (de 29 a 14,6 $) porque no sube su previsión de beneficio (BPA ajustado de 0,60 $ en 2026) y teme subidas de tipos. Cotiza a unas 24 veces ese beneficio. Convicción 2/5: crecimiento real, pero con riesgo de balance y resultados el 27-oct.",
+   "negocio": "Banco digital con licencia: préstamos personales, estudiantiles e hipotecarios, cuenta remunerada (SoFi Money), inversión (SoFi Invest) y plataformas tecnológicas para otras entidades (Galileo, Technisys).",
+   "pros": [
+    "Crecimiento muy rápido: 1,1 millones de miembros nuevos y 2,2 millones de productos en el 2T; venta cruzada al alza.",
+    "Beneficio GAAP de 157 M$ (+61%) y previsión de ingresos de 2026 elevada a 4.750–4.850 M$."
+   ],
+   "contras": [
+    "El beneficio no acompaña a los ingresos: BPA ajustado de 2026 mantenido en 0,60 $ y prioridad a reinvertir.",
+    "Sensible a tipos: un analista calcula un impacto de más de 1.000 M$ antes de coberturas por la valoración de su balance; objetivo recortado a 15 $."
+   ],
+   "competencia": {
+    "posicion": "El neobanco con más productos de EE. UU., más orientado al crédito que Robinhood.",
+    "rivales": [
+     {
+      "nombre": "Robinhood",
+      "ticker": "HOOD",
+      "comentario": "Rival en inversión y cuenta remunerada."
+     },
+     {
+      "nombre": "Nu Holdings",
+      "ticker": "NU",
+      "comentario": "Modelo similar en Latinoamérica, mucho más rentable."
+     },
+     {
+      "nombre": "Chime",
+      "ticker": "CHYM",
+      "comentario": "Neobanco estadounidense centrado en cuentas."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 3T 2026",
+     "fecha": "2026-10-27",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Decisión de la Fed",
+     "fecha": "2026-10-28",
+     "impacto": "negativo"
+    }
+   ],
+   "riesgos": [
+    "Subidas de tipos que encarezcan su financiación y castiguen el valor de sus préstamos.",
+    "Deterioro del crédito al consumo en EE. UU."
+   ],
+   "valoracion": {
+    "precio": 14.55,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-16",
+    "per": 24.3,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 43.0,
+    "margen_operativo_pct": null,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 11,
+     "alto": 12.5
+    },
+    "comentario": "PER sobre el BPA ajustado previsto para 2026 (0,60 $). Rango de interés = 18–21 veces ese beneficio. Mínimo anual 13,86 $. Mediana de objetivos 21 $ (7 analistas, 6 meses)."
+   },
+   "vs_divulgadores": "No procede de un divulgador: tesis elaborada a partir del estudio sectorial de bancos de inversión, brókers y neobancos que pidió Alejandro (octubre 2026). ",
+   "que_cambiaria_mi_opinion": "La subiría si el 27-oct eleva la previsión de beneficio y los depósitos siguen creciendo más de 4.000 M$ por trimestre. La bajaría si aumenta la morosidad o necesita ampliar capital.",
+   "relacion_cartera": "No tienes ningún financiero: diversificaría de verdad una cartera que depende sobre todo del gasto en IA (META, GOOGL, AMZN, MSFT, ASML, AVGO, MRVL). Pero su volatilidad (beta 2,3) es alta.",
+   "fuentes": [
+    {
+     "canal": "Estudio sectorial (Claude)",
+     "titulo": "Bancos de inversión y brókers · octubre 2026",
+     "url": "https://claude.ai/code/artifact/e1fe2e5e-072b-4c3a-9bb4-72e41100f39b",
+     "fecha": "2026-10-18",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Business Wire",
+     "titulo": "SoFi Reports Second Quarter 2026",
+     "url": "https://www.businesswire.com/news/home/20260729569583/en/SoFi-Reports-Second-Quarter-2026-with-Record-Net-Revenue-of-%241.2-Billion-Record-Member-and-Product-Growth-Net-Income-of-%24157-Million",
+     "fecha": "2026-07-29",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Foreign Policy Journal",
+     "titulo": "SoFi stock craters 43% in 2026 despite 40% revenue growth",
+     "url": "https://www.foreignpolicyjournal.com/2026/10/03/sofi-technologies-nasdaq-sofi-stock-craters-43-in-2026-despite-40-revenue-growth/",
+     "fecha": "2026-10-03",
+     "postura_autor": "bajista"
+    },
+    {
+     "canal": "Quiver Quant",
+     "titulo": "SoFi slips after price target cut",
+     "url": "https://www.quiverquant.com/news/SoFi+slips+after+price-target+cut+highlights+capital+concerns+ahead+of+earnings",
+     "fecha": "2026-10-12",
+     "postura_autor": "bajista"
+    }
+   ]
+  },
   {
    "id": "cbrs",
    "ticker": "CBRS",
