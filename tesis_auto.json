@@ -1132,12 +1132,12 @@
    "ticker": "CBRS",
    "empresa": "Cerebras Systems",
    "sector": "ia",
-   "estado": "nueva",
+   "estado": "actualizada",
    "veredicto": "Vigilar",
    "conviccion": 2,
    "fecha_creacion": "2026-10-15",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "Fabricante de chips de IA del tamaño de una oblea entera, muy rápidos en inferencia, que salió a bolsa en mayo a 185 $, abrió a 350 $ y hoy cotiza a ~141 $. La tecnología es real y la cartera de pedidos enorme (25.400 M$ de obligaciones pendientes), pero el negocio todavía pierde dinero, el margen bruto baja trimestre a trimestre (46,5% → 40,6% → guía 38–40%) y depende de muy pocos clientes, sobre todo OpenAI. A ~36 veces las ventas previstas para 2026 no es barata: el '13x ventas de 2027' que cita Dan exige que los ingresos se multipliquen casi por tres en un año. Convicción 2/5: idea a vigilar, no a comprar todavía.",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "Fabricante de chips de IA del tamaño de una oblea entera, muy rápidos en inferencia, que salió a bolsa en mayo a 185 $, abrió a 350 $ y el 16-oct cerró a 127,21 $, su mínimo desde la salida a bolsa. La tecnología es real y la cartera de pedidos enorme (25.400 M$ de obligaciones pendientes), pero el negocio todavía pierde dinero, el margen bruto baja trimestre a trimestre (46,5% → 40,6% → guía 38–40%) y depende de muy pocos clientes, sobre todo OpenAI. A ~33 veces las ventas previstas para 2026 no es barata: el '13x ventas de 2027' que cita Dan exige que los ingresos se multipliquen casi por tres en un año. Convicción 2/5: idea a vigilar, no a comprar todavía.",
    "negocio": "Diseña el Wafer-Scale Engine, un único chip que ocupa toda la oblea de silicio, y lo vende como sistemas (CS-3/CS-4) o como capacidad en su propia nube de inferencia. En el 2T 2026 la nube y los servicios ya fueron el 61% de los ingresos (127,7 M$, +287%) frente al hardware (82,1 M$, +17%). El giro hacia la nube acelera el crecimiento pero exige alquilar centros de datos, lo que explica la caída del margen.",
    "pros": [
     "Crecimiento muy rápido: ingresos 'core' del 2T 2026 de 209,9 M$ (+103% interanual), con guía anual elevada a 880–890 M$.",
@@ -1149,7 +1149,8 @@
     "Margen bruto bajo y a la baja para un fabricante de chips (40,6% en el 2T, guía 38–40%), muy lejos del ~75% de Nvidia. Su modelo de nube se parece más al de un proveedor de infraestructura que al de un diseñador de chips.",
     "Sigue en pérdidas: margen operativo 'core' del -16% en el 2T y guía de -25% a -23% para el 3T.",
     "Concentración extrema: el CEO admite que OpenAI seguirá siendo una parte 'significativa' de los ingresos en 2027. Cuando SemiAnalysis publicó (30-sep) que OpenAI usaría GPUs de Nvidia para su modo más rápido, la acción cayó casi un 20% en una semana.",
-    "Presión vendedora: desbloqueos de acciones de hasta 19,4 millones de títulos (~8% del capital) cada dos semanas hasta finales de octubre, y el CEO y el CTO vendieron más de 240 M$ entre el 20-ago y el 25-sep."
+    "Presión vendedora: desbloqueos de acciones de hasta 19,4 millones de títulos (~8% del capital) cada dos semanas hasta finales de octubre, y el CEO y el CTO vendieron más de 240 M$ entre el 20-ago y el 25-sep.",
+    "Ventas de insiders: el CEO Andrew Feldman y el CTO Sean Lie han vendido más de 240 M$ en acciones (planes 10b5-1), y un informe de SemiAnalysis (30-sep, no confirmado por las empresas) afirma que el nivel 'Ultrafast' del último modelo de OpenAI usa GPUs de Nvidia y no Cerebras."
    ],
    "competencia": {
     "posicion": "Compite contra Nvidia en el mismo cliente (los laboratorios de IA y los hiperescaladores), que además diseñan sus propios chips. Su diferencial es la velocidad en inferencia; su debilidad, la escala, el ecosistema de software (CUDA) y la dependencia de pocos contratos.",
@@ -1173,9 +1174,9 @@
    },
    "catalizadores": [
     {
-     "evento": "Fin de los desbloqueos de acciones posteriores a la salida a bolsa",
-     "fecha": "finales de octubre 2026",
-     "impacto": "positivo"
+     "evento": "Desbloqueo de ~19,4 M de acciones tras la salida a bolsa (ya ocurrido; la acción cayó con fuerza esa semana)",
+     "fecha": "2026-10-14 (ocurrido)",
+     "impacto": "negativo"
     },
     {
      "evento": "Resultados del 3T 2026 (guía de 214–216 M$, margen bruto 38–40%)",
@@ -1200,9 +1201,9 @@
     "Acción recién salida a bolsa, con poco historial y alta volatilidad (rango 134–386 $ en cinco meses)."
    ],
    "valoracion": {
-    "precio": 140.97,
+    "precio": 127.21,
     "moneda": "USD",
-    "fecha_precio": "2026-10-15",
+    "fecha_precio": "2026-10-16",
     "per": null,
     "ev_ebit": null,
     "fcf_yield_pct": null,
@@ -1213,7 +1214,7 @@
      "bajo": null,
      "alto": null
     },
-    "comentario": "Capitalización de ~31.900 M$ (FMP) sobre 880–890 M$ de ventas previstas en 2026: ~36x ventas. Restando la caja (8.600 M$), el valor de empresa ronda 23.300 M$, ~26x ventas. El '13x ventas de 2027' de Dan implica unas ventas de ~2.450 M$ en 2027 (casi el triple), y el '10x beneficios de 2029' se apoya en previsiones de UBS que no he podido verificar. Sin beneficio ni flujo de caja positivos no fijo rango de interés: la valoración depende de que se cumpla el crecimiento, no de los múltiplos actuales."
+    "comentario": "Capitalización de ~28.800 M$ (FMP, 16-oct) sobre ~885 M$ de ventas previstas en 2026 (guía elevada): ~33x ventas. Restando la caja (8.600 M$), el valor de empresa ronda 20.200 M$, ~23x ventas. Del backlog de 25.400 M$ (30-jun), solo ~22% se convertiría en ingresos en los próximos 24 meses y ~43% entre los meses 25 y 48, según el análisis citado: la visibilidad es real pero lejana. El '13x ventas de 2027' de Dan implica unas ventas de ~2.450 M$ en 2027 (casi el triple), y el '10x beneficios de 2029' se apoya en previsiones de UBS que no he podido verificar. Sin beneficio ni flujo de caja positivos no fijo rango de interés."
    },
    "vs_divulgadores": "Coincido con Dan en que la caída desde la salida a bolsa es normal y en que la tecnología es diferencial en inferencia. Discrepo en tres puntos. 1) Que Brad Gerstner (Altimeter) comprara a ~221 $ no es un argumento de valoración: un fondo de capital riesgo puede tener horizontes y objetivos distintos de los tuyos. Además, no he podido verificar el precio medio ni el peso del 16% que cita Dan; una fuente habla de una posición de unos 2.000 M$. 2) El margen bruto bajando y las pérdidas operativas no aparecen en el vídeo, y son la clave para saber si Cerebras puede ser un negocio rentable además de una buena tecnología. 3) Los '57 veces más rápido que Nvidia' son pruebas en modelos concretos; la decisión de OpenAI de usar Nvidia para su modo más rápido demuestra que el cliente no elige solo por velocidad. Altman llamó a Cerebras 'socio cercano', pero no desmintió qué chips usa ese modo. El propio Dan espera a que la acción haga suelo y no la ha comprado todavía, lo cual es coherente.",
    "que_cambiaria_mi_opinion": "Subiría la convicción si: el margen bruto vuelve por encima del 45%, OpenAI baja de la mitad de los ingresos con clientes nuevos (AWS, AMD, soberanos), y la empresa se acerca al equilibrio operativo en 2027. La bajaría si: OpenAI recorta compromisos, el margen cae por debajo del 35% o la empresa necesita ampliar capital.",
@@ -1253,12 +1254,193 @@
      "url": "https://cryptobriefing.com/altimeter-cerebras-stake-meta-trim-2026/",
      "fecha": "2026",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "Invest with Colby (Substack)",
+     "titulo": "CBRS: Cerebras Is Down 54% From Its First Print, With $8.6 Billion in Cash and a $25.4 Billion Backlog",
+     "url": "https://investwithcolby.substack.com/p/cbrs-cerebras-is-down-54-from-its",
+     "fecha": "2026-10-16",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "BigGo Finance",
+     "titulo": "Cerebras Rebounds 9% as Altman Reassures Markets After Chip Report Selloff",
+     "url": "https://finance.biggo.com/news/1e614bcc-6f02-4287-84d0-8d95291e0c65",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "MarketBeat",
+     "titulo": "Cerebras Systems (NASDAQ:CBRS) Shares Down 10.5% - Should You Sell?",
+     "url": "https://www.marketbeat.com/instant-alerts/price-cerebras-systems-nasdaq-cbrs-shares-down-105-should-you-sell-2026-10-16/",
+     "fecha": "2026-10-16",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-15",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner)."
+    },
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 140,97 → 127,21 $ (-10,5% el 16-oct, mínimo desde la salida a bolsa). Ocurrido el desbloqueo del 14-oct (~19,4 M de acciones, ~8% del total); el CEO y el CTO han vendido más de 240 M$ con planes preestablecidos. Matiz nuevo: solo ~22% del backlog de 25.400 M$ se convertiría en ingresos en 24 meses. A ~33x ventas 2026 sigue sin ser barata. Veredicto Vigilar y convicción 2 sin cambios."
+    }
+   ]
+  },
+  {
+   "id": "crdo",
+   "ticker": "CRDO",
+   "empresa": "Credo Technology",
+   "sector": "ia",
+   "estado": "actualizada",
+   "veredicto": "Vigilar",
+   "conviccion": 3,
+   "fecha_creacion": "2026-10-02",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "Diseñadora de chips y cables de conexión de alta velocidad para centros de datos de IA que está creciendo a más del 100%, con márgenes muy altos (~68% bruto non-GAAP). El negocio es excelente; el problema era el precio y la concentración. En tres semanas la acción ha pasado de ~210 $ a 169,7 $ (16-oct, FMP) por la venta generalizada en infraestructura de IA tras los avisos de Broadcom e Intel sobre la financiación del gasto en IA, no por un problema propio. Ya ha entrado en el techo del rango de interés de 140–170 $, aunque sigue cotizando a ~12,9x las ventas esperadas del año fiscal y a ~61x el beneficio de los últimos 12 meses. Convicción 3/5: calidad alta, pero dos clientes suponen el 61% de los ingresos y la volatilidad es extrema; la caída de esta semana confirma que se mueve con el sentimiento sobre el capex de IA.",
+   "negocio": "Vende circuitos SerDes y DSP, cables eléctricos activos (AEC, su producto estrella para conectar servidores de IA dentro del rack), chiplets y licencias de propiedad intelectual. Con la compra de DustPhotonics entra en fotónica de silicio. Para el año fiscal 2027 apunta a más de 600 M$ en productos ópticos, además de los cables.",
+   "pros": [
+    "Crecimiento explosivo y rentable: ingresos del 1T fiscal 2027 de 479 M$ (+115% interanual), margen operativo non-GAAP del 48% y beneficio GAAP de 129 M$.",
+    "Guía de crecimiento superior al 85% para el año fiscal 2027 (≥2.470 M$), y la mitad ya está prácticamente asegurada con el 1T y la guía del 2T (525–535 M$).",
+    "Los AEC sustituyen al cobre pasivo y a parte de la óptica en distancias cortas, con menor consumo y fallo: es una categoría que la propia Credo ha creado y en la que es referencia.",
+    "Se diversifica hacia la óptica (DSP, fotónica de silicio), un mercado más grande, aprovechando su tecnología SerDes."
+   ],
+   "contras": [
+    "Concentración muy alta: los cuatro mayores clientes son el 33%, 28%, 13% y 10% de los ingresos. Perder o reducir a uno de ellos cambia la tesis.",
+    "El margen bruto GAAP cayó del 68,2% al 64,5% tras la compra de DustPhotonics, y la retribución en acciones es alta (88 M$ en el trimestre): el beneficio real por accionista es menor que el non-GAAP.",
+    "La guía exige un crecimiento secuencial de ~23% por trimestre en la segunda mitad del año: cualquier tropiezo en diciembre castigará mucho la acción.",
+    "Volatilidad extrema (beta ~3,2; rango anual 86–309 $). Es un valor de momentum, no un compounder tranquilo."
+   ],
+   "competencia": {
+    "posicion": "Domina los AEC con ventaja de primer movimiento y diseño propio de SerDes. En DSP ópticos compite con gigantes que tienen más escala y relación con los clientes. Su fortaleza es la eficiencia energética y la velocidad de lanzamiento; su debilidad, el tamaño y la dependencia de pocos hiperescaladores.",
+    "rivales": [
+     {
+      "nombre": "Marvell",
+      "ticker": "MRVL",
+      "comentario": "Líder en DSP ópticos y rival directo en la nueva línea óptica de Credo; mucho más diversificado."
+     },
+     {
+      "nombre": "Broadcom",
+      "ticker": "AVGO",
+      "comentario": "Rival en SerDes y DSP; tu posición AVGO ya cubre parte de este mercado."
+     },
+     {
+      "nombre": "Astera Labs",
+      "ticker": "ALAB",
+      "comentario": "Compite en conectividad dentro del rack (retimers, cables activos)."
+     }
+    ]
+   },
+   "catalizadores": [
+    {
+     "evento": "Resultados del 2T fiscal 2027 (guía de 525–535 M$)",
+     "fecha": "principios de diciembre 2026",
+     "impacto": "incierto"
+    },
+    {
+     "evento": "Sentimiento sobre la financiación del capex de IA tras los avisos de los CEO de Broadcom e Intel (12-oct)",
+     "fecha": "en curso",
+     "impacto": "negativo"
+    },
+    {
+     "evento": "Despliegue de 1,6T y adopción de AEC en nuevas generaciones de racks de IA",
+     "fecha": "2026-2027",
+     "impacto": "positivo"
+    },
+    {
+     "evento": "Restricciones de EE. UU. a transceptores ópticos chinos",
+     "fecha": "en tramitación",
+     "impacto": "positivo"
+    }
+   ],
+   "riesgos": [
+    "Que un hiperescalador grande internalice el diseño o pase a la óptica coempaquetada (CPO), que reduciría la necesidad de cables activos.",
+    "Ralentización del gasto en IA: con este múltiplo, una desaceleración del crecimiento se paga con caídas del 40–50%.",
+    "Sede legal en Islas Caimán y parte de la producción y ventas en Asia: riesgo arancelario y geopolítico."
+   ],
+   "valoracion": {
+    "precio": 169.7,
+    "moneda": "USD",
+    "fecha_precio": "2026-10-16",
+    "per": 61.1,
+    "ev_ebit": null,
+    "fcf_yield_pct": null,
+    "crecimiento_ventas_pct": 114.7,
+    "margen_operativo_pct": 48.2,
+    "deuda_neta_ebitda": null,
+    "rango_interes": {
+     "bajo": 140,
+     "alto": 170
+    },
+    "comentario": "Capitalización de ~31.900 M$ (FMP, 16-oct) sobre ≥2.470 M$ de ventas del año fiscal 2027: ~12,9x ventas. PER de los últimos 12 meses recalculado con el mismo BPA implícito en el dato de MarketBeat (63,8x a 177,11 $): ~61x; anualizar el BPA non-GAAP del 1T (1,20 $ × 4 = 4,80 $) da ~35x. El margen operativo indicado es non-GAAP. Entre 140 y 170 $ (niveles de septiembre) el riesgo/beneficio sería más razonable; a 169,7 $ ya está en el techo de ese rango. Objetivo medio de los analistas según MarketBeat (15-oct): ~263 $ (Stifel 310 $, Rosenblatt 235 $ neutral)."
+   },
+   "vs_divulgadores": "Dan la compra como 'la rezagada' de la fotónica frente a Lumentum y Marvell, y por las posibles restricciones a los transceptores chinos. Coincido en la calidad del negocio. Discrepo en el argumento principal: las restricciones que se tramitan (proyecto de ley bipartidista del Senado) afectan solo a sistemas del gobierno federal, y los análisis apuntan a que afectarían a los futuros 3,2T, no al despliegue actual de 800G y 1,6T. Además, Credo no fabrica transceptores completos: le beneficiaría de forma indirecta y menor que a Coherent o Lumentum. Dan tampoco menciona la concentración de clientes ni la caída del margen GAAP. Es una compra de su cartera 'reto 100K', orientada al corto plazo.",
+   "que_cambiaria_mi_opinion": "Pasaría a 'Interesante' si: cumple la guía de diciembre con un margen bruto non-GAAP ≥67% y el mayor cliente baja del 30% de los ingresos, o si la acción vuelve a la zona de 140–170 $ sin deterioro del negocio. La bajaría si un hiperescalador grande anuncia el paso a CPO sin cables activos o si recorta la guía anual.",
+   "relacion_cartera": "Solapa con AVGO (tienes posición) y con tu tesis de Marvell: los tres comparten clientes y ciclo. Es un tercer vehículo para el mismo motor, el gasto en infraestructura de IA, con más volatilidad. No diversifica.",
+   "fuentes": [
+    {
+     "canal": "Dan Fuentes",
+     "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
+     "url": "https://www.youtube.com/watch?v=WxKLYd6mcLE",
+     "fecha": "2026-10-01",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "InsiderFinance",
+     "titulo": "Credo Earnings Beat, Shares Fall on Margin Concerns",
+     "url": "https://www.insiderfinance.io/news/credo-earnings-beat-shares-fall-on-margin-concerns",
+     "fecha": "2026-09-08",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Top1Markets",
+     "titulo": "Credo Guided to 85% Growth. Here Is What the Rest Requires",
+     "url": "https://www.top1markets.com/insights/stocks/credo-crdo-stock-earnings-guidance-math-2026",
+     "fecha": "2026-09-08",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Benzinga",
+     "titulo": "Lumentum, Coherent Rip Higher As Washington Targets Chinese Optical Transceivers",
+     "url": "https://benzinga.com/trading-ideas/movers/26/10/62117250/lumentum-coherent-rip-higher-as-washington-targets-chinese-optical-transceivers",
+     "fecha": "2026-10-01",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "MarketBeat",
+     "titulo": "Credo Technology Group (NASDAQ:CRDO) Shares Down 9.6% After Insider Selling",
+     "url": "https://www.marketbeat.com/instant-alerts/price-credo-technology-group-nasdaq-crdo-shares-down-96-after-insider-selling-2026-10-14/",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Applied Optoelectronics Dives 9% as AI Funding Fears Hit Optical Stocks",
+     "url": "https://247wallst.com/investing/2026/10/14/applied-optoelectronics-dives-9-as-ai-funding-fears-hit-optical-stocks-coherent-slides-7-lumentum-drops-7/",
+     "fecha": "2026-10-14",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Opening Bell Daily",
+     "titulo": "Stock market this week: Chip stocks fell 12% by October 16",
+     "url": "https://www.openingbelldailynews.com/p/stock-market-this-week-oct-17-2026",
+     "fecha": "2026-10-17",
+     "postura_autor": "neutral"
+    }
+   ],
+   "historial": [
+    {
+     "fecha": "2026-10-02",
+     "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
+    },
+    {
+     "fecha": "2026-10-15",
+     "cambio": "Refresco semanal: precio 210,17 → 177,11 $ (-16%) por la venta sectorial en IA; ya cerca del rango de interés 140–170 $. Venta del CFO (7.580 acciones a 212,91 $, plan 10b5-1) poco relevante. Veredicto Vigilar y convicción 3 sin cambios; si entra en el rango sin deterioro operativo, se reevaluará tras los resultados de diciembre."
+    },
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 177,11 → 169,70 $ (cierre 16-oct, FMP); ya dentro del rango de interés 140–170 $, por la venta sectorial y sin noticia propia. ~12,9x ventas del año fiscal 2027. Se mantiene Vigilar 3: entrar en el rango no basta por sí solo; se reevaluará con los resultados de diciembre o si el deterioro del sentimiento llega a los pedidos."
     }
    ]
   },
@@ -1267,12 +1449,12 @@
    "ticker": "MU",
    "empresa": "Micron Technology",
    "sector": "ia",
-   "estado": "nueva",
+   "estado": "sin_cambios",
    "veredicto": "Vigilar",
    "conviccion": 3,
    "fecha_creacion": "2026-10-15",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "El mayor fabricante estadounidense de memoria vive el mejor momento de su historia: 54.230 M$ de ingresos en el último trimestre (+379%) con un margen bruto del 87%, algo nunca visto en el sector. Cotiza a ~12 veces el beneficio de los últimos doce meses y a ~7 veces el del último trimestre anualizado. La pregunta no es si es barata con estos beneficios, sino si son sostenibles. Hay argumentos nuevos para pensar que esta vez el ciclo es más largo (acuerdos plurianuales con precio mínimo y 150.000 M$ de pedidos), pero un margen del 87% en memoria es justo lo que atrae competencia (CXMT) e inversión masiva en capacidad nueva. Convicción 3/5.",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "El mayor fabricante estadounidense de memoria vive el mejor momento de su historia: 54.230 M$ de ingresos en el último trimestre (+379%) con un margen bruto del 87%, algo nunca visto en el sector. Tras caer un 14,6% en la semana del 9 al 16-oct, cotiza a ~11,7 veces el beneficio de los últimos doce meses y a ~6,6 veces el del último trimestre anualizado. La pregunta no es si es barata con estos beneficios, sino si son sostenibles. Hay argumentos nuevos para pensar que esta vez el ciclo es más largo (acuerdos plurianuales con precio mínimo y 150.000 M$ de pedidos), pero un margen del 87% en memoria es justo lo que atrae competencia (CXMT) e inversión masiva en capacidad nueva. Convicción 3/5.",
    "negocio": "Fabrica memoria DRAM (73% de los ingresos del último trimestre), incluida la memoria de alto ancho de banda (HBM) que necesitan los chips de IA, y almacenamiento NAND. Vende a centros de datos, móviles, PCs, coches e industria. Es uno de los tres grandes de la DRAM junto a SK Hynix y Samsung, y el único estadounidense.",
    "pros": [
     "Resultados extraordinarios: ingresos del 4T fiscal 2026 de 54.230 M$ (+379%), margen bruto non-GAAP del 87% y beneficio neto de 37.700 M$ en un solo trimestre. Guía del 1T fiscal 2027 de 61.500 M$, por encima del consenso (57.000 M$).",
@@ -1282,7 +1464,7 @@
    ],
    "contras": [
     "Un margen bruto del 87% es un máximo histórico para la memoria, un producto que históricamente ha sido cíclico. El mercado paga poco precisamente porque descuenta que estos beneficios no se repetirán.",
-    "Competencia china: CXMT anunció un diseño de DRAM para servidores más denso (4F2) para final de año. Micron cayó un 4–5% el 13-oct y SK Hynix un 6%.",
+    "Competencia china: CXMT anunció un diseño de DRAM para servidores más denso (4F2) y una DDR5 RDIMM de nueva generación para final de año. Micron cayó un 4–5% el 13-oct y un 14,6% en la semana del 9 al 16-oct; SK Hynix también cayó.",
     "Riesgo legal: Netlist ha presentado quejas ante la Comisión de Comercio Internacional de EE. UU. contra la HBM3E/HBM4 y la DDR5 de Micron, y pide órdenes que podrían bloquear importaciones.",
     "La propia Micron invierte a un ritmo récord (27.370 M$ en el año fiscal 2026 y ~11.500 M$ solo en el próximo trimestre), con gran parte de la capacidad nueva entrando entre 2028 y 2030. Así es como suelen terminar los ciclos de memoria.",
     "La memoria ya no es una apuesta escondida: la empresa vale más de 1 billón de dólares tras subir desde 192 $ a 1.255 $ en un año."
@@ -1341,10 +1523,10 @@
     "Volatilidad muy alta: beta de 2,2."
    ],
    "valoracion": {
-    "precio": 912.1,
+    "precio": 878.84,
     "moneda": "USD",
-    "fecha_precio": "2026-10-15",
-    "per": 12.1,
+    "fecha_precio": "2026-10-16",
+    "per": 11.7,
     "ev_ebit": null,
     "fcf_yield_pct": null,
     "crecimiento_ventas_pct": 379.0,
@@ -1354,7 +1536,7 @@
      "bajo": null,
      "alto": null
     },
-    "comentario": "PER calculado con la capitalización de FMP (~1,03 billones $) sobre el beneficio neto GAAP del año fiscal 2026 (84.970 M$). Con el último trimestre anualizado (37.700 M$ × 4) sería ~6,8x. En memoria, el PER bajo en la cima del ciclo es una señal habitual de que el mercado espera beneficios menores, no de que la acción esté barata. No fijo rango de interés porque depende de cuál sea el margen 'normal' tras el ciclo, y no tengo un dato fiable para estimarlo. Los soportes de 800 y 780–790 $ que da Dan son análisis técnico, no valoración."
+    "comentario": "PER calculado con la capitalización de FMP (~994.000 M$ al cierre del 16-oct) sobre el beneficio neto GAAP del año fiscal 2026 (84.970 M$). Con el último trimestre anualizado (37.700 M$ × 4) sería ~6,6x. En memoria, el PER bajo en la cima del ciclo es una señal habitual de que el mercado espera beneficios menores, no de que la acción esté barata. No fijo rango de interés porque depende de cuál sea el margen 'normal' tras el ciclo, y no tengo un dato fiable para estimarlo. Los soportes de 800 y 780–790 $ que da Dan son análisis técnico, no valoración."
    },
    "vs_divulgadores": "Coincido con Dan en que los acuerdos plurianuales con precio mínimo, los depósitos de clientes y la demanda de HBM hacen este ciclo distinto de los anteriores, y en que el miedo a CXMT a corto plazo parece exagerado. Las cifras que da (26 acuerdos, 150.000 M$ de pedidos, 32.000 M$ comprometidos, >75% de 2027 vendido) cuadran con las fuentes. Discrepo en dos puntos. 1) 'PER de 10 creciendo 5 veces más que Nvidia' compara un negocio con márgenes en máximos históricos con otros más estables: un PER bajo con márgenes del 87% no garantiza nada si los márgenes vuelven a la mitad. 2) Da por hecho que EE. UU. prohibirá la memoria china, pero es una suposición suya, no una medida anunciada. Tampoco menciona las demandas de Netlist ni el capex récord de la propia Micron. Él mismo no tiene Micron: prefiere el ETF DRAM de Roundhill, que reparte el riesgo entre varios fabricantes, una opción más prudente.",
    "que_cambiaria_mi_opinion": "Subiría la convicción si: los acuerdos con precio mínimo se amplían más allá del 35% de los ingresos, el margen bruto se mantiene por encima del 70% en los resultados de 2027 pese a CXMT, o EE. UU. restringe la memoria china en centros de datos. La bajaría si: los precios de contrato de DRAM o HBM empiezan a caer, los clientes recortan pedidos o la Comisión de Comercio Internacional falla a favor de Netlist.",
@@ -1394,12 +1576,30 @@
      "url": "https://timothysykes.com/news/micron-technology-inc-mu-news-2026_10_14",
      "fecha": "2026-10-14",
      "postura_autor": "bajista"
+    },
+    {
+     "canal": "TheStreet",
+     "titulo": "Micron stock tumbles despite analyst calls semiconductor selloff overblown",
+     "url": "https://www.thestreet.com/investing/stocks/micron-stock-tumbles-despite-analyst-calls-semiconductor-selloff-overblown-mu",
+     "fecha": "2026-10-16",
+     "postura_autor": "alcista"
+    },
+    {
+     "canal": "Opening Bell Daily",
+     "titulo": "Stock market this week: Chip stocks fell 12% by October 16",
+     "url": "https://www.openingbelldailynews.com/p/stock-market-this-week-oct-17-2026",
+     "fecha": "2026-10-17",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-15",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner)."
+    },
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 912,1 → 878,84 $ (cierre 16-oct, FMP); -14,6% en la semana del 9 al 16-oct, la peor de los grandes chips, por el anuncio de CXMT (DDR5 RDIMM de nueva generación para finales de 2026) y dudas sobre el ciclo de IA. Rosenblatt (compra) y Fundstrat consideran la caída exagerada porque CXMT no compite en HBM. PER ~11,7x. Veredicto y convicción sin cambios."
     }
    ]
   },
@@ -1408,12 +1608,12 @@
    "ticker": "LRCX",
    "empresa": "Lam Research",
    "sector": "ia",
-   "estado": "nueva",
+   "estado": "sin_cambios",
    "veredicto": "Vigilar",
    "conviccion": 3,
    "fecha_creacion": "2026-10-15",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "Líder en equipos de grabado y deposición para fabricar chips, y el proveedor de máquinas más expuesto a la memoria (46% de sus ventas de sistemas). Es un negocio de gran calidad, con márgenes operativos de casi el 40% y un ciclo de inversión en fábricas que la dirección describe como 'extraordinario' para 2027. Ha caído un 38% desde su máximo de 438,5 $, pero a ~273 $ todavía cotiza a unas 32 veces el beneficio del trimestre en curso anualizado. Convicción 3/5: buena empresa, precio razonable pero no barato, y muy cíclica.",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "Líder en equipos de grabado y deposición para fabricar chips, y el proveedor de máquinas más expuesto a la memoria (46% de sus ventas de sistemas). Es un negocio de gran calidad, con márgenes operativos de casi el 40% y un ciclo de inversión en fábricas que la dirección describe como 'extraordinario' para 2027. Ha caído un 40% desde su máximo de 438,5 $, pero a ~264 $ todavía cotiza a unas 31 veces el beneficio del trimestre en curso anualizado. Convicción 3/5: buena empresa, precio razonable pero no barato, y muy cíclica.",
    "negocio": "Fabrica las máquinas que graban y depositan capas en las obleas de silicio, pasos críticos sobre todo en memoria (NAND y DRAM) y en los chips más avanzados. Además, casi un tercio de sus ingresos son servicios y recambios para la base instalada (2.500 M$ en el último trimestre), un ingreso más estable.",
    "pros": [
     "Récord de resultados: 6.720 M$ de ingresos en el trimestre de junio (+30% interanual), margen bruto del 52% y operativo del 38,4%. Guía para el trimestre de septiembre de 8.100 M$ y 2,15 $ por acción.",
@@ -1454,7 +1654,7 @@
    },
    "catalizadores": [
     {
-     "evento": "Resultados del trimestre de septiembre y primera cifra de inversión mundial en equipos para 2027",
+     "evento": "Resultados del trimestre de septiembre y primera cifra de inversión mundial en equipos para 2027 (conferencia el 21-oct a las 14:00 hora del Pacífico)",
      "fecha": "2026-10-21",
      "impacto": "incierto"
     },
@@ -1480,10 +1680,10 @@
     "Que el gasto en IA se modere y los fabricantes de chips retrasen fábricas."
    ],
    "valoracion": {
-    "precio": 272.56,
+    "precio": 263.94,
     "moneda": "USD",
-    "fecha_precio": "2026-10-15",
-    "per": 31.7,
+    "fecha_precio": "2026-10-16",
+    "per": 30.7,
     "ev_ebit": null,
     "fcf_yield_pct": null,
     "crecimiento_ventas_pct": 30.0,
@@ -1493,7 +1693,7 @@
      "bajo": 215,
      "alto": 250
     },
-    "comentario": "PER sobre la guía de beneficio por acción del trimestre de septiembre anualizada (2,15 $ × 4 = 8,60 $); sobre el año fiscal 2026 (5,82 $) sería ~47x. Capitalización de ~341.000 M$ (FMP). El rango de interés equivale a 25–29 veces ese beneficio anualizado: un precio razonable para una empresa de esta calidad, con margen por si el ciclo se modera. Los 270–280 $ que da Dan son un soporte técnico, no una valoración."
+    "comentario": "PER sobre la guía de beneficio por acción del trimestre de septiembre anualizada (2,15 $ × 4 = 8,60 $); sobre el año fiscal 2026 (5,82 $) sería ~45x. Capitalización de ~330.300 M$ (FMP, 16-oct). El rango de interés equivale a 25–29 veces ese beneficio anualizado: un precio razonable para una empresa de esta calidad, con margen por si el ciclo se modera. Los 270–280 $ que da Dan son un soporte técnico, no una valoración."
    },
    "vs_divulgadores": "Coincido con Dan en que invertir en quien fabrica las máquinas evita tener que adivinar qué fabricante de memoria gana, y en que la caída del 38% desde máximos devuelve la acción al radar. Discrepo en tres puntos. 1) Las cifras de la 'Terafab' de Elon Musk (16.800 M$, el edificio más grande del mundo) y las compras de Altimeter y Ray Dalio no las he podido verificar con fuentes primarias. Y aunque fueran ciertas, 16.800 M$ es poco frente a un mercado de equipos de ~150.000 M$ al año. 2) No menciona la exposición a China ni la reciente caída de esas ventas. 3) La compara con ASML como si fuera igual de imprescindible, pero ASML tiene un monopolio en EUV; Lam lidera su nicho, pero compite con Applied Materials y Tokyo Electron.",
    "que_cambiaria_mi_opinion": "Subiría la convicción si: el 21 de octubre da una cifra de inversión en equipos para 2027 claramente por encima de la de 2026 y mantiene el margen operativo cerca del 39%, o si la acción baja a la zona de 215–250 $ sin que cambie el negocio. La bajaría si: los fabricantes de memoria recortan su inversión, China cae por debajo del 20% de los ingresos por restricciones o el margen bruto baja del 50%.",
@@ -1526,12 +1726,37 @@
      "url": "https://stocktwits.com/symbol/LRCX/earnings",
      "fecha": "2026-10-15",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "Finviz / Business Wire",
+     "titulo": "Lam Research Corporation Announces September Quarter Financial Conference Call",
+     "url": "https://finviz.com/news/397284/lam-research-corporation-announces-september-quarter-financial-conference-call",
+     "fecha": "2026-09-30",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "StockStory (FinancialContent)",
+     "titulo": "Intel, Lam Research, Amkor, and Kulicke and Soffa Shares Are Falling, What You Need To Know",
+     "url": "https://markets.financialcontent.com/stocks/article/stockstory-2026-10-16-intel-lam-research-amkor-and-kulicke-and-soffa-shares-are-falling-what-you-need-to-know",
+     "fecha": "2026-10-16",
+     "postura_autor": "neutral"
+    },
+    {
+     "canal": "Opening Bell Daily",
+     "titulo": "Stock market this week: Chip stocks fell 12% by October 16",
+     "url": "https://www.openingbelldailynews.com/p/stock-market-this-week-oct-17-2026",
+     "fecha": "2026-10-17",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
     {
      "fecha": "2026-10-15",
      "cambio": "Creada a partir del vídeo de Dan Fuentes del 15-oct-2026 (cartera de Brad Gerstner). Incluye Applied Materials y KLA como comparables."
+    },
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 272,56 → 263,94 $ (cierre 16-oct, FMP), dentro de la venta sectorial y por el tono restrictivo de la Fed sobre tipos, sin noticia propia. PER sobre el BPA anualizado ~30,7x; sigue un 6% por encima del rango de interés (215–250 $). Confirmados los resultados el 21-oct tras el cierre. Veredicto y convicción sin cambios."
     }
    ]
   },
@@ -1540,12 +1765,12 @@
    "ticker": "VST",
    "empresa": "Vistra Corp.",
    "sector": "energia",
-   "estado": "actualizada",
+   "estado": "sin_cambios",
    "veredicto": "Interesante",
    "conviccion": 3,
    "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "Productor eléctrico independiente de EE. UU. que sigue lejos del máximo de 217 $ por la caída de los precios a plazo en Texas (ERCOT), no por un deterioro del negocio: el EBITDA ajustado del 2T 2026 creció un 30%. A 147,6 $ (15-oct, FMP) cotiza a unas 14 veces el BPA esperado para 2027 y con una rentabilidad de flujo de caja libre cercana al 8,7% sobre la guía de 2026. Novedad de la semana: el Departamento de Energía (DOE) ofrece un préstamo condicional de hasta 4.200 M$ para los aumentos de potencia (433 MW) de las nucleares de PJM ligadas al contrato con Meta; abarata la financiación pero no cambia el problema de Texas. La idea es menos 'nuclear' de lo que se vende: solo ~6,4 GW de ~39 GW son nucleares. Convicción 3/5: valoración razonable y contratos largos, pero el precio ya está algo por encima del rango de interés y el catalizador inmediato son los resultados del 6 de noviembre.",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "Productor eléctrico independiente de EE. UU. que sigue lejos del máximo de 217 $ por la caída de los precios a plazo en Texas (ERCOT), no por un deterioro del negocio: el EBITDA ajustado del 2T 2026 creció un 30%. A 152 $ (16-oct, FMP) cotiza a unas 14,6 veces el BPA esperado para 2027 y con una rentabilidad de flujo de caja libre cercana al 8,5% sobre la guía de 2026. Novedad de la semana: el Departamento de Energía (DOE) ofrece un préstamo condicional de hasta 4.200 M$ para los aumentos de potencia (433 MW) de las nucleares de PJM ligadas al contrato con Meta; abarata la financiación pero no cambia el problema de Texas. La idea es menos 'nuclear' de lo que se vende: solo ~6,4 GW de ~39 GW son nucleares. Convicción 3/5: valoración razonable y contratos largos, pero el precio ya está algo por encima del rango de interés y el catalizador inmediato son los resultados del 6 de noviembre.",
    "negocio": "Tres patas: generación (gas, nuclear, carbón en cierre, solar y baterías; ~38.700 MW), venta minorista de electricidad a ~4,3 millones de clientes (sobre todo en Texas) y comercialización mayorista. Gana dinero con el diferencial entre su coste de generación y el precio de mercado, más contratos a largo plazo. Tiene el 100% de 2026, ~94% de 2027 y ~72% de 2028 cubierto con coberturas, lo que da visibilidad pero retrasa el efecto de cualquier subida de precios.",
    "pros": [
     "Crecimiento operativo real: EBITDA ajustado del 2T 2026 de 1.767 M$ (+30% interanual); guía 2026 de 6.800–7.600 M$ reafirmada.",
@@ -1620,12 +1845,12 @@
     "Riesgo operativo nuclear: una parada larga no prevista en una planta contratada."
    ],
    "valoracion": {
-    "precio": 147.6,
+    "precio": 152.02,
     "moneda": "USD",
-    "fecha_precio": "2026-10-15",
-    "per": 14.2,
+    "fecha_precio": "2026-10-16",
+    "per": 14.6,
     "ev_ebit": null,
-    "fcf_yield_pct": 8.7,
+    "fcf_yield_pct": 8.5,
     "crecimiento_ventas_pct": null,
     "margen_operativo_pct": null,
     "deuda_neta_ebitda": 3.5,
@@ -1633,7 +1858,7 @@
      "bajo": 120,
      "alto": 140
     },
-    "comentario": "PER calculado sobre el consenso de BPA de 2027 (10,38 $, dato del 2-oct) y FCF yield sobre el punto medio de la guía 2026 (4.325 M$) entre la capitalización de FMP (49.540 M$). Pagar 11,5–13,5x el BPA de 2027 (120–140 $) da margen si el beneficio sigue revisándose a la baja; a 147,6 $ está ligeramente por encima de ese rango. Los 18–19x que pide Dan exigen que el mercado deje de verla como una eléctrica, algo poco probable mientras el ~80% de su capacidad sea gas, carbón y retail. Objetivo medio de mercado según TIKR (9-oct): ~210 $; BMO recortó su objetivo de 231 a 210 $ el 5-oct. La acción subió un 20,5% entre el 30-sep y el 7-oct y cayó un 6,35% el 8-oct por recogida de beneficios e incertidumbre regulatoria en PJM."
+    "comentario": "PER calculado sobre el consenso de BPA de 2027 (10,38 $, dato del 2-oct) y FCF yield sobre el punto medio de la guía 2026 (4.325 M$) entre la capitalización de FMP (51.020 M$, 16-oct). Pagar 11,5–13,5x el BPA de 2027 (120–140 $) da margen si el beneficio sigue revisándose a la baja; a 152 $ está algo por encima de ese rango. Los 18–19x que pide Dan exigen que el mercado deje de verla como una eléctrica, algo poco probable mientras el ~80% de su capacidad sea gas, carbón y retail. Objetivo medio de mercado según TIKR (9-oct): ~210 $; BMO recortó su objetivo de 231 a 210 $ el 5-oct. La acción subió un 20,5% entre el 30-sep y el 7-oct y cayó un 6,35% el 8-oct por recogida de beneficios e incertidumbre regulatoria en PJM."
    },
    "vs_divulgadores": "Coincido con Dan en que la caída es sobre todo de múltiplo y no de negocio, y en que los contratos de 20 años con Meta son una validación seria. Discrepo en cuatro puntos. 1) Presenta Vistra como 'la segunda nuclear de EE. UU.' y la compara con Constellation como si fueran casi iguales, pero solo ~16% de su capacidad es nuclear: el descuento frente a CEG está bastante justificado. 2) Atribuye el contrato de Comanche Peak a AWS; Vistra no reveló el cliente en el anuncio y solo algunas fuentes posteriores lo atribuyen a Amazon. 3) Exagera Helix: Vistra es socio fundador y socio preferente de energía, pero no hay ningún 'derecho exclusivo' publicado que obligue a Helix a comprarle toda la energía. 4) Las compras de Pelosi y Trump no las he podido verificar. Las de Thiel (~59 M$ a cierre del 2T), Tepper (~2,2 millones de acciones, +10%) y el CEO (~0,9 M$ a ~135 $ el 31-ago y 1-sep) sí cuadran, pero que unos inversores famosos compraran más caro no es un argumento de valoración. Además, Dan no menciona la deuda, ERCOT ni la auditoría de Texas, que son la causa real de la caída. Su stop en 132 $ es gestión de una operación de corto plazo, no una tesis a 10 años.",
    "que_cambiaria_mi_opinion": "Subiría la convicción si: los precios a plazo de ERCOT para 2027–2028 se recuperan por encima de 40 $/MWh, el rango de 2027 se confirma en la mitad o la parte alta en noviembre, o firma un nuevo contrato de más de 1 GW con un hiperescalador. La bajaría si: la deuda neta/EBITDA supera 4x tras Cogentrix, el consenso de BPA de 2027 baja de 9,50 $ o la auditoría de Texas restringe las conexiones de centros de datos.",
@@ -1694,6 +1919,13 @@
      "url": "https://www.tikr.com/blog/vistra-stock-fell-6-in-a-day-after-a-20-run-heres-what-its-november-6-report-needs-to-show",
      "fecha": "2026-10-09",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "24/7 Wall St.",
+     "titulo": "Vistra Bombed Over The Last Year: One Analyst Says The AI Power Play Will Gain 90% Within a Year",
+     "url": "https://247wallst.com/investing/2026/10/13/vistra-bombed-over-the-last-year-one-analyst-says-the-ai-power-play-will-gain-90-within-a-year/",
+     "fecha": "2026-10-13",
+     "postura_autor": "alcista"
     }
    ],
    "historial": [
@@ -1704,151 +1936,10 @@
     {
      "fecha": "2026-10-15",
      "cambio": "Refresco semanal: precio 139,75 → 147,6 $; PER 2027 ~14,2x y FCF yield ~8,7%. Añadido el préstamo condicional del DOE (4.200 M$) y fijada la fecha de resultados del 3T (6-nov). BMO recorta objetivo a 210 $. Veredicto y convicción sin cambios; el precio queda algo por encima del rango de interés."
-    }
-   ]
-  },
-  {
-   "id": "crdo",
-   "ticker": "CRDO",
-   "empresa": "Credo Technology",
-   "sector": "ia",
-   "estado": "actualizada",
-   "veredicto": "Vigilar",
-   "conviccion": 3,
-   "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "Diseñadora de chips y cables de conexión de alta velocidad para centros de datos de IA que está creciendo a más del 100%, con márgenes muy altos (~68% bruto non-GAAP). El negocio es excelente; el problema era el precio y la concentración. En dos semanas la acción ha pasado de ~210 $ a 177 $ (15-oct, FMP) por la venta generalizada en infraestructura de IA tras los avisos de Broadcom e Intel sobre la financiación del gasto en IA, no por un problema propio. Ya está cerca del rango de interés de 140–170 $, pero sigue cotizando a ~13,5x las ventas esperadas del año fiscal y a ~64x el beneficio de los últimos 12 meses. Convicción 3/5: calidad alta, pero dos clientes suponen el 61% de los ingresos y la volatilidad es extrema; la caída de esta semana confirma que se mueve con el sentimiento sobre el capex de IA.",
-   "negocio": "Vende circuitos SerDes y DSP, cables eléctricos activos (AEC, su producto estrella para conectar servidores de IA dentro del rack), chiplets y licencias de propiedad intelectual. Con la compra de DustPhotonics entra en fotónica de silicio. Para el año fiscal 2027 apunta a más de 600 M$ en productos ópticos, además de los cables.",
-   "pros": [
-    "Crecimiento explosivo y rentable: ingresos del 1T fiscal 2027 de 479 M$ (+115% interanual), margen operativo non-GAAP del 48% y beneficio GAAP de 129 M$.",
-    "Guía de crecimiento superior al 85% para el año fiscal 2027 (≥2.470 M$), y la mitad ya está prácticamente asegurada con el 1T y la guía del 2T (525–535 M$).",
-    "Los AEC sustituyen al cobre pasivo y a parte de la óptica en distancias cortas, con menor consumo y fallo: es una categoría que la propia Credo ha creado y en la que es referencia.",
-    "Se diversifica hacia la óptica (DSP, fotónica de silicio), un mercado más grande, aprovechando su tecnología SerDes."
-   ],
-   "contras": [
-    "Concentración muy alta: los cuatro mayores clientes son el 33%, 28%, 13% y 10% de los ingresos. Perder o reducir a uno de ellos cambia la tesis.",
-    "El margen bruto GAAP cayó del 68,2% al 64,5% tras la compra de DustPhotonics, y la retribución en acciones es alta (88 M$ en el trimestre): el beneficio real por accionista es menor que el non-GAAP.",
-    "La guía exige un crecimiento secuencial de ~23% por trimestre en la segunda mitad del año: cualquier tropiezo en diciembre castigará mucho la acción.",
-    "Volatilidad extrema (beta ~3,2; rango anual 86–309 $). Es un valor de momentum, no un compounder tranquilo."
-   ],
-   "competencia": {
-    "posicion": "Domina los AEC con ventaja de primer movimiento y diseño propio de SerDes. En DSP ópticos compite con gigantes que tienen más escala y relación con los clientes. Su fortaleza es la eficiencia energética y la velocidad de lanzamiento; su debilidad, el tamaño y la dependencia de pocos hiperescaladores.",
-    "rivales": [
-     {
-      "nombre": "Marvell",
-      "ticker": "MRVL",
-      "comentario": "Líder en DSP ópticos y rival directo en la nueva línea óptica de Credo; mucho más diversificado."
-     },
-     {
-      "nombre": "Broadcom",
-      "ticker": "AVGO",
-      "comentario": "Rival en SerDes y DSP; tu posición AVGO ya cubre parte de este mercado."
-     },
-     {
-      "nombre": "Astera Labs",
-      "ticker": "ALAB",
-      "comentario": "Compite en conectividad dentro del rack (retimers, cables activos)."
-     }
-    ]
-   },
-   "catalizadores": [
-    {
-     "evento": "Resultados del 2T fiscal 2027 (guía de 525–535 M$)",
-     "fecha": "principios de diciembre 2026",
-     "impacto": "incierto"
     },
     {
-     "evento": "Sentimiento sobre la financiación del capex de IA tras los avisos de los CEO de Broadcom e Intel (12-oct)",
-     "fecha": "en curso",
-     "impacto": "negativo"
-    },
-    {
-     "evento": "Despliegue de 1,6T y adopción de AEC en nuevas generaciones de racks de IA",
-     "fecha": "2026-2027",
-     "impacto": "positivo"
-    },
-    {
-     "evento": "Restricciones de EE. UU. a transceptores ópticos chinos",
-     "fecha": "en tramitación",
-     "impacto": "positivo"
-    }
-   ],
-   "riesgos": [
-    "Que un hiperescalador grande internalice el diseño o pase a la óptica coempaquetada (CPO), que reduciría la necesidad de cables activos.",
-    "Ralentización del gasto en IA: con este múltiplo, una desaceleración del crecimiento se paga con caídas del 40–50%.",
-    "Sede legal en Islas Caimán y parte de la producción y ventas en Asia: riesgo arancelario y geopolítico."
-   ],
-   "valoracion": {
-    "precio": 177.11,
-    "moneda": "USD",
-    "fecha_precio": "2026-10-15",
-    "per": 63.8,
-    "ev_ebit": null,
-    "fcf_yield_pct": null,
-    "crecimiento_ventas_pct": 114.7,
-    "margen_operativo_pct": 48.2,
-    "deuda_neta_ebitda": null,
-    "rango_interes": {
-     "bajo": 140,
-     "alto": 170
-    },
-    "comentario": "Capitalización de ~33.290 M$ (FMP, 15-oct) sobre ≥2.470 M$ de ventas del año fiscal 2027: ~13,5x ventas. El PER es el de los últimos 12 meses según MarketBeat (63,8x); anualizar el BPA non-GAAP del 1T (1,20 $ × 4 = 4,80 $) da ~37x. El margen operativo indicado es non-GAAP. Entre 140 y 170 $ (niveles de septiembre) el riesgo/beneficio sería más razonable; a 177 $ está a menos de un 5% del techo de ese rango. Objetivo medio de los analistas según MarketBeat: ~263 $ (Stifel 310 $, Rosenblatt 235 $ neutral)."
-   },
-   "vs_divulgadores": "Dan la compra como 'la rezagada' de la fotónica frente a Lumentum y Marvell, y por las posibles restricciones a los transceptores chinos. Coincido en la calidad del negocio. Discrepo en el argumento principal: las restricciones que se tramitan (proyecto de ley bipartidista del Senado) afectan solo a sistemas del gobierno federal, y los análisis apuntan a que afectarían a los futuros 3,2T, no al despliegue actual de 800G y 1,6T. Además, Credo no fabrica transceptores completos: le beneficiaría de forma indirecta y menor que a Coherent o Lumentum. Dan tampoco menciona la concentración de clientes ni la caída del margen GAAP. Es una compra de su cartera 'reto 100K', orientada al corto plazo.",
-   "que_cambiaria_mi_opinion": "Pasaría a 'Interesante' si: cumple la guía de diciembre con un margen bruto non-GAAP ≥67% y el mayor cliente baja del 30% de los ingresos, o si la acción vuelve a la zona de 140–170 $ sin deterioro del negocio. La bajaría si un hiperescalador grande anuncia el paso a CPO sin cables activos o si recorta la guía anual.",
-   "relacion_cartera": "Solapa con AVGO (tienes posición) y con tu tesis de Marvell: los tres comparten clientes y ciclo. Es un tercer vehículo para el mismo motor, el gasto en infraestructura de IA, con más volatilidad. No diversifica.",
-   "fuentes": [
-    {
-     "canal": "Dan Fuentes",
-     "titulo": "Trump, Nancy Pelosi & Peter Thiel acaban de Comprar Esta Acción",
-     "url": "https://www.youtube.com/watch?v=WxKLYd6mcLE",
-     "fecha": "2026-10-01",
-     "postura_autor": "alcista"
-    },
-    {
-     "canal": "InsiderFinance",
-     "titulo": "Credo Earnings Beat, Shares Fall on Margin Concerns",
-     "url": "https://www.insiderfinance.io/news/credo-earnings-beat-shares-fall-on-margin-concerns",
-     "fecha": "2026-09-08",
-     "postura_autor": "neutral"
-    },
-    {
-     "canal": "Top1Markets",
-     "titulo": "Credo Guided to 85% Growth. Here Is What the Rest Requires",
-     "url": "https://www.top1markets.com/insights/stocks/credo-crdo-stock-earnings-guidance-math-2026",
-     "fecha": "2026-09-08",
-     "postura_autor": "neutral"
-    },
-    {
-     "canal": "Benzinga",
-     "titulo": "Lumentum, Coherent Rip Higher As Washington Targets Chinese Optical Transceivers",
-     "url": "https://benzinga.com/trading-ideas/movers/26/10/62117250/lumentum-coherent-rip-higher-as-washington-targets-chinese-optical-transceivers",
-     "fecha": "2026-10-01",
-     "postura_autor": "neutral"
-    },
-    {
-     "canal": "MarketBeat",
-     "titulo": "Credo Technology Group (NASDAQ:CRDO) Shares Down 9.6% After Insider Selling",
-     "url": "https://www.marketbeat.com/instant-alerts/price-credo-technology-group-nasdaq-crdo-shares-down-96-after-insider-selling-2026-10-14/",
-     "fecha": "2026-10-14",
-     "postura_autor": "neutral"
-    },
-    {
-     "canal": "24/7 Wall St.",
-     "titulo": "Applied Optoelectronics Dives 9% as AI Funding Fears Hit Optical Stocks",
-     "url": "https://247wallst.com/investing/2026/10/14/applied-optoelectronics-dives-9-as-ai-funding-fears-hit-optical-stocks-coherent-slides-7-lumentum-drops-7/",
-     "fecha": "2026-10-14",
-     "postura_autor": "neutral"
-    }
-   ],
-   "historial": [
-    {
-     "fecha": "2026-10-02",
-     "cambio": "Creada a partir del vídeo de Dan Fuentes del 1-oct-2026."
-    },
-    {
-     "fecha": "2026-10-15",
-     "cambio": "Refresco semanal: precio 210,17 → 177,11 $ (-16%) por la venta sectorial en IA; ya cerca del rango de interés 140–170 $. Venta del CFO (7.580 acciones a 212,91 $, plan 10b5-1) poco relevante. Veredicto Vigilar y convicción 3 sin cambios; si entra en el rango sin deterioro operativo, se reevaluará tras los resultados de diciembre."
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 147,6 → 152,02 $ (cierre 16-oct, FMP); llegó a 158 $ el 12-oct. PER 2027 ~14,6x y FCF yield ~8,5%. Consenso de 20 analistas ~210 $ según 24/7 Wall St. (13-oct); el objetivo máximo de 298 $ aparece atribuido a Jefferies y a Scotiabank según el artículo, sin verificar. Sin noticias materiales; sigue algo por encima del rango de interés. Veredicto y convicción sin cambios."
     }
    ]
   },
@@ -1857,12 +1948,12 @@
    "ticker": "AAOI",
    "empresa": "Applied Optoelectronics",
    "sector": "ia",
-   "estado": "actualizada",
+   "estado": "sin_cambios",
    "veredicto": "No convence",
    "conviccion": 2,
    "fecha_creacion": "2026-10-02",
-   "fecha_actualizacion": "2026-10-15",
-   "resumen": "Fabricante de transceptores ópticos y equipos de cable con sede en Texas que está creciendo rápido (+86% interanual) gracias al 800G. La tesis de Dan es que se beneficiará si EE. UU. restringe los transceptores chinos. Esta semana se ha confirmado el riesgo de dilución que señalaba la tesis: la empresa ha completado una venta de acciones en mercado (ATM) de 600 M$, la tercera gran ampliación de 2026, y la acción ha caído a 81,9 $ (15-oct, FMP) desde 107 $ a principios de mes, arrastrada además por la venta en valores ópticos. Sigue con margen bruto bajo (~28–30%), pérdidas GAAP y producción en Ningbo (China). Convicción 2/5: la caída no la hace más atractiva porque el problema es la calidad del negocio y la financiación con acciones, no el precio.",
+   "fecha_actualizacion": "2026-10-18",
+   "resumen": "Fabricante de transceptores ópticos y equipos de cable con sede en Texas que está creciendo rápido (+86% interanual) gracias al 800G. La tesis de Dan es que se beneficiará si EE. UU. restringe los transceptores chinos. Esta semana se ha confirmado el riesgo de dilución que señalaba la tesis: la empresa ha completado una venta de acciones en mercado (ATM) de 600 M$, la tercera gran ampliación de 2026, y la acción ha caído a 75,6 $ (16-oct, FMP) desde 107 $ a principios de mes; B. Riley ha recortado su objetivo a 92 $ (neutral), arrastrada además por la venta en valores ópticos. Sigue con margen bruto bajo (~28–30%), pérdidas GAAP y producción en Ningbo (China). Convicción 2/5: la caída no la hace más atractiva porque el problema es la calidad del negocio y la financiación con acciones, no el precio.",
    "negocio": "Diseña y fabrica láseres, subconjuntos y transceptores ópticos para centros de datos (56% de los ingresos del 2T 2026) y equipos para redes de televisión por cable (42%). Tiene fábricas en Sugar Land (Texas), Taipéi y Ningbo, y está ampliando capacidad de 800G y 1,6T hasta ~650.000 unidades al mes a final de 2026.",
    "pros": [
     "Crecimiento fuerte: ingresos del 2T 2026 de 191,9 M$ (+86% interanual), quinto trimestre récord, y guía del 3T de 255–290 M$.",
@@ -1898,7 +1989,7 @@
    "catalizadores": [
     {
      "evento": "Resultados del 3T 2026 (guía de 255–290 M$) y número de acciones tras la ATM de 600 M$",
-     "fecha": "principios de noviembre 2026",
+     "fecha": "2026-11-05",
      "impacto": "incierto"
     },
     {
@@ -1923,9 +2014,9 @@
     "Dependencia de pocos clientes grandes (dato no publicado en el último informe) y de la continuidad del gasto en IA."
    ],
    "valoracion": {
-    "precio": 81.87,
+    "precio": 75.57,
     "moneda": "USD",
-    "fecha_precio": "2026-10-15",
+    "fecha_precio": "2026-10-16",
     "per": null,
     "ev_ebit": null,
     "fcf_yield_pct": null,
@@ -1936,7 +2027,7 @@
      "bajo": null,
      "alto": null
     },
-    "comentario": "Capitalización de ~6.950 M$ (FMP, 15-oct). Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~6,3x ventas con un margen bruto en torno al 30%: sigue siendo exigente para un fabricante de hardware de bajo margen. La ATM de 600 M$ (completada a principios de octubre) supone del orden del 8–9% de la capitalización actual; el número exacto de acciones emitidas no lo he podido verificar. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
+    "comentario": "Capitalización de ~6.420 M$ (FMP, 16-oct). Anualizando la guía del 3T (~270 M$ × 4 ≈ 1.100 M$), cotiza a ~5,8x ventas con un margen bruto en torno al 30%: sigue siendo exigente para un fabricante de hardware de bajo margen. La ATM de 600 M$ (completada a principios de octubre) supone del orden del 9% de la capitalización actual; el número exacto de acciones emitidas no lo he podido verificar. Sin beneficio GAAP no tiene PER significativo. No fijo un rango de interés porque no veo un ancla de valoración fiable."
    },
    "vs_divulgadores": "Dan la compara con Ouster, que se disparó cuando EE. UU. restringió los LiDAR chinos. La analogía es débil. El proyecto de ley de los senadores Cornyn, McCormick, Fetterman y Gallego solo prohíbe los transceptores chinos en sistemas sensibles del gobierno federal, no en los centros de datos de los hiperescaladores. Los análisis citados apuntan a que una posible norma de la FCC empezaría en los 3,2T, no en el 800G ni el 1,6T actuales. Además, los primeros beneficiados serían Coherent y Lumentum, por escala. Dan tampoco menciona la fábrica de AAOI en China, sus pérdidas GAAP ni su historial de volatilidad. Es una operación de su cartera 'reto 100K', financiada con la venta de CoreWeave. Actualización 15-oct: el propio Dan reconoce que AAOI ha caído ~20% desde su compra, que ha tocado su stop de 93 $ y que está pensando en salir. La presenta como lección de tamaño de posición (solo era el 3% de su cartera), un buen enfoque, pero confirma que fue una operación de corto plazo y no una tesis de inversión.",
    "que_cambiaria_mi_opinion": "La reconsideraría si: el margen bruto supera de forma sostenida el 35%, encadena dos trimestres con beneficio GAAP, o las restricciones se amplían a las compras comerciales de centros de datos en EE. UU. con calendario concreto.",
@@ -1990,6 +2081,13 @@
      "url": "https://247wallst.com/investing/2026/10/14/applied-optoelectronics-dives-9-as-ai-funding-fears-hit-optical-stocks-coherent-slides-7-lumentum-drops-7/",
      "fecha": "2026-10-14",
      "postura_autor": "neutral"
+    },
+    {
+     "canal": "MarketBeat",
+     "titulo": "Applied Optoelectronics (NASDAQ:AAOI) Shares Down 9.7% Following Analyst Downgrade",
+     "url": "https://www.marketbeat.com/instant-alerts/price-applied-optoelectronics-nasdaq-aaoi-shares-down-97-following-analyst-downgrade-2026-10-16/",
+     "fecha": "2026-10-16",
+     "postura_autor": "neutral"
     }
    ],
    "historial": [
@@ -2004,6 +2102,10 @@
     {
      "fecha": "2026-10-15",
      "cambio": "Nueva fuente: Dan admite que AAOI tocó su stop (93 $) y valora salir. Sin cambios de veredicto."
+    },
+    {
+     "fecha": "2026-10-18",
+     "cambio": "Refresco semanal: precio 81,87 → 75,57 $ (-9,7% el 16-oct). B. Riley recorta su objetivo de 109 a 92 $ (neutral); ventas de directivos con planes 10b5-1 (consejera a ~120 $ el 5-oct, CFO a ~103 $ el 12-oct). Resultados del 3T fijados para el 5-nov. Veredicto No convence y convicción 2 sin cambios."
     }
    ]
   }
